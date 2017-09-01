@@ -6,7 +6,8 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MaterializeModule } from 'angular2-materialize';
+import { MaterializeModule } from 'ng2-materialize';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { RenderService } from './render.service';
@@ -19,7 +20,8 @@ import { ViewerComponent } from './viewer/viewer.component';
   ],
   imports: [
     BrowserModule,
-    MaterializeModule,
+    BrowserAnimationsModule,
+    MaterializeModule.forRoot(),
   ],
   providers: [
     RenderService,
