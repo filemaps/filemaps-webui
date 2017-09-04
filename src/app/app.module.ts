@@ -12,6 +12,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { RenderService } from './render.service';
 import { ViewerComponent } from './viewer/viewer.component';
+import { LayoutModule } from './layout/layout.module';
+import { AboutModalComponent } from './layout/about-modal/about-modal.component';
 
 @NgModule({
   declarations: [
@@ -22,9 +24,13 @@ import { ViewerComponent } from './viewer/viewer.component';
     BrowserModule,
     BrowserAnimationsModule,
     MaterializeModule.forRoot(),
+    LayoutModule,
   ],
   providers: [
     RenderService,
+  ],
+  entryComponents: [
+    AboutModalComponent,
   ],
   bootstrap: [AppComponent]
 })
