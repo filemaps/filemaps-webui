@@ -40,7 +40,6 @@
     "ng2-materialize": "^1.5.1",
     "rxjs": "^5.4.2",
     "three": "^0.86.0",
-    "typescript": "^2.5.2",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
@@ -51,7 +50,7 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
     "@types/three": "^0.84.20",
-    "codelyzer": "~3.0.1",
+    "codelyzer": "~3.1.1",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",
@@ -63,6 +62,6 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.3.2",
-    "typescript": "~2.3.3"
+    "typescript": "~2.5.2"
   }
 }
