@@ -26,15 +26,15 @@ export class RenderService {
     this.camera.position.z = 1000;
 
     // Create sphere
-    let geometry = new THREE.SphereGeometry(5, 50, 50);
-    let material = new THREE.MeshNormalMaterial();
-    let sphere = new THREE.Mesh(geometry, material);
+    const geometry = new THREE.SphereGeometry(5, 50, 50);
+    const material = new THREE.MeshNormalMaterial();
+    const sphere = new THREE.Mesh(geometry, material);
     this.scene.add(sphere);
 
     // Create box
-    let geometry2 = new THREE.BoxGeometry(50, 50, 50);
-    let material2 = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
-    let box = new THREE.Mesh(geometry2, material2);
+    const geometry2 = new THREE.BoxGeometry(50, 50, 50);
+    const material2 = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+    const box = new THREE.Mesh(geometry2, material2);
     box.position.set(60, 0, 0);
     this.scene.add(box);
 
@@ -58,7 +58,7 @@ export class RenderService {
     this.ground = new THREE.Mesh(
         new THREE.PlaneBufferGeometry(5000, 5000), groundMaterial
     );
-    //ground.rotation.x = - Math.PI / 2; // rotate X/Y to X/Z
+    // ground.rotation.x = - Math.PI / 2; // rotate X/Y to X/Z
     this.ground.receiveShadow = true;
     this.scene.add(this.ground);
 
