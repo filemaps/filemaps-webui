@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { RenderService } from '../render.service';
 import { ViewerComponent } from './viewer.component';
 
 describe('ViewerComponent', () => {
@@ -8,7 +9,10 @@ describe('ViewerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewerComponent ]
+      declarations: [ ViewerComponent ],
+      providers: [
+        RenderService,
+      ],
     })
     .compileComponents();
   }));

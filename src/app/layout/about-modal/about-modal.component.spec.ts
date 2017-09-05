@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MaterializeModule } from 'ng2-materialize';
 
 import { AboutModalComponent } from './about-modal.component';
 
@@ -8,7 +9,8 @@ describe('AboutModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AboutModalComponent ]
+      declarations: [ AboutModalComponent ],
+      imports: [ MaterializeModule ],
     })
     .compileComponents();
   }));
