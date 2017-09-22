@@ -6,6 +6,7 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -23,6 +24,7 @@ import { AboutModalComponent } from './layout/about-modal/about-modal.component'
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpModule,
     MaterializeModule.forRoot(),
     LayoutModule,
   ],
