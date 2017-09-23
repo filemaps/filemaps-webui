@@ -7,6 +7,7 @@ export const environment = {
   production: false,
 
   // URL of development API
-  // apiUrl: 'http://localhost:3000'
-  apiUrl: '/api'
+  // Note: When developing, run File Maps backend with this flag:
+  //     filemaps -cors-allow-origin "*"
+  apiUrl: 'http://localhost:8338/api'
 };
