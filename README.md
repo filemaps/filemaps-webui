@@ -40,6 +40,10 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+## Material Design
+
+Web UI is using [Materialize](http://materializecss.com) with some modifications. Sass files are located under `src/sass` directory. Materialize is published under [MIT License](https://github.com/Dogfalo/materialize/blob/master/LICENSE).
+
 ## Logo Credits
 
 Gps graphic by [Freepik][4] from [Flaticon][5] is licensed under [CC BY 3.0][6]. Made with [Logo Maker][7]
