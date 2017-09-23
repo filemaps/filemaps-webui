@@ -1,0 +1,35 @@
+<mz-modal [bottomSheet]="true" [fixedFooter]="true">
+  <mz-modal-content>
+    <div class="row">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s6">
+            <a href="#maps-modal-recent" class="active">
+              <i class="material-icons">access_time</i>
+              <span class="hide-on-small-only" i18n>Recent</span>
+            </a>
+          </li>
+          <li class="tab col s6">
+            <a href="#maps-modal-browse">
+              <i class="material-icons">folder</i>
+              <span class="hide-on-small-only" i18n>Browse</span>
+            </a>
+          </li>
+        </ul>
+      </div> <!-- .col -->
+
+      <div id="maps-modal-recent" class="col s12">
+        <h4 i18n>Recent Maps</h4>
+      </div> <!-- #maps-modal-recent -->
+
+      <div id="maps-modal-browse" class="col s12">
+        <h4 i18n>Browse Maps</h4>
+      </div> <!-- #maps-modal-browse -->
+
+    </div> <!-- .row -->
+
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" mz-modal-close i18n>Cancel</button>
+  </mz-modal-footer>
+</mz-modal>

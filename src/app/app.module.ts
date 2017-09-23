@@ -13,8 +13,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { RenderService } from './render.service';
 import { ViewerComponent } from './viewer/viewer.component';
+import { FilemapModule } from './filemap/filemap.module';
 import { LayoutModule } from './layout/layout.module';
 import { AboutModalComponent } from './layout/about-modal/about-modal.component';
+import { MapsModalComponent } from './filemap/maps-modal/maps-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { AboutModalComponent } from './layout/about-modal/about-modal.component'
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
+    FilemapModule,
     MaterializeModule.forRoot(),
     LayoutModule,
   ],
@@ -33,6 +36,7 @@ import { AboutModalComponent } from './layout/about-modal/about-modal.component'
   ],
   entryComponents: [
     AboutModalComponent,
+    MapsModalComponent,
   ],
   bootstrap: [AppComponent]
 })
