@@ -19,14 +19,14 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "../node_modules/materialize-css/dist/css/materialize.css",
+        "sass/materialize.scss",
         "../node_modules/mdi/css/materialdesignicons.css",
-        "styles.scss"
+        "sass/styles.scss"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/hammerjs/hammer.js",
-        "../node_modules/materialize-css/dist/js/materialize.js",
+        "vendor/materialize.min.js",
         "../node_modules/three/build/three.min.js"
       ],
       "environmentSource": "environments/environment.ts",
