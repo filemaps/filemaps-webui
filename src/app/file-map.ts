@@ -1,8 +1,8 @@
 export class FileMap {
   id: number;
-  title: string = '';
-  base: string = '';
-  file: string = '';
+  title = '';
+  base = '';
+  file = '';
   opened: Date;
 
   constructor(values: Object = {}) {
