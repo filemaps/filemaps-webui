@@ -6,6 +6,17 @@
 
 // Google Color Palette defined: http://www.google.com/design/spec/style/color.html
 
+$filemaps-blue: (
+  "base":       #204558,
+  "light":      #4d7085,
+  "dark":       #001e2f,
+);
+
+$filemaps-red: (
+  "base":       #d32f2f,
+  "light":      #ff6659,
+  "dark":       #9a0007,
+);
 
 $materialize-red: (
   "base":       #e51c23,
@@ -338,6 +349,8 @@ $shades: (
 );
 
 $colors: (
+  "filemaps-blue": $filemaps-blue,
+  "filemaps-red": $filemaps-red,
   "materialize-red": $materialize-red,
   "red": $red,
   "pink": $pink,
