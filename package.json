@@ -38,6 +38,7 @@
     "ng2-materialize": "^1.5.1",
     "rxjs": "^5.4.2",
     "three": "^0.86.0",
+    "typeface-oxygen": "0.0.35",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
