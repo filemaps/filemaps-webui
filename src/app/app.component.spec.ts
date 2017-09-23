@@ -1,4 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
 import { MaterializeModule, MzModalService } from 'ng2-materialize';
 
 import { AppComponent } from './app.component';
@@ -13,6 +14,7 @@ describe('AppComponent', () => {
         ViewerComponent,
       ],
       imports: [
+        HttpModule,
         MaterializeModule,
       ],
       providers: [
