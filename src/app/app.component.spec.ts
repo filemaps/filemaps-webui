@@ -3,6 +3,7 @@ import { HttpModule } from '@angular/http';
 import { MaterializeModule, MzModalService } from 'ng2-materialize';
 
 import { AppComponent } from './app.component';
+import { DataService } from './data.service';
 import { RenderService } from './render.service';
 import { ViewerComponent } from './viewer/viewer.component';
 
@@ -18,6 +19,7 @@ describe('AppComponent', () => {
         MaterializeModule,
       ],
       providers: [
+        DataService,
         MzModalService,
         RenderService,
       ],

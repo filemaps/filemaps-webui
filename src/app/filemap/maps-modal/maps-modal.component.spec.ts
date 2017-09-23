@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
+import { DataService } from '../../data.service';
 import { MapsModalComponent } from './maps-modal.component';
 
 describe('MapsModalComponent', () => {
@@ -10,7 +12,8 @@ describe('MapsModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MapsModalComponent ],
-      imports: [ MaterializeModule ],
+      imports: [ HttpModule, MaterializeModule ],
+      providers: [ DataService ],
     })
     .compileComponents();
   }));

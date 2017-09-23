@@ -11,6 +11,7 @@ import { MaterializeModule } from 'ng2-materialize';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
+import { DataService } from './data.service';
 import { RenderService } from './render.service';
 import { ViewerComponent } from './viewer/viewer.component';
 import { FilemapModule } from './filemap/filemap.module';
@@ -33,6 +34,7 @@ import { MapsModalComponent } from './filemap/maps-modal/maps-modal.component';
   ],
   providers: [
     RenderService,
+    DataService,
   ],
   entryComponents: [
     AboutModalComponent,
