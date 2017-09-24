@@ -18,6 +18,11 @@ export class RenderService {
   public scene: THREE.Scene = new THREE.Scene();
   private renderer: THREE.WebGLRenderer;
 
+  // for optimizing animation
+  private lastMoved = Date.now();
+  private animating: boolean = false;
+  private animTime = 2000; // ms
+
   constructor() { }
 
   init(element: any) {
@@ -96,16 +101,28 @@ export class RenderService {
     this.animate();
 
     window.addEventListener('resize', _ => this.onWindowResize(), false);
+    window.addEventListener('mousemove', _ => this.animate(), false);
   }
 
+  // Optimize rendering to happen only when necessary, saving CPU
   public animate() {
-    window.requestAnimationFrame(_ => this.animate());
-    this.controls.update();
-    this.render();
+    this.lastMoved = Date.now();
+    if (!this.animating) {
+      window.requestAnimationFrame(_ => this.render());
+    }
   }
 
   public render() {
+    this.controls.update();
     this.renderer.render(this.scene, this.camera);
+
+    if (this.lastMoved + this.animTime < Date.now()) {
+      this.animating = false;
+    }
+    else {
+      this.animating = true;
+      window.requestAnimationFrame(_ => this.render());
+    }
   }
 
   private onWindowResize() {
@@ -113,11 +130,11 @@ export class RenderService {
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.controls.handleResize();
-    this.render();
+    this.animate();
   }
 
   private onCameraChange() {
-    this.render();
+    this.animate();
   }
 
 }
