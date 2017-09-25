@@ -20,9 +20,18 @@ export class DataService {
     return this.http
       .get(API_URL + '/maps')
       .map(response => {
-        const fileMaps = response.json();
+        const fileMaps = response.json().maps;
         return fileMaps.map((fileMap) => new FileMap(fileMap));
       })
+      .catch(this.handleError);
+  }
+
+  // API: GET /maps/:id
+  public getFileMap(id: number): Observable<FileMap> {
+    const url = `${API_URL}/maps/${id}`;
+    return this.http
+      .get(url)
+      .map((res: Response) => res.json() as FileMap)
       .catch(this.handleError);
   }
 

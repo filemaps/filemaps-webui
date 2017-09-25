@@ -48,5 +48,11 @@ export class MapsModalComponent extends MzBaseModal implements AfterViewInit, On
 
   onMapClick(fileMap: FileMap): void {
     console.log('File Map selected', fileMap);
+    this.dataService.getFileMap(fileMap.id)
+      .subscribe(
+        (fm) => {
+          console.log('FileMap fetched', fm);
+        }
+      );
   }
 }

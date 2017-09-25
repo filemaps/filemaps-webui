@@ -20,7 +20,7 @@ export class RenderService {
 
   // for optimizing animation
   private lastMoved = Date.now();
-  private animating: boolean = false;
+  private animating = false;
   private animTime = 2000; // ms
 
   constructor() { }
@@ -118,8 +118,7 @@ export class RenderService {
 
     if (this.lastMoved + this.animTime < Date.now()) {
       this.animating = false;
-    }
-    else {
+    } else {
       this.animating = true;
       window.requestAnimationFrame(_ => this.render());
     }
