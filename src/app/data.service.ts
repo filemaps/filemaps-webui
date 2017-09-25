@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
-import { FileMap } from './file-map';
+import { FileMap } from './models/file-map';
 
 const API_URL = environment.apiUrl;
 

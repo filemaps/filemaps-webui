@@ -1,4 +1,4 @@
-import {FileMap} from './file-map';
+import { FileMap } from './file-map';
 
 describe('FileMap', () => {
   it('should create an instance', () => {

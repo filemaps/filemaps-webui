@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { MzBaseModal, MzModalComponent } from 'ng2-materialize';
 import { DataService } from '../../data.service';
-import { FileMap } from '../../file-map';
+import { FileMap } from '../../models/file-map';
 
 // declare '$' for jQuery
 declare var $: JQueryStatic;
@@ -31,6 +31,7 @@ export class MapsModalComponent extends MzBaseModal implements AfterViewInit, On
       .subscribe(
         (fileMaps) => {
           this.fileMaps = fileMaps;
+          console.log('File maps', this.fileMaps);
         }
       );
   }
