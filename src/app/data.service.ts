@@ -1,3 +1,9 @@
+// Copyright (C) 2017 File Maps Web UI Authors.
+//
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { environment } from 'environments/environment';
@@ -31,7 +37,7 @@ export class DataService {
     const url = `${API_URL}/maps/${id}`;
     return this.http
       .get(url)
-      .map((res: Response) => res.json() as FileMap)
+      .map((res: Response) => new FileMap(res.json()))
       .catch(this.handleError);
   }
 
