@@ -8,6 +8,7 @@ import * as THREE from 'three';
 
 import { FileMap } from './file-map';
 import { Position } from './position';
+import { DataService } from '../data.service';
 import { RenderService } from '../render.service';
 import { Resource } from './resource';
 
@@ -23,6 +24,7 @@ export class ThreeResource implements Resource {
   private dragStart: { x: number, y: number, z: number, time: number };
 
   constructor(
+    private dataService: DataService,
     private renderService: RenderService,
     fileMap: FileMap,
     values: Object = {}
@@ -48,14 +50,6 @@ export class ThreeResource implements Resource {
     this.obj.position.x = this.pos.x;
     this.obj.position.y = this.pos.y;
     this.obj.position.z = this.pos.z;
-
-    this.obj.rotation.x = 0;
-    this.obj.rotation.y = 0;
-    this.obj.rotation.z = 0;
-
-    this.obj.scale.x = 1;
-    this.obj.scale.y = 1;
-    this.obj.scale.z = 1;
 
     this.obj.castShadow = true;
     this.obj.receiveShadow = true;
@@ -94,7 +88,12 @@ export class ThreeResource implements Resource {
   }
 
   open(): void {
-    console.log('ThreeResource.open()', this);
+    this.dataService.openResource(this)
+      .subscribe(
+        (val: any) => {
+          console.log('Open', val);
+        }
+      );
   }
 
   close(): void {

@@ -33,19 +33,6 @@ export class RenderService {
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
     this.camera.position.z = 1000;
 
-    // Create sphere
-    const geometry = new THREE.SphereGeometry(5, 50, 50);
-    const material = new THREE.MeshNormalMaterial();
-    const sphere = new THREE.Mesh(geometry, material);
-    this.scene.add(sphere);
-
-    // Create box
-    const geometry2 = new THREE.BoxGeometry(50, 50, 50);
-    const material2 = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
-    const box = new THREE.Mesh(geometry2, material2);
-    box.position.set(60, 0, 0);
-    this.scene.add(box);
-
     // Add lights
     this.scene.add(new THREE.AmbientLight(0x505050));
 

@@ -14,6 +14,7 @@ import 'rxjs/add/observable/throw';
 
 import { FileMap } from './models/file-map';
 import { RenderService } from './render.service';
+import { Resource } from './models/resource';
 import { ThreeFileMap } from './models/three-file-map';
 
 const API_URL = environment.apiUrl;
@@ -32,7 +33,7 @@ export class DataService {
       .get(API_URL + '/maps')
       .map(response => {
         const fileMaps = response.json().maps;
-        return fileMaps.map((fileMap) => new ThreeFileMap(this.renderService, fileMap));
+        return fileMaps.map((fileMap) => new ThreeFileMap(this, this.renderService, fileMap));
       })
       .catch(this.handleError);
   }
@@ -42,7 +43,18 @@ export class DataService {
     const url = `${API_URL}/maps/${id}`;
     return this.http
       .get(url)
-      .map((res: Response) => new ThreeFileMap(this.renderService, res.json()))
+      .map((res: Response) => new ThreeFileMap(this, this.renderService, res.json()))
+      .catch(this.handleError);
+  }
+
+  /**
+   * Opens a resource.
+   * API: GET /maps/:mapid/resources/:resourceid/open
+   */
+  public openResource(res: Resource) {
+    const url = `${API_URL}/maps/${res.fileMap.id}/resources/${res.id}/open`;
+    return this.http
+      .get(url)
       .catch(this.handleError);
   }
 

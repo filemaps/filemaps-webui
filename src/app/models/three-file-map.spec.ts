@@ -5,18 +5,21 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import { TestBed, inject } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
 
+import { DataService } from '../data.service';
 import { RenderService } from '../render.service';
 import { ThreeFileMap } from './three-file-map';
 
 describe('ThreeFileMap', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [RenderService]
+      providers: [DataService, RenderService],
+      imports: [HttpModule],
     });
   });
 
-  it('should create an instance', inject([RenderService], (service: RenderService) => {
-    expect(new ThreeFileMap(service)).toBeTruthy();
+  it('should create an instance', inject([DataService, RenderService], (data: DataService, render: RenderService) => {
+    expect(new ThreeFileMap(data, render)).toBeTruthy();
   }));
 });
