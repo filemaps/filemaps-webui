@@ -124,6 +124,11 @@ export class RenderService {
     }
   }
 
+  public addResource(obj: THREE.Mesh) {
+    this.scene.add(obj);
+    this.animate();
+  }
+
   private onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();

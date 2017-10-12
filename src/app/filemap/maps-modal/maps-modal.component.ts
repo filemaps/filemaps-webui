@@ -54,6 +54,7 @@ export class MapsModalComponent extends MzBaseModal implements AfterViewInit, On
         (fm: FileMap) => {
           console.log('FileMap fetched', fm);
           console.log('Parent FileMap', fm.resources[1].fileMap);
+          fm.draw();
         }
       );
   }

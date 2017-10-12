@@ -13,4 +13,6 @@ export interface Resource {
   path: string;
   pos: Position;
   readonly fileMap: FileMap;
+
+  draw(): void;
 }

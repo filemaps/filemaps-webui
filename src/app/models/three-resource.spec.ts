@@ -4,12 +4,21 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import { TestBed, inject } from '@angular/core/testing';
+
+import { RenderService } from '../render.service';
 import { ThreeFileMap } from './three-file-map';
 import { ThreeResource } from './three-resource';
 
 describe('ThreeResource', () => {
-  it('should create an instance', () => {
-    const fileMap = new ThreeFileMap();
-    expect(new ThreeResource(fileMap)).toBeTruthy();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [RenderService]
+    });
   });
+
+  it('should create an instance', inject([RenderService], (service: RenderService) => {
+    const fileMap = new ThreeFileMap(service);
+    expect(new ThreeResource(service, fileMap)).toBeTruthy();
+  }));
 });

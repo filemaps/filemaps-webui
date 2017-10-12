@@ -3,6 +3,7 @@ import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { DataService } from '../../data.service';
+import { RenderService } from '../../render.service';
 import { MapsModalComponent } from './maps-modal.component';
 
 describe('MapsModalComponent', () => {
@@ -13,7 +14,7 @@ describe('MapsModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ MapsModalComponent ],
       imports: [ HttpModule, MaterializeModule ],
-      providers: [ DataService ],
+      providers: [ DataService, RenderService ],
     })
     .compileComponents();
   }));

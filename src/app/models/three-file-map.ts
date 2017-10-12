@@ -6,6 +6,7 @@
 
 import { FileMap } from './file-map';
 import { Resource } from './resource';
+import { RenderService } from '../render.service';
 import { ThreeResource } from './three-resource';
 
 export class ThreeFileMap implements FileMap {
@@ -18,17 +19,24 @@ export class ThreeFileMap implements FileMap {
   title2 = '';
   resources: Resource[];
 
-  constructor(values: Object = {}) {
+  constructor(
+    private renderService: RenderService,
+    values: Object = {}
+  ) {
     Object.assign(this, values);
     const resources: Resource[] = [];
     if (this.resources) {
       console.log('this resources', this.resources);
       this.resources.forEach(resource => {
         console.log('append', resource);
-        resources.push(new ThreeResource(this, resource));
+        resources.push(new ThreeResource(this.renderService, this, resource));
       });
     }
     this.resources = resources;
     console.log('OK', this.resources);
+  }
+
+  draw(): void {
+    this.resources.forEach(res => res.draw());
   }
 }

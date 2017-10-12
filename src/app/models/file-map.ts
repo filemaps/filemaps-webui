@@ -15,4 +15,6 @@ export interface FileMap {
   version: number;
   title2: string;
   resources: Resource[];
+
+  draw(): void;
 }

@@ -13,6 +13,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 import { FileMap } from './models/file-map';
+import { RenderService } from './render.service';
 import { ThreeFileMap } from './models/three-file-map';
 
 const API_URL = environment.apiUrl;
@@ -20,7 +21,10 @@ const API_URL = environment.apiUrl;
 @Injectable()
 export class DataService {
 
-  constructor(private http: Http) { }
+  constructor(
+    private http: Http,
+    private renderService: RenderService
+  ) { }
 
   // API: GET /maps
   public getAllFileMaps(): Observable<FileMap[]> {
@@ -28,7 +32,7 @@ export class DataService {
       .get(API_URL + '/maps')
       .map(response => {
         const fileMaps = response.json().maps;
-        return fileMaps.map((fileMap) => new ThreeFileMap(fileMap));
+        return fileMaps.map((fileMap) => new ThreeFileMap(this.renderService, fileMap));
       })
       .catch(this.handleError);
   }
@@ -38,7 +42,7 @@ export class DataService {
     const url = `${API_URL}/maps/${id}`;
     return this.http
       .get(url)
-      .map((res: Response) => new ThreeFileMap(res.json()))
+      .map((res: Response) => new ThreeFileMap(this.renderService, res.json()))
       .catch(this.handleError);
   }
 
