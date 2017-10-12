@@ -4,13 +4,26 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import { FileMap } from './file-map';
+import { FileMap } from './file-map';
 import { Position } from './position';
+import { Resource } from './resource';
 
-export interface Resource {
+export class ThreeResource implements Resource {
   id: number;
   type: number;
   path: string;
   pos: Position;
   readonly fileMap: FileMap;
+
+  constructor(
+    fileMap: FileMap,
+    values: Object = {}
+  ) {
+    this.fileMap = fileMap;
+    Object.assign(this, values);
+  }
+
+  public getFileMap() {
+    return this.fileMap;
+  }
 }

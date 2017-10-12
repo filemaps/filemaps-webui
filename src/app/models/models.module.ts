@@ -6,18 +6,18 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FileMap } from './file-map';
 import { Position } from './position';
-import { Resource } from './resource';
+import { ThreeFileMap } from './three-file-map';
+import { ThreeResource } from './three-resource';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   exports: [
-    FileMap,
     Position,
-    Resource,
+    ThreeFileMap,
+    ThreeResource,
   ],
   declarations: []
 })

@@ -4,15 +4,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import { Resource } from './resource';
+import { ThreeResource } from './three-resource';
 
-export interface FileMap {
-  id: number;
-  title: string;
-  base: string;
-  file: string;
-  opened: Date;
-  version: number;
-  title2: string;
-  resources: Resource[];
-}
+describe('ThreeResource', () => {
+  it('should create an instance', () => {
+    expect(new ThreeResource()).toBeTruthy();
+  });
+});
