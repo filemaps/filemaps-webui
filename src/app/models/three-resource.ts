@@ -17,6 +17,10 @@ export class ThreeResource implements Resource {
   path: string;
   pos: Position;
   readonly fileMap: FileMap;
+  readonly dragThreshold = 10;
+  readonly selectDuration = 500;
+  private obj: THREE.Mesh;
+  private dragStart: { x: number, y: number, z: number, time: number };
 
   constructor(
     private renderService: RenderService,
@@ -27,32 +31,77 @@ export class ThreeResource implements Resource {
     Object.assign(this, values);
   }
 
+  /**
+   * Draws resource.
+   */
   draw(): void {
     const geometry = new THREE.BoxGeometry(50, 56.57, 6);
-    let obj = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({
+    this.obj = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({
       color: Math.random() * 0xffffff
     }));
 
-    obj.userData = {
+    this.obj.userData = {
       label: null,
       resource: this,
     };
 
-    obj.position.x = this.pos.x;
-    obj.position.y = this.pos.y;
-    obj.position.z = this.pos.z;
+    this.obj.position.x = this.pos.x;
+    this.obj.position.y = this.pos.y;
+    this.obj.position.z = this.pos.z;
 
-    obj.rotation.x = 0;
-    obj.rotation.y = 0;
-    obj.rotation.z = 0;
+    this.obj.rotation.x = 0;
+    this.obj.rotation.y = 0;
+    this.obj.rotation.z = 0;
 
-    obj.scale.x = 1;
-    obj.scale.y = 1;
-    obj.scale.z = 1;
+    this.obj.scale.x = 1;
+    this.obj.scale.y = 1;
+    this.obj.scale.z = 1;
 
-    obj.castShadow = true;
-    obj.receiveShadow = true;
+    this.obj.castShadow = true;
+    this.obj.receiveShadow = true;
 
-    this.renderService.addResource(obj);
+    this.renderService.addResource(this.obj);
+  }
+
+  onDragStart(): void {
+    this.dragStart = {
+      x: this.obj.position.x,
+      y: this.obj.position.y,
+      z: this.obj.position.z,
+      time: new Date().getTime()
+    };
+  }
+
+  onDragEnd(): void {
+    if (Math.abs(this.obj.position.x - this.dragStart.x) < this.dragThreshold &&
+      Math.abs(this.obj.position.y - this.dragStart.y) < this.dragThreshold &&
+      Math.abs(this.obj.position.z - this.dragStart.z) < this.dragThreshold) {
+
+      // check drag duration
+      const duration = new Date().getTime() - this.dragStart.time;
+      if (duration < this.selectDuration) {
+        this.open();
+      } else {
+        this.select();
+      }
+    } else {
+      // dragged enough to not to be opened
+      this.pos.x = this.obj.position.x;
+      this.pos.y = this.obj.position.y;
+      this.pos.z = this.obj.position.z;
+      // this.dataService.updateResources();
+    }
+  }
+
+  open(): void {
+    console.log('ThreeResource.open()', this);
+  }
+
+  close(): void {
+    console.log('ThreeResource.close()', this);
+  }
+
+  select(): void {
+    console.log('ThreeResource.select()', this);
   }
 }

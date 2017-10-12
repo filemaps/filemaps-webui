@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
+import { DragControls } from './drag-controls';
 import { TrackballControls } from './trackball-controls';
 
 @Injectable()
@@ -14,9 +15,11 @@ export class RenderService {
 
   public camera: THREE.PerspectiveCamera;
   public controls: TrackballControls;
+  public dragControls: DragControls;
   public ground: THREE.Mesh;
   public scene: THREE.Scene = new THREE.Scene();
   private renderer: THREE.WebGLRenderer;
+  private resources: THREE.Object3D[] = [];
 
   // for optimizing animation
   private lastMoved = Date.now();
@@ -61,7 +64,7 @@ export class RenderService {
     // Ground
     const groundMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
     this.ground = new THREE.Mesh(
-        new THREE.PlaneBufferGeometry(5000, 5000), groundMaterial
+      new THREE.PlaneBufferGeometry(5000, 5000), groundMaterial
     );
     // ground.rotation.x = - Math.PI / 2; // rotate X/Y to X/Z
     this.ground.receiveShadow = true;
@@ -70,11 +73,11 @@ export class RenderService {
     // ground material
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load('assets/grid.png', function(texture) {
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(100, 100);
-        groundMaterial.map = texture;
-        groundMaterial.needsUpdate = true;
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(100, 100);
+      groundMaterial.map = texture;
+      groundMaterial.needsUpdate = true;
     });
 
     this.renderer = new THREE.WebGLRenderer({ antialias: false });
@@ -100,6 +103,11 @@ export class RenderService {
     this.controls.addEventListener('change', _ => this.onCameraChange());
     this.animate();
 
+    // Drag controls
+    this.dragControls = new DragControls(this.resources, this.camera, this.renderer.domElement);
+    this.dragControls.addEventListener('dragstart', evt => this.onDragStart(evt));
+    this.dragControls.addEventListener('dragend', evt => this.onDragEnd(evt));
+
     window.addEventListener('resize', _ => this.onWindowResize(), false);
     window.addEventListener('mousemove', _ => this.animate(), false);
   }
@@ -124,8 +132,12 @@ export class RenderService {
     }
   }
 
+  /**
+   * Adds resource to scene and draws it.
+   */
   public addResource(obj: THREE.Mesh) {
     this.scene.add(obj);
+    this.resources.push(obj);
     this.animate();
   }
 
@@ -141,4 +153,19 @@ export class RenderService {
     this.animate();
   }
 
+  /**
+   * Event when resource dragging starts.
+   */
+  private onDragStart(evt: any) {
+    this.controls.enabled = false;
+    evt.object.userData.resource.onDragStart();
+  }
+
+  /**
+   * Event when resource dragging ends.
+   */
+  private onDragEnd(evt: any) {
+    this.controls.enabled = true;
+    evt.object.userData.resource.onDragEnd();
+  }
 }

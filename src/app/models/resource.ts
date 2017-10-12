@@ -15,4 +15,9 @@ export interface Resource {
   readonly fileMap: FileMap;
 
   draw(): void;
+  onDragStart(): void;
+  onDragEnd(): void;
+  open(): void;
+  close(): void;
+  select(): void;
 }
