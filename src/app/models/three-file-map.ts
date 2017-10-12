@@ -20,13 +20,12 @@ export class ThreeFileMap implements FileMap {
 
   constructor(values: Object = {}) {
     Object.assign(this, values);
-    let resources: Resource[] = [];
-    let fileMap = this;
+    const resources: Resource[] = [];
     if (this.resources) {
       console.log('this resources', this.resources);
       this.resources.forEach(resource => {
         console.log('append', resource);
-        resources.push(new ThreeResource(fileMap, resource));
+        resources.push(new ThreeResource(this, resource));
       });
     }
     this.resources = resources;
