@@ -22,9 +22,8 @@ export class RenderService {
   private resources: THREE.Object3D[] = [];
 
   // for optimizing animation
-  private lastMoved = Date.now();
   private animating = false;
-  private animTime = 2000; // ms
+  private animUntil: number;
 
   constructor() { }
 
@@ -99,9 +98,15 @@ export class RenderService {
     window.addEventListener('mousemove', _ => this.animate(), false);
   }
 
-  // Optimize rendering to happen only when necessary, saving CPU
-  public animate() {
-    this.lastMoved = Date.now();
+  /**
+   * Animates at least for given time (ms).
+   * Optimizes rendering to happen only when necessary, saving CPU.
+   */
+  public animate(duration = 1000) {
+    const until = Date.now() + duration;
+    if (this.animUntil < until) {
+      this.animUntil = until;
+    }
     if (!this.animating) {
       window.requestAnimationFrame(_ => this.render());
     }
@@ -111,7 +116,7 @@ export class RenderService {
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
 
-    if (this.lastMoved + this.animTime < Date.now()) {
+    if (this.animUntil < Date.now()) {
       this.animating = false;
     } else {
       this.animating = true;
