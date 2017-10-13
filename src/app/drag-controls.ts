@@ -11,7 +11,8 @@ export class DragControls extends EventDispatcher {
 
   public enabled = true;
 
-  private plane = new Plane();
+  // set plane static so objects will move on ground
+  private plane = new Plane(new Vector3(0, 0, 1));
   private raycaster = new Raycaster();
   private mouse = new Vector2();
   private offset = new Vector3();
@@ -76,8 +77,6 @@ export class DragControls extends EventDispatcher {
 
     if (intersects.length > 0) {
       const object = intersects[0].object;
-
-      this.plane.setFromNormalAndCoplanarPoint(this.cam.getWorldDirection(this.plane.normal), object.position);
 
       if (this.hovered !== object) {
         this.dispatchEvent({ type: 'hoveron', object: object });
@@ -160,8 +159,6 @@ export class DragControls extends EventDispatcher {
     const intersects = this.raycaster.intersectObjects(this.objects);
     if (intersects.length > 0) {
       this.selected = intersects[0].object;
-
-      this.plane.setFromNormalAndCoplanarPoint(this.cam.getWorldDirection(this.plane.normal), this.selected.position);
 
       if (this.raycaster.ray.intersectPlane(this.plane, this.intersection)) {
         this.offset.copy(this.intersection).sub(this.selected.position);
