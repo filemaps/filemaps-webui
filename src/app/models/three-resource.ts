@@ -38,7 +38,7 @@ export class ThreeResource implements Resource {
    */
   draw(): void {
     const geometry = new THREE.BoxGeometry(50, 56.57, 6);
-    this.obj = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({
+    this.obj = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({
       color: Math.random() * 0xffffff
     }));
 

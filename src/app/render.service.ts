@@ -18,6 +18,7 @@ export class RenderService {
   public dragControls: DragControls;
   public ground: THREE.Mesh;
   public scene: THREE.Scene = new THREE.Scene();
+  public antialias = false;
   private renderer: THREE.WebGLRenderer;
   private resources: THREE.Object3D[] = [];
 
@@ -35,20 +36,39 @@ export class RenderService {
     // Add lights
     this.scene.add(new THREE.AmbientLight(0x505050));
 
-    const light = new THREE.SpotLight(0xffffff, 1.5);
-    light.position.set(0, 70, 2000);
+    this.renderer = new THREE.WebGLRenderer({ antialias: this.antialias });
+    this.renderer.setClearColor(0xe0e0e0);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.sortObjects = false;
+    this.renderer.shadowMap.enabled = true;
+    // more performance:
+    // this.renderer.shadowMap.type = THREE.PCFShadowMap;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    const light = new THREE.DirectionalLight(0xffffff);
+    light.position.set(0, 0, 100); // light shining from top
     light.castShadow = true;
-
-    light.shadow = new THREE.SpotLightShadow(new THREE.PerspectiveCamera(90, 1, 200, 10000));
-    light.shadow.bias = - 0.00022;
-
-    light.shadow.mapSize.width = 2048;
-    light.shadow.mapSize.height = 2048;
-
     this.scene.add(light);
 
+    light.shadow.mapSize.width = 512;
+    light.shadow.mapSize.height = 512;
+    const shadowCam = light.shadow.camera as THREE.OrthographicCamera;
+
+    shadowCam.near = 0.5;
+    shadowCam.far = 100;
+
+    // size of shadow 'area'
+    shadowCam.left = -2500;
+    shadowCam.right = 2500;
+    shadowCam.top = 2500;
+    shadowCam.bottom = -2500;
+
+    // for debugging: show shadow camera
+    //this.scene.add(new THREE.CameraHelper(light.shadow.camera));
+
     // Ground
-    const groundMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+    const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x808080 });
     this.ground = new THREE.Mesh(
       new THREE.PlaneBufferGeometry(5000, 5000), groundMaterial
     );
@@ -65,14 +85,6 @@ export class RenderService {
       groundMaterial.map = texture;
       groundMaterial.needsUpdate = true;
     });
-
-    this.renderer = new THREE.WebGLRenderer({ antialias: false });
-    this.renderer.setClearColor(0xe0e0e0);
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.sortObjects = false;
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFShadowMap;
 
     element.nativeElement.appendChild(this.renderer.domElement);
 
