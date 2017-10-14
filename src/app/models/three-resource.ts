@@ -78,11 +78,19 @@ export class ThreeResource implements Resource {
       } else {
         this.select();
       }
+
+      // restore position
+      this.obj.position.x = this.dragStart.x;
+      this.obj.position.y = this.dragStart.y;
+      this.obj.position.z = this.dragStart.z;
+      this.renderService.animate();
     } else {
       // dragged enough to not to be opened
       this.pos.x = this.obj.position.x;
       this.pos.y = this.obj.position.y;
       this.pos.z = this.obj.position.z;
+
+      // update new position to server
       // this.dataService.updateResources();
     }
   }

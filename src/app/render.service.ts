@@ -65,7 +65,7 @@ export class RenderService {
     shadowCam.bottom = -2500;
 
     // for debugging: show shadow camera
-    //this.scene.add(new THREE.CameraHelper(light.shadow.camera));
+    // this.scene.add(new THREE.CameraHelper(light.shadow.camera));
 
     // Ground
     const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x808080 });
