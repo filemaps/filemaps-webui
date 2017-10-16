@@ -11,33 +11,33 @@
   <nav>
     <div class="nav-wrapper">
       <!-- map settings -->
-      <a href="#" class="brand-logo center" modal>
+      <a href class="brand-logo center" modal (click)="$event.preventDefault();">
         File Maps
       </a>
 
-      <a href="#" class="button-collapse" data-sidenav="left" data-menuwidth="250" id="side-nav-button">
+      <a href class="button-collapse" data-sidenav="left" data-menuwidth="250" id="side-nav-button">
         <i class="material-icons">menu</i></a>
 
       <!-- navbar links -->
       <ul id="nav-large" class="right hide-on-med-and-down">
         <li>
-          <a href="#" i18n-title title="New">
+          <a href i18n-title title="New" (click)="$event.preventDefault();">
             <i class="material-icons">create_new_folder</i></a>
         </li>
 
         <li>
-          <a href="#" i18n-title title="Open">
-            <i class="material-icons" (click)="openMapsModal()">folder_open</i></a>
+          <a href i18n-title title="Open" (click)="$event.preventDefault(); openMapsModal()">
+            <i class="material-icons">folder_open</i></a>
         </li>
 
         <li>
-          <a href="#" i18n-title title="Settings">
+          <a href i18n-title title="Settings" (click)="$event.preventDefault();">
             <i class="material-icons">settings</i></a>
         </li>
 
         <li>
-          <a href="#" i18n-title title="About">
-            <i class="material-icons" (click)="openAboutModal()">info_outline</i></a>
+          <a href i18n-title title="About" (click)="$event.preventDefault(); openAboutModal()">
+            <i class="material-icons">info_outline</i></a>
         </li>
       </ul>
     </div> <!-- .nav-wrapper -->

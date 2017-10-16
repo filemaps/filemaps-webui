@@ -58,6 +58,25 @@ export class DataService {
       .catch(this.handleError);
   }
 
+  public updateResources(resources: Resource[]) {
+    if (resources.length > 0) {
+      const fileMap = resources[0].fileMap;
+      const url = `${API_URL}/maps/${fileMap.id}/resources`;
+      return this.http
+        .put(url, {
+          // map resources to simpler objects for server
+          resources: resources.map(function(res) {
+            return {
+              id: res.id,
+              pos: res.pos,
+            };
+          })
+        })
+        .catch(this.handleError);
+    }
+    return null;
+  }
+
   private handleError(error: Response | any) {
     console.error('DataService::handleError', error);
     return Observable.throw(error);

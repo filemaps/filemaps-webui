@@ -90,8 +90,7 @@ export class ThreeResource implements Resource {
       this.pos.y = this.obj.position.y;
       this.pos.z = this.obj.position.z;
 
-      // update new position to server
-      // this.dataService.updateResources();
+      this.updateServer();
     }
   }
 
@@ -102,6 +101,18 @@ export class ThreeResource implements Resource {
           console.log('Open', val);
         }
       );
+  }
+
+  /**
+   * Updates resource data to server.
+   */
+  updateServer(): void {
+    this.dataService.updateResources([this])
+    .subscribe(
+      (val: any) => {
+        console.log('Update', val);
+      }
+    );
   }
 
   close(): void {
