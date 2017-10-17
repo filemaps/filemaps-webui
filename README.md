@@ -18,7 +18,7 @@ npm i
 
 ## Development server
 
-1. Run `filemaps -no-browser -cors-allow-origin "*"` for File Maps backend component.
+1. Run `filemaps -dev` for File Maps backend component.
 2. Run `ng serve --base-href /ui/` for a dev server.
 3. Navigate to `http://localhost:4200/ui/`. The app will automatically reload if you change any of the source files.
 
