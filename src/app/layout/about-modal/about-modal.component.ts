@@ -10,7 +10,7 @@ import { Info } from '../../models/info';
   styleUrls: ['./about-modal.component.css']
 })
 
-export class AboutModalComponent extends MzBaseModal {
+export class AboutModalComponent extends MzBaseModal implements OnInit {
   info = new Info();
 
   constructor(
