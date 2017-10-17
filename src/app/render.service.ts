@@ -30,50 +30,28 @@ export class RenderService {
 
   init(element: any) {
     // Camera
-    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
+    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 20000);
     this.camera.position.z = 1000;
-
-    // Add lights
-    this.scene.add(new THREE.AmbientLight(0x505050));
 
     this.renderer = new THREE.WebGLRenderer({ antialias: this.antialias });
     this.renderer.setClearColor(0xe0e0e0);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.sortObjects = false;
-    this.renderer.shadowMap.enabled = true;
-    // more performance:
-    // this.renderer.shadowMap.type = THREE.PCFShadowMap;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    // Add lights
+    this.scene.add(new THREE.AmbientLight(0x505050));
 
     const light = new THREE.DirectionalLight(0xffffff);
     light.position.set(0, 0, 100); // light shining from top
-    light.castShadow = true;
     this.scene.add(light);
-
-    light.shadow.mapSize.width = 512;
-    light.shadow.mapSize.height = 512;
-    const shadowCam = light.shadow.camera as THREE.OrthographicCamera;
-
-    shadowCam.near = 0.5;
-    shadowCam.far = 100;
-
-    // size of shadow 'area'
-    shadowCam.left = -2500;
-    shadowCam.right = 2500;
-    shadowCam.top = 2500;
-    shadowCam.bottom = -2500;
-
-    // for debugging: show shadow camera
-    // this.scene.add(new THREE.CameraHelper(light.shadow.camera));
 
     // Ground
     const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x808080 });
     this.ground = new THREE.Mesh(
-      new THREE.PlaneBufferGeometry(5000, 5000), groundMaterial
+      new THREE.PlaneBufferGeometry(10000, 10000), groundMaterial
     );
     // ground.rotation.x = - Math.PI / 2; // rotate X/Y to X/Z
-    this.ground.receiveShadow = true;
     this.scene.add(this.ground);
 
     // ground material
@@ -81,7 +59,7 @@ export class RenderService {
     textureLoader.load('assets/grid.png', function(texture) {
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
-      texture.repeat.set(100, 100);
+      texture.repeat.set(200, 200);
       groundMaterial.map = texture;
       groundMaterial.needsUpdate = true;
     });

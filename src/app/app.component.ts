@@ -20,10 +20,20 @@ export class AppComponent {
   }
 
   public openMapsModal() {
+    this.hideSideNav();
     this.modalService.open(MapsModalComponent);
   }
 
   public openAboutModal() {
+    this.hideSideNav();
     this.modalService.open(AboutModalComponent);
+  }
+
+  /**
+   * hideSideNav hides sideNav using jQuery, because
+   * Ng2-Materialize does not support hiding sideNav.
+   */
+  private hideSideNav() {
+    $('#side-nav-button').sideNav('hide');
   }
 }

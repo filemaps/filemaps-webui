@@ -51,9 +51,6 @@ export class ThreeResource implements Resource {
     this.obj.position.y = this.pos.y;
     this.obj.position.z = this.pos.z;
 
-    this.obj.castShadow = true;
-    this.obj.receiveShadow = true;
-
     this.renderService.addResource(this.obj);
   }
 
