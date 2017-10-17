@@ -1,7 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { AboutModalComponent } from './about-modal.component';
+import { DataService } from '../../data.service';
+import { RenderService } from '../../render.service';
 
 describe('AboutModalComponent', () => {
   let component: AboutModalComponent;
@@ -10,7 +13,8 @@ describe('AboutModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AboutModalComponent ],
-      imports: [ MaterializeModule ],
+      imports: [ HttpModule, MaterializeModule ],
+      providers: [ DataService, RenderService ],
     })
     .compileComponents();
   }));
