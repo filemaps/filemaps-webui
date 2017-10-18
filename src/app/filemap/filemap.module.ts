@@ -24,6 +24,12 @@ import { NewMapModalComponent } from './new-map-modal/new-map-modal.component';
     MapsModalComponent,
     NewMapModalComponent,
   ],
-  declarations: [MapsModalComponent, NewMapModalComponent]
+  declarations: [
+    MapsModalComponent, NewMapModalComponent
+  ],
+  entryComponents: [
+    MapsModalComponent,
+    NewMapModalComponent,
+  ],
 })
 export class FilemapModule { }

@@ -11,6 +11,7 @@ import { DataService } from './data.service';
 import { AboutModalComponent } from './layout/about-modal/about-modal.component';
 import { MapsModalComponent } from './filemap/maps-modal/maps-modal.component';
 import { NewMapModalComponent } from './filemap/new-map-modal/new-map-modal.component';
+import { SettingsModalComponent } from './layout/settings-modal/settings-modal.component';
 
 // declare '$' for jQuery
 declare var $: JQueryStatic;
@@ -42,6 +43,11 @@ export class AppComponent implements OnInit {
   public openMapsModal() {
     this.hideSideNav();
     this.modalService.open(MapsModalComponent);
+  }
+
+  public openSettingsModal() {
+    this.hideSideNav();
+    this.modalService.open(SettingsModalComponent);
   }
 
   public openAboutModal() {

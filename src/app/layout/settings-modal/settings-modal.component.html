@@ -1,0 +1,49 @@
+<mz-modal [fixedFooter]="true">
+  <mz-modal-header>
+    <span i18n>General Settings</span>
+  </mz-modal-header>
+  <mz-modal-content>
+    <div class="section">
+      <h5 i18n>Text Editor</h5>
+
+      <p *ngFor="let fileApp of fileApps">
+        <input name="appTextEditor" type="radio" id="fileapp-{{fileApp.id}}" [(ngModel)]="config.textEditor" value="{{fileApp.id}}">
+        <label for="fileapp-{{fileApp.id}}">{{fileApp.name}}</label>
+      </p>
+
+      <p>
+        <input name="appTextEditor" type="radio" id="fileapp-custom1" [(ngModel)]="config.textEditor" value="custom1">
+        <label for="fileapp-custom1" i18n>Custom</label>
+      </p>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <mz-input-container>
+            <input mz-input [label]="'Custom command'" id="cmd" [(ngModel)]="config.textEditorCustom1Cmd" type="text">
+          </mz-input-container>
+
+        </div>
+      </div>
+
+    </div> <!-- .section -->
+
+
+    <div class="divider"></div>
+
+    <div class="section">
+      <h5 i18n>Trusted Addresses</h5>
+      <div class="row">
+        <div class="input-field col s12">
+          <mz-input-container>
+            <input mz-input [label]="'Trusted addresses, separated by comma'" id="trustedAddresses" [(ngModel)]="config.trustedAddresses" type="text">
+          </mz-input-container>
+        </div>
+      </div> <!-- .row -->
+    </div> <!-- .section -->
+  </mz-modal-content>
+
+  <mz-modal-footer>
+    <button mz-button [flat]="true" (click)="save()" mz-modal-close i18n>Save</button>
+    <button mz-button [flat]="true" mz-modal-close i18n>Cancel</button>
+  </mz-modal-footer>
+</mz-modal>

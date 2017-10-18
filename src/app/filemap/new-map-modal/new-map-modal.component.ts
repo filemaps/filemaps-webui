@@ -7,7 +7,6 @@
 import {
   Component,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { MzBaseModal } from 'ng2-materialize';
 

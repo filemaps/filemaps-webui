@@ -28,7 +28,7 @@
   <mz-sidenav-divider></mz-sidenav-divider>
 
   <mz-sidenav-link>
-    <a href (click)="$event.preventDefault();">
+    <a href (click)="$event.preventDefault(); openSettingsModal()">
       <span i18n>General Settings</span>
     </a>
   </mz-sidenav-link>
@@ -65,7 +65,7 @@
         </li>
 
         <li>
-          <a href i18n-title title="Settings" (click)="$event.preventDefault();">
+          <a href i18n-title title="Settings" (click)="$event.preventDefault(); openSettingsModal()">
             <i class="material-icons">settings</i></a>
         </li>
 

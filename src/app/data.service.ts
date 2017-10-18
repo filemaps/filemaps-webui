@@ -13,6 +13,8 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 import { FileMap } from './models/file-map';
+import { Config } from './models/config';
+import { ConfigResponse } from './models/config-response';
 import { DirContents } from './models/dir-contents';
 import { Info } from './models/info';
 import { RenderService } from './render.service';
@@ -133,9 +135,22 @@ export class DataService {
       .catch(this.handleError);
   }
 
+  public getConfig(): Observable<ConfigResponse> {
+    return this.http
+      .get(`${API_URL}/config`)
+      .map((res: Response) => new ConfigResponse(res.json()))
+      .catch(this.handleError);
+  }
+
+  public setConfig(config: Config) {
+    return this.http
+      .put(`${API_URL}/config`, config)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
   private handleError(error: Response | any) {
     console.error('DataService::handleError', error);
     return Observable.throw(error);
   }
-
 }
