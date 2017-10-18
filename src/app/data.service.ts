@@ -13,6 +13,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 import { FileMap } from './models/file-map';
+import { DirContents } from './models/dir-contents';
 import { Info } from './models/info';
 import { RenderService } from './render.service';
 import { Resource } from './models/resource';
@@ -82,6 +83,24 @@ export class DataService {
     return this.http
       .get(`${API_URL}/info`)
       .map((res: Response) => new Info(res.json()))
+      .catch(this.handleError);
+  }
+
+  public readDir(path: string): Observable<DirContents> {
+    return this.http
+      .post(`${API_URL}/browse`, {
+        path: path,
+      })
+      .map((res: Response) => new DirContents(res.json()))
+      .catch(this.handleError);
+  }
+
+  public importMap(path: string): Observable<FileMap> {
+    return this.http
+      .post(`${API_URL}/maps/import`, {
+        path: path,
+      })
+      .map((res: Response) => new ThreeFileMap(this, this.renderService, res.json()))
       .catch(this.handleError);
   }
 

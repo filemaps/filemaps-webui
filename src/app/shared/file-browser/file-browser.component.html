@@ -1,0 +1,12 @@
+<button type="button" class="btn" (click)="moveUp()">
+  <i class="material-icons">keyboard_arrow_up</i>
+</button>
+
+<span>{{currentPath}}</span>
+
+<div class="collection">
+  <a href *ngFor="let entry of dirContents.contents" class="collection-item" (click)="$event.preventDefault(); onClick(entry)">
+    <i class="material-icons" *ngIf="entry.isDir()">folder</i>
+    <span>{{entry.name}}</span>
+  </a>
+</div>

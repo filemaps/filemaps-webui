@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
 import { DragControls } from './drag-controls';
+import { FileMap } from './models/file-map';
 import { TrackballControls } from './trackball-controls';
 
 @Injectable()
@@ -21,6 +22,7 @@ export class RenderService {
   public antialias = false;
   private renderer: THREE.WebGLRenderer;
   private resources: THREE.Object3D[] = [];
+  private currentMap: FileMap;
 
   // for optimizing animation
   private animating = false;
@@ -121,6 +123,22 @@ export class RenderService {
     this.scene.add(obj);
     this.resources.push(obj);
     this.animate();
+  }
+
+  public useFileMap(fileMap: FileMap) {
+    this.clear();
+    this.currentMap = fileMap;
+    fileMap.draw();
+  }
+
+  /**
+   * Clears scene from objects.
+   */
+  private clear() {
+    for (let i = 0; i < this.resources.length; i++) {
+      this.scene.remove(this.resources[i]);
+    }
+    this.resources.length = 0;
   }
 
   private onWindowResize() {

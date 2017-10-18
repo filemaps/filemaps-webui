@@ -6,28 +6,26 @@
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
-import { MaterializeModule } from 'ng2-materialize';
 
 import { DataService } from '../../data.service';
+import { FileBrowserComponent } from './file-browser.component';
 import { RenderService } from '../../render.service';
-import { MapsModalComponent } from './maps-modal.component';
-import { SharedModule } from '../../shared/shared.module';
 
-describe('MapsModalComponent', () => {
-  let component: MapsModalComponent;
-  let fixture: ComponentFixture<MapsModalComponent>;
+describe('FileBrowserComponent', () => {
+  let component: FileBrowserComponent;
+  let fixture: ComponentFixture<FileBrowserComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MapsModalComponent ],
-      imports: [ HttpModule, MaterializeModule, SharedModule ],
+      declarations: [ FileBrowserComponent ],
+      imports: [ HttpModule ],
       providers: [ DataService, RenderService ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MapsModalComponent);
+    fixture = TestBed.createComponent(FileBrowserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

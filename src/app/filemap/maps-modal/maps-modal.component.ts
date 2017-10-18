@@ -1,12 +1,22 @@
+// Copyright (C) 2017 File Maps Web UI Authors.
+//
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 import {
   AfterViewInit,
   Component,
   ElementRef,
-  OnInit
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 import { MzBaseModal, MzModalComponent } from 'ng2-materialize';
+
 import { DataService } from '../../data.service';
+import { FileInfo } from '../../models/file-info';
 import { FileMap } from '../../models/file-map';
+import { RenderService } from '../../render.service';
 
 // declare '$' for jQuery
 declare var $: JQueryStatic;
@@ -17,11 +27,13 @@ declare var $: JQueryStatic;
   styleUrls: ['./maps-modal.component.scss']
 })
 export class MapsModalComponent extends MzBaseModal implements AfterViewInit, OnInit {
+  @ViewChild('modal') modal: MzModalComponent;
   fileMaps: FileMap[] = [];
 
   constructor(
     private element: ElementRef,
     private dataService: DataService,
+    private renderService: RenderService,
   ) {
     super();
   }
@@ -52,9 +64,18 @@ export class MapsModalComponent extends MzBaseModal implements AfterViewInit, On
     this.dataService.getFileMap(fileMap.id)
       .subscribe(
         (fm: FileMap) => {
-          console.log('FileMap fetched', fm);
-          console.log('Parent FileMap', fm.resources[1].fileMap);
-          fm.draw();
+          this.renderService.useFileMap(fm);
+        }
+      );
+  }
+
+  onEntryClick(fileInfo: FileInfo) {
+    this.dataService.importMap(fileInfo.path)
+      .subscribe(
+        (fm: FileMap) => {
+          console.log('FileMap imported', fm);
+          this.renderService.useFileMap(fm);
+          this.modal.close();
         }
       );
   }

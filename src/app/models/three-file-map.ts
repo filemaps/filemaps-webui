@@ -28,14 +28,11 @@ export class ThreeFileMap implements FileMap {
     Object.assign(this, values);
     const resources: Resource[] = [];
     if (this.resources) {
-      console.log('this resources', this.resources);
       this.resources.forEach(resource => {
-        console.log('append', resource);
         resources.push(new ThreeResource(this.dataService, this.renderService, this, resource));
       });
     }
     this.resources = resources;
-    console.log('OK', this.resources);
   }
 
   draw(): void {

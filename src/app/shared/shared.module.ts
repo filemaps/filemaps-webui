@@ -6,20 +6,18 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapsModalComponent } from './maps-modal/maps-modal.component';
-import { MaterializeModule } from 'ng2-materialize';
 
-import { SharedModule } from '../shared/shared.module';
+import { FileBrowserComponent } from './file-browser/file-browser.component';
 
 @NgModule({
   imports: [
-    CommonModule,
-    MaterializeModule,
-    SharedModule,
+    CommonModule
+  ],
+  declarations: [
+    FileBrowserComponent,
   ],
   exports: [
-    MapsModalComponent,
-  ],
-  declarations: [MapsModalComponent]
+    FileBrowserComponent,
+  ]
 })
-export class FilemapModule { }
+export class SharedModule { }

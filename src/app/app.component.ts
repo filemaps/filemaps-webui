@@ -5,6 +5,9 @@ import { DataService } from './data.service';
 import { AboutModalComponent } from './layout/about-modal/about-modal.component';
 import { MapsModalComponent } from './filemap/maps-modal/maps-modal.component';
 
+// declare '$' for jQuery
+declare var $: JQueryStatic;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
