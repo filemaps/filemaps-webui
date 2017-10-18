@@ -20,11 +20,6 @@ export class AboutModalComponent extends MzBaseModal implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataService.getInfo()
-      .subscribe(
-        (info) => {
-          this.info = info;
-        }
-      );
+    this.info = this.dataService.info;
   }
 }

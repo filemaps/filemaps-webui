@@ -24,10 +24,21 @@ const API_URL = environment.apiUrl;
 @Injectable()
 export class DataService {
 
+  // Info is loaded from server in constructor
+  public info: Info = new Info();
+
   constructor(
     private http: Http,
     private renderService: RenderService
-  ) { }
+  ) {
+    // fetch info just once, in the start
+    this.getInfo()
+      .subscribe(
+        (info) => {
+          this.info = info;
+        }
+      );
+  }
 
   // API: GET /maps
   public getAllFileMaps(): Observable<FileMap[]> {
@@ -79,7 +90,7 @@ export class DataService {
     return null;
   }
 
-  public getInfo(): Observable<Info> {
+  private getInfo(): Observable<Info> {
     return this.http
       .get(`${API_URL}/info`)
       .map((res: Response) => new Info(res.json()))

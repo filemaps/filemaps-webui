@@ -1,4 +1,4 @@
-<mz-modal #modal [fixedFooter]="true">
+<mz-modal #modal [fullscreen]="true" [fixedFooter]="true">
   <mz-modal-content>
     <div class="row">
       <div class="col s12">
@@ -32,7 +32,7 @@
 
       <div id="maps-modal-browse" class="col s12">
         <h4 i18n>Browse Maps</h4>
-        <app-file-browser (entryClick)="onEntryClick($event)"></app-file-browser>
+        <app-file-browser (entryClick)="onEntryClick($event)" [onlyFileMaps]="true"></app-file-browser>
       </div> <!-- #maps-modal-browse -->
 
     </div> <!-- .row -->

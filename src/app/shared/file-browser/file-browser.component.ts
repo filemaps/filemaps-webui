@@ -4,7 +4,13 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter
+} from '@angular/core';
 
 import { DataService } from '../../data.service';
 import { DirContents } from '../../models/dir-contents';
@@ -17,16 +23,20 @@ import { FileInfo } from '../../models/file-info';
 })
 export class FileBrowserComponent implements OnInit {
 
+  @Input() onlyFileMaps: boolean;
   @Output() entryClick = new EventEmitter<FileInfo>();
   currentPath: string;
-  dirContents: DirContents = new DirContents();
+  entries: FileInfo[] = [];
+
+  private dirContents = new DirContents();
 
   constructor(
     private dataService: DataService,
   ) { }
 
   ngOnInit() {
-    this.loadDir('/tmp');
+    const initPath = this.dataService.info.homeDir;
+    this.loadDir(initPath);
   }
 
   public onClick(fileInfo: FileInfo) {
@@ -47,9 +57,24 @@ export class FileBrowserComponent implements OnInit {
     this.currentPath = path;
     this.dataService.readDir(this.currentPath)
       .subscribe(
-        (data) => {
-          this.dirContents = data;
+        (dirContents) => {
+          this.dirContents = dirContents;
+          this.filterEntries();
         }
       );
+  }
+
+  private filterEntries() {
+    if (this.onlyFileMaps) {
+      // filter in directories and *.filemap
+      this.entries = [];
+      this.dirContents.contents.forEach(fileInfo => {
+        if (fileInfo.isDir() || fileInfo.name.match(/\.filemap$/)) {
+          this.entries.push(fileInfo);
+        }
+      });
+    } else {
+      this.entries = this.dirContents.contents;
+    }
   }
 }
