@@ -24,7 +24,9 @@ import { FileInfo } from '../../models/file-info';
 export class FileBrowserComponent implements OnInit {
 
   @Input() onlyFileMaps: boolean;
+  @Input() onlyDirs: boolean;
   @Output() entryClick = new EventEmitter<FileInfo>();
+  @Output() dirChange = new EventEmitter<DirContents>();
   currentPath: string;
   entries: FileInfo[] = [];
 
@@ -60,16 +62,27 @@ export class FileBrowserComponent implements OnInit {
         (dirContents) => {
           this.dirContents = dirContents;
           this.filterEntries();
+          this.dirChange.emit(dirContents);
         }
       );
   }
 
+  /**
+   * Filters entries on the directory listing.
+   */
   private filterEntries() {
     if (this.onlyFileMaps) {
       // filter in directories and *.filemap
       this.entries = [];
       this.dirContents.contents.forEach(fileInfo => {
         if (fileInfo.isDir() || fileInfo.name.match(/\.filemap$/)) {
+          this.entries.push(fileInfo);
+        }
+      });
+    } else if (this.onlyDirs) {
+      this.entries = [];
+      this.dirContents.contents.forEach(fileInfo => {
+        if (fileInfo.isDir()) {
           this.entries.push(fileInfo);
         }
       });

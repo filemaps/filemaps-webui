@@ -14,7 +14,7 @@
   <mz-sidenav-divider></mz-sidenav-divider>
 
   <mz-sidenav-link>
-    <a href (click)="$event.preventDefault();">
+    <a href (click)="$event.preventDefault(); openNewMapModal()">
       <span i18n>New Map</span>
     </a>
   </mz-sidenav-link>
@@ -55,7 +55,7 @@
       <!-- navbar links -->
       <ul id="nav-large" class="right hide-on-med-and-down">
         <li>
-          <a href i18n-title title="New" (click)="$event.preventDefault();">
+          <a href i18n-title title="New" (click)="$event.preventDefault(); openNewMapModal()">
             <i class="material-icons">create_new_folder</i></a>
         </li>
 

@@ -83,6 +83,10 @@ export class DataService {
     return null;
   }
 
+  /**
+   * Fetches server info. Call this in AppComponent.ngOnInit(),
+   * response is cached.
+   */
   public loadInfo(): void {
     // fetch info just once, in the start
     this.getInfo()
@@ -113,6 +117,17 @@ export class DataService {
     return this.http
       .post(`${API_URL}/maps/import`, {
         path: path,
+      })
+      .map((res: Response) => new ThreeFileMap(this, this.renderService, res.json()))
+      .catch(this.handleError);
+  }
+
+  public createMap(title: string, base: string, file: string) {
+    return this.http
+      .post(`${API_URL}/maps`, {
+        title: title,
+        base: base,
+        file: file,
       })
       .map((res: Response) => new ThreeFileMap(this, this.renderService, res.json()))
       .catch(this.handleError);

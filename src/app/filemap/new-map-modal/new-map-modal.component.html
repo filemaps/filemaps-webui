@@ -1,0 +1,22 @@
+<mz-modal [fullscreen]="true" [fixedFooter]="true">
+  <mz-modal-header>
+    <span i18n>New Map</span>
+  </mz-modal-header>
+  <mz-modal-content>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="mapName" type="text" [(ngModel)]="title" required>
+        <label for="mapName" i18n>Map Name</label>
+      </div>
+    </div>
+
+    <h5 i18n>Base Directory</h5>
+
+    <app-file-browser (dirChange)="onDirChange($event)" [onlyDirs]="true"></app-file-browser>
+
+  </mz-modal-content>
+  <mz-modal-footer>
+    <button mz-button [flat]="true" (click)="create()" mz-modal-close i18n>Create</button>
+    <button mz-button [flat]="true" mz-modal-close i18n>Cancel</button>
+  </mz-modal-footer>
+</mz-modal>

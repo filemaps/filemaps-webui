@@ -18,6 +18,7 @@ import { FilemapModule } from './filemap/filemap.module';
 import { LayoutModule } from './layout/layout.module';
 import { AboutModalComponent } from './layout/about-modal/about-modal.component';
 import { MapsModalComponent } from './filemap/maps-modal/maps-modal.component';
+import { NewMapModalComponent } from './filemap/new-map-modal/new-map-modal.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MapsModalComponent } from './filemap/maps-modal/maps-modal.component';
   entryComponents: [
     AboutModalComponent,
     MapsModalComponent,
+    NewMapModalComponent,
   ],
   bootstrap: [AppComponent]
 })

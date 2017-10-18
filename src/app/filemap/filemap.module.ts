@@ -6,20 +6,24 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MapsModalComponent } from './maps-modal/maps-modal.component';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { SharedModule } from '../shared/shared.module';
+import { NewMapModalComponent } from './new-map-modal/new-map-modal.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     MaterializeModule,
     SharedModule,
   ],
   exports: [
     MapsModalComponent,
+    NewMapModalComponent,
   ],
-  declarations: [MapsModalComponent]
+  declarations: [MapsModalComponent, NewMapModalComponent]
 })
 export class FilemapModule { }
