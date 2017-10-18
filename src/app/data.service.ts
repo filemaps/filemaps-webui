@@ -24,20 +24,13 @@ const API_URL = environment.apiUrl;
 @Injectable()
 export class DataService {
 
-  // Info is loaded from server in constructor
+  // loadInfo() fetches Info, called in AppComponent.ngOnInit
   public info: Info = new Info();
 
   constructor(
     private http: Http,
     private renderService: RenderService
   ) {
-    // fetch info just once, in the start
-    this.getInfo()
-      .subscribe(
-        (info) => {
-          this.info = info;
-        }
-      );
   }
 
   // API: GET /maps
@@ -88,6 +81,16 @@ export class DataService {
         .catch(this.handleError);
     }
     return null;
+  }
+
+  public loadInfo(): void {
+    // fetch info just once, in the start
+    this.getInfo()
+      .subscribe(
+        (info) => {
+          this.info = info;
+        }
+      );
   }
 
   private getInfo(): Observable<Info> {

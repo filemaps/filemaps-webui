@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MzModalService } from 'ng2-materialize';
 
 import { DataService } from './data.service';
@@ -13,13 +13,18 @@ declare var $: JQueryStatic;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app';
 
   constructor(
     private modalService: MzModalService,
     private dataService: DataService,
   ) {
+  }
+
+  ngOnInit() {
+    // load info from server and store it in DataService
+    this.dataService.loadInfo();
   }
 
   public openMapsModal() {
