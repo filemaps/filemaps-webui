@@ -3,10 +3,15 @@
     <span i18n>About</span>
   </mz-modal-header>
   <mz-modal-content>
-    <div>{{ info.version }}</div>
-    &copy; 2017
-    <a href="https://github.com/filemaps/" target="_blank">File Maps Authors</a>, All rights reserved.
+    <a href="https://github.com/filemaps/filemaps" target="_blank" title="GitHub project" class="right">
+      <img src="assets/GitHub-Mark-32px.png" alt="GitHub">
+    </a>
 
+    <div>{{ info.version }}</div>
+    <div>
+      &copy; 2017
+      <a href="https://github.com/iqqmut/" target="_blank">Tuomas Jaakola</a>, All rights reserved.
+    </div>
   </mz-modal-content>
   <mz-modal-footer>
     <button mz-button [flat]="true" mz-modal-close i18n>Close</button>
