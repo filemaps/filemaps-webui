@@ -36,7 +36,7 @@ export class RenderService {
     this.camera.position.z = 1000;
 
     this.renderer = new THREE.WebGLRenderer({ antialias: this.antialias });
-    this.renderer.setClearColor(0xe0e0e0);
+    this.renderer.setClearColor(0xa6a6a6);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.sortObjects = false;
@@ -51,7 +51,7 @@ export class RenderService {
     // Ground
     const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x808080 });
     this.ground = new THREE.Mesh(
-      new THREE.PlaneBufferGeometry(10000, 10000), groundMaterial
+      new THREE.PlaneBufferGeometry(20000, 20000), groundMaterial
     );
     // ground.rotation.x = - Math.PI / 2; // rotate X/Y to X/Z
     this.scene.add(this.ground);
@@ -61,7 +61,7 @@ export class RenderService {
     textureLoader.load('assets/grid.png', function(texture) {
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
-      texture.repeat.set(200, 200);
+      texture.repeat.set(400, 400);
       groundMaterial.map = texture;
       groundMaterial.needsUpdate = true;
     });
