@@ -88,6 +88,8 @@ export class RenderService {
 
     window.addEventListener('resize', _ => this.onWindowResize(), false);
     window.addEventListener('mousemove', _ => this.animate(), false);
+    window.addEventListener('touchstart', _ => this.animate(), false);
+    window.addEventListener('touchmove', _ => this.animate(), false);
   }
 
   /**
