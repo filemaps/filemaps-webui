@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { DataService } from './data.service';
 import { FileMapService } from './file-map.service';
 import { RenderService } from './render.service';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ViewerComponent } from './viewer/viewer.component';
 
 describe('AppComponent', () => {
@@ -13,6 +14,7 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
+        ToolbarComponent,
         ViewerComponent,
       ],
       imports: [

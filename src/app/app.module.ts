@@ -17,11 +17,13 @@ import { ViewerComponent } from './viewer/viewer.component';
 import { FilemapModule } from './filemap/filemap.module';
 import { FileMapService } from './file-map.service';
 import { LayoutModule } from './layout/layout.module';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ViewerComponent,
+    ToolbarComponent,
   ],
   imports: [
     BrowserModule,
