@@ -10,6 +10,7 @@ import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { DataService } from '../../data.service';
+import { FileMapService } from '../../file-map.service';
 import { NewMapModalComponent } from './new-map-modal.component';
 import { RenderService } from '../../render.service';
 import { SharedModule } from '../../shared/shared.module';
@@ -29,6 +30,7 @@ describe('NewMapModalComponent', () => {
       ],
       providers: [
         DataService,
+        FileMapService,
         RenderService,
       ],
     })

@@ -125,16 +125,10 @@ export class RenderService {
     this.animate();
   }
 
-  public useFileMap(fileMap: FileMap) {
-    this.clear();
-    this.currentMap = fileMap;
-    fileMap.draw();
-  }
-
   /**
    * Clears scene from objects.
    */
-  private clear() {
+  public clear() {
     for (let i = 0; i < this.resources.length; i++) {
       this.scene.remove(this.resources[i]);
     }

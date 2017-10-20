@@ -4,7 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
@@ -15,6 +15,7 @@ import { DataService } from './data.service';
 import { RenderService } from './render.service';
 import { ViewerComponent } from './viewer/viewer.component';
 import { FilemapModule } from './filemap/filemap.module';
+import { FileMapService } from './file-map.service';
 import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
@@ -31,8 +32,10 @@ import { LayoutModule } from './layout/layout.module';
     LayoutModule,
   ],
   providers: [
-    RenderService,
     DataService,
+    FileMapService,
+    RenderService,
+    Title,
   ],
   bootstrap: [AppComponent]
 })

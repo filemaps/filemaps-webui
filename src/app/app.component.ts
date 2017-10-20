@@ -5,10 +5,12 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { MzModalService } from 'ng2-materialize';
 
 import { DataService } from './data.service';
 import { AboutModalComponent } from './layout/about-modal/about-modal.component';
+import { FileMapService } from './file-map.service';
 import { MapsModalComponent } from './filemap/maps-modal/maps-modal.component';
 import { NewMapModalComponent } from './filemap/new-map-modal/new-map-modal.component';
 import { SettingsModalComponent } from './layout/settings-modal/settings-modal.component';
@@ -22,12 +24,24 @@ declare var $: JQueryStatic;
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'app';
+  title: string;
 
   constructor(
     private modalService: MzModalService,
     private dataService: DataService,
+    private fileMapService: FileMapService,
+    private titleService: Title,
   ) {
+    // subscribe to file map change event
+    fileMapService.fileMapChanged$.subscribe(
+      fileMap => {
+        // change title in nav bar
+        this.title = fileMap.title;
+
+        // change page title in browser
+        this.titleService.setTitle(this.title + ' · File Maps');
+      }
+    );
   }
 
   ngOnInit() {

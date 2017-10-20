@@ -16,6 +16,7 @@ import { MzBaseModal, MzModalComponent } from 'ng2-materialize';
 import { DataService } from '../../data.service';
 import { FileInfo } from '../../models/file-info';
 import { FileMap } from '../../models/file-map';
+import { FileMapService } from '../../file-map.service';
 import { RenderService } from '../../render.service';
 
 // declare '$' for jQuery
@@ -33,6 +34,7 @@ export class MapsModalComponent extends MzBaseModal implements AfterViewInit, On
   constructor(
     private element: ElementRef,
     private dataService: DataService,
+    private fileMapService: FileMapService,
     private renderService: RenderService,
   ) {
     super();
@@ -64,7 +66,7 @@ export class MapsModalComponent extends MzBaseModal implements AfterViewInit, On
     this.dataService.getFileMap(fileMap.id)
       .subscribe(
         (fm: FileMap) => {
-          this.renderService.useFileMap(fm);
+          this.fileMapService.useFileMap(fm);
         }
       );
   }
@@ -74,7 +76,7 @@ export class MapsModalComponent extends MzBaseModal implements AfterViewInit, On
       .subscribe(
         (fm: FileMap) => {
           console.log('FileMap imported', fm);
-          this.renderService.useFileMap(fm);
+          this.fileMapService.useFileMap(fm);
           this.modal.close();
         }
       );

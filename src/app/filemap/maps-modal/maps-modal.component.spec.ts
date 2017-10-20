@@ -9,6 +9,7 @@ import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { DataService } from '../../data.service';
+import { FileMapService } from '../../file-map.service';
 import { RenderService } from '../../render.service';
 import { MapsModalComponent } from './maps-modal.component';
 import { SharedModule } from '../../shared/shared.module';
@@ -21,7 +22,11 @@ describe('MapsModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ MapsModalComponent ],
       imports: [ HttpModule, MaterializeModule, SharedModule ],
-      providers: [ DataService, RenderService ],
+      providers: [
+        DataService,
+        FileMapService,
+        RenderService,
+      ],
     })
     .compileComponents();
   }));
