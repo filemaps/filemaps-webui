@@ -26,7 +26,7 @@ export class RenderService {
 
   // for optimizing animation
   private animating = false;
-  private animUntil: number;
+  private animUntil = 0;
 
   constructor() { }
 
