@@ -401,9 +401,9 @@ export class TrackballControls extends EventDispatcher {
 
     switch (event.touches.length) {
       case 1:
-        this.state = State.TouchRotate;
-        this.moveCurr.copy(this.getMouseOnCircle(event.touches[0].pageX, event.touches[0].pageY));
-        this.movePrev.copy(this.moveCurr);
+        this.state = State.Pan;
+        this.panStart.copy(this.getMouseOnScreen(event.touches[0].pageX, event.touches[0].pageY));
+        this.panEnd.copy(this.panStart);
         break;
 
       default: // 2 or more
@@ -429,8 +429,7 @@ export class TrackballControls extends EventDispatcher {
 
     switch (event.touches.length) {
       case 1:
-        this.movePrev.copy(this.moveCurr);
-        this.moveCurr.copy(this.getMouseOnCircle(event.touches[0].pageX, event.touches[0].pageY));
+        this.panEnd.copy(this.getMouseOnScreen(event.touches[0].pageX, event.touches[0].pageY));
         break;
 
       default: // 2 or more
@@ -467,7 +466,7 @@ export class TrackballControls extends EventDispatcher {
 
   private getMouseOnScreen(pageX: number, pageY: number): Vector2 {
     this.mouseOnScreenVector.set(
-      (pageX - this.screen.left) / this.screen.width,
+      (pageX - this.screen.left) / this.screen.height,
       (pageY - this.screen.top) / this.screen.height
     );
     return this.mouseOnScreenVector;

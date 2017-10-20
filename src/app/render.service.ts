@@ -72,7 +72,7 @@ export class RenderService {
     this.controls = new TrackballControls(this.camera, this.renderer.domElement);
     this.controls.rotateSpeed = 1.0;
     this.controls.zoomSpeed = 1.6;
-    this.controls.panSpeed = 0.8;
+    this.controls.panSpeed = 1.4;
     this.controls.noZoom = false;
     this.controls.noPan = false;
     this.controls.staticMoving = true;
