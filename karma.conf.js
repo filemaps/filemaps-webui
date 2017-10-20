@@ -28,6 +28,8 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
+    // default 10 sec timeout is not enough for Travis CI
+    browserNoActivityTimeout: 50000,
     singleRun: false
   });
 };
