@@ -5,8 +5,8 @@
     </div>
   </mz-sidenav-header>
 
-  <mz-sidenav-link>
-    <a href (click)="$event.preventDefault();">
+  <mz-sidenav-link *ngIf="title">
+    <a href (click)="$event.preventDefault(); openMapSettingsModal()">
       <span i18n>Map Settings</span>
     </a>
   </mz-sidenav-link>
@@ -45,7 +45,7 @@
   <nav>
     <div class="nav-wrapper">
       <!-- map settings -->
-      <a href class="brand-logo center" modal (click)="$event.preventDefault();">
+      <a href class="brand-logo center" modal (click)="$event.preventDefault(); openMapSettingsModal()">
         {{title}}
       </a>
 

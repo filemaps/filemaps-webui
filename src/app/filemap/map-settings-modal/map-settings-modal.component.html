@@ -1,0 +1,20 @@
+<mz-modal [fullscreen]="true" [fixedFooter]="true">
+  <mz-modal-header>
+    <span i18n>Map Settings</span>
+  </mz-modal-header>
+
+  <mz-modal-content>
+
+    <div class="row">
+      <mz-input-container class="col s12 m6">
+        <input mz-input [label]="'Map Name'" id="filemap-title" [(ngModel)]="title" type="text">
+      </mz-input-container>
+    </div> <!-- .row -->
+
+  </mz-modal-content>
+
+  <mz-modal-footer>
+    <button mz-button [flat]="true" (click)="save()" mz-modal-close i18n>Save</button>
+    <button mz-button [flat]="true" mz-modal-close i18n>Cancel</button>
+  </mz-modal-footer>
+</mz-modal>

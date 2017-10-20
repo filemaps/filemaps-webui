@@ -5,7 +5,7 @@
 
   <mz-modal-content>
     <div class="section">
-      <h5 i18n>Text Editor</h5>
+      <h5 class="light" i18n>Text Editor</h5>
 
       <p *ngFor="let fileApp of fileApps">
         <input name="appTextEditor" type="radio" id="fileapp-{{fileApp.id}}" [(ngModel)]="config.textEditor" value="{{fileApp.id}}">
@@ -18,12 +18,9 @@
       </p>
 
       <div class="row">
-        <div class="input-field col s12">
-          <mz-input-container>
-            <input mz-input [label]="'Custom command'" id="cmd" [(ngModel)]="config.textEditorCustom1Cmd" type="text">
-          </mz-input-container>
-
-        </div>
+        <mz-input-container class="col s12">
+          <input mz-input [label]="'Custom command'" id="cmd" [(ngModel)]="config.textEditorCustom1Cmd" type="text">
+        </mz-input-container>
       </div>
 
     </div> <!-- .section -->
@@ -31,14 +28,12 @@
     <div class="divider"></div>
 
     <div class="section">
-      <h5 i18n>Trusted Addresses</h5>
+      <h5 class="light" i18n>Trusted Addresses</h5>
       <div class="row">
-        <div class="input-field col s12">
-          <mz-input-container>
-            <input mz-input [label]="'Trusted addresses, separated by comma'" id="trustedAddresses" [(ngModel)]="config.trustedAddresses" type="text">
-          </mz-input-container>
-        </div>
-      </div> <!-- .row -->
+        <mz-input-container class="col s12">
+          <input mz-input [label]="'Trusted addresses, separated by comma'" id="trustedAddresses" [(ngModel)]="config.trustedAddresses" type="text">
+        </mz-input-container>
+      </div>
     </div> <!-- .section -->
   </mz-modal-content>
 

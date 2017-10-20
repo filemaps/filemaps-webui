@@ -12,6 +12,7 @@ import { MaterializeModule } from 'ng2-materialize';
 
 import { SharedModule } from '../shared/shared.module';
 import { NewMapModalComponent } from './new-map-modal/new-map-modal.component';
+import { MapSettingsModalComponent } from './map-settings-modal/map-settings-modal.component';
 
 @NgModule({
   imports: [
@@ -23,13 +24,17 @@ import { NewMapModalComponent } from './new-map-modal/new-map-modal.component';
   exports: [
     MapsModalComponent,
     NewMapModalComponent,
+    MapSettingsModalComponent,
   ],
   declarations: [
-    MapsModalComponent, NewMapModalComponent
+    MapsModalComponent,
+    NewMapModalComponent,
+    MapSettingsModalComponent,
   ],
   entryComponents: [
     MapsModalComponent,
     NewMapModalComponent,
+    MapSettingsModalComponent,
   ],
 })
 export class FilemapModule { }

@@ -12,6 +12,7 @@ import { DataService } from './data.service';
 import { AboutModalComponent } from './layout/about-modal/about-modal.component';
 import { FileMapService } from './file-map.service';
 import { MapsModalComponent } from './filemap/maps-modal/maps-modal.component';
+import { MapSettingsModalComponent } from './filemap/map-settings-modal/map-settings-modal.component';
 import { NewMapModalComponent } from './filemap/new-map-modal/new-map-modal.component';
 import { SettingsModalComponent } from './layout/settings-modal/settings-modal.component';
 
@@ -67,6 +68,11 @@ export class AppComponent implements OnInit {
   public openAboutModal() {
     this.hideSideNav();
     this.modalService.open(AboutModalComponent);
+  }
+
+  public openMapSettingsModal() {
+    this.hideSideNav();
+    this.modalService.open(MapSettingsModalComponent);
   }
 
   /**
