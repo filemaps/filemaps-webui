@@ -1,26 +1,30 @@
 <mz-sidenav [id]="'nav-mobile'" [collapseButtonId]="'side-nav-button'">
   <mz-sidenav-header>
-    <div class="user-view">
-      <h4>File Maps</h4>
-    </div>
+    <img src="assets/logo_white.png" class="logo">
+    <h5 class="center-align brand">File Maps</h5>
   </mz-sidenav-header>
+
+  <!-- <mz-sidenav-divider></mz-sidenav-divider> -->
 
   <mz-sidenav-link *ngIf="title">
     <a href (click)="$event.preventDefault(); openMapSettingsModal()">
+      <i class="material-icons">settings_applications</i>
       <span i18n>Map Settings</span>
     </a>
   </mz-sidenav-link>
 
-  <mz-sidenav-divider></mz-sidenav-divider>
+  <mz-sidenav-divider *ngIf="title"></mz-sidenav-divider>
 
   <mz-sidenav-link>
     <a href (click)="$event.preventDefault(); openNewMapModal()">
+      <i class="material-icons">create_new_folder</i>
       <span i18n>New Map</span>
     </a>
   </mz-sidenav-link>
 
   <mz-sidenav-link>
     <a href (click)="$event.preventDefault(); openMapsModal()">
+      <i class="material-icons">folder_open</i>
       <span i18n>Open Map</span>
     </a>
   </mz-sidenav-link>
@@ -29,12 +33,14 @@
 
   <mz-sidenav-link>
     <a href (click)="$event.preventDefault(); openSettingsModal()">
+      <i class="material-icons">settings</i>
       <span i18n>General Settings</span>
     </a>
   </mz-sidenav-link>
 
   <mz-sidenav-link>
     <a href (click)="$event.preventDefault(); openAboutModal()">
+      <i class="material-icons">info_outline</i>
       <span i18n>About</span>
     </a>
   </mz-sidenav-link>
