@@ -10,6 +10,7 @@ import { Subject } from 'rxjs/Subject';
 import { DataService } from './data.service';
 import { FileMap } from './models/file-map';
 import { RenderService } from './render.service';
+import { ResourceDraft } from './models/resource-draft';
 
 @Injectable()
 export class FileMapService {
@@ -34,5 +35,21 @@ export class FileMapService {
 
     // use Subject to inform observers about file map change
     this.fileMapChangedSource.next(fileMap);
+  }
+
+  /**
+   * Adds new resources to current file map.
+   */
+  public addResources(drafts: ResourceDraft[]) {
+    this.dataService.addResources(this.current, drafts)
+      .subscribe(
+        (resources) => {
+          // add new resources to current file map and draw them
+          for (const resource of resources) {
+            this.current.resources.push(resource);
+            resource.draw();
+          }
+        }
+      );
   }
 }

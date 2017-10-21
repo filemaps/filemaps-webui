@@ -1,15 +1,15 @@
 <div class="fixed-action-btn horizontal click-to-toggle" *ngIf="enabled">
-  <a class="btn-floating btn-large" title="Toolbar">
+  <a class="btn-floating btn-large" i18n-title title="Toolbar">
     <i class="large material-icons">more_horiz</i>
   </a>
   <ul>
     <li>
-      <a href class="btn-floating" title="Select" (click)="$event.preventDefault(); launchSelect()">
+      <a href class="btn-floating" i18n-title title="Select" (click)="$event.preventDefault(); launchSelect()">
         <i class="material-icons">select_all</i>
       </a>
     </li>
     <li>
-      <a href class="btn-floating" title="Add file" (click)="$event.preventDefault(); launchAdd()">
+      <a href class="btn-floating" i18n-title title="Add Files" (click)="$event.preventDefault(); launchAdd()">
         <i class="material-icons">add</i></a>
     </li>
   </ul>

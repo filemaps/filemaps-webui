@@ -1,6 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
-import { MaterializeModule, MzModalService } from 'ng2-materialize';
+import { MaterializeModule } from 'ng2-materialize';
 
 import { AppComponent } from './app.component';
 import { DataService } from './data.service';
@@ -24,7 +24,6 @@ describe('AppComponent', () => {
       providers: [
         DataService,
         FileMapService,
-        MzModalService,
         RenderService,
       ],
     }).compileComponents();

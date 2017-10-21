@@ -19,7 +19,9 @@ import { DirContents } from './models/dir-contents';
 import { Info } from './models/info';
 import { RenderService } from './render.service';
 import { Resource } from './models/resource';
+import { ResourceDraft } from './models/resource-draft';
 import { ThreeFileMap } from './models/three-file-map';
+import { ThreeResource } from './models/three-resource';
 
 const API_URL = environment.apiUrl;
 
@@ -52,6 +54,22 @@ export class DataService {
     return this.http
       .get(url)
       .map((res: Response) => new ThreeFileMap(this, this.renderService, res.json()))
+      .catch(this.handleError);
+  }
+
+  /**
+   * Adds new resources.
+   * API: POST /maps/:mapid/resources
+   */
+  public addResources(fileMap: FileMap, drafts: ResourceDraft[]): Observable<Resource[]> {
+    return this.http
+      .post(`${API_URL}/maps/${fileMap.id}/resources`, {
+        items: drafts,
+      })
+      .map((response: Response) => {
+        const resources = response.json().resources;
+        return resources.map((rsrc) => new ThreeResource(this, this.renderService, fileMap, rsrc));
+      })
       .catch(this.handleError);
   }
 

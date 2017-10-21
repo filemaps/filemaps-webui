@@ -13,6 +13,7 @@ import { MaterializeModule } from 'ng2-materialize';
 import { SharedModule } from '../shared/shared.module';
 import { NewMapModalComponent } from './new-map-modal/new-map-modal.component';
 import { MapSettingsModalComponent } from './map-settings-modal/map-settings-modal.component';
+import { AddResourceModalComponent } from './add-resource-modal/add-resource-modal.component';
 
 @NgModule({
   imports: [
@@ -22,16 +23,19 @@ import { MapSettingsModalComponent } from './map-settings-modal/map-settings-mod
     SharedModule,
   ],
   exports: [
+    AddResourceModalComponent,
     MapsModalComponent,
     NewMapModalComponent,
     MapSettingsModalComponent,
   ],
   declarations: [
+    AddResourceModalComponent,
     MapsModalComponent,
     NewMapModalComponent,
     MapSettingsModalComponent,
   ],
   entryComponents: [
+    AddResourceModalComponent,
     MapsModalComponent,
     NewMapModalComponent,
     MapSettingsModalComponent,

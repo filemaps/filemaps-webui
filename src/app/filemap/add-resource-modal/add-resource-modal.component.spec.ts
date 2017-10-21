@@ -8,21 +8,23 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
-import { DataService } from '../data.service';
-import { FileMapService } from '../file-map.service';
-import { RenderService } from '../render.service';
-import { ToolbarComponent } from './toolbar.component';
+import { AddResourceModalComponent } from './add-resource-modal.component';
+import { DataService } from '../../data.service';
+import { FileMapService } from '../../file-map.service';
+import { SharedModule } from '../../shared/shared.module';
+import { RenderService } from '../../render.service';
 
-describe('ToolbarComponent', () => {
-  let component: ToolbarComponent;
-  let fixture: ComponentFixture<ToolbarComponent>;
+describe('AddResourceModalComponent', () => {
+  let component: AddResourceModalComponent;
+  let fixture: ComponentFixture<AddResourceModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ToolbarComponent ],
+      declarations: [ AddResourceModalComponent ],
       imports: [
         HttpModule,
         MaterializeModule,
+        SharedModule,
       ],
       providers: [
         DataService,
@@ -34,7 +36,7 @@ describe('ToolbarComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ToolbarComponent);
+    fixture = TestBed.createComponent(AddResourceModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

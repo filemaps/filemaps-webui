@@ -1,0 +1,14 @@
+<mz-modal [fullscreen]="true" [fixedFooter]="true">
+  <mz-modal-header>
+    <span i18n>Add Files</span>
+  </mz-modal-header>
+
+  <mz-modal-content>
+    <app-file-browser [selectMany]="true" (selectionChange)="onSelectionChange($event)"></app-file-browser>
+  </mz-modal-content>
+
+  <mz-modal-footer>
+    <button mz-button [flat]="true" (click)="add()" mz-modal-close i18n>Add</button>
+    <button mz-button [flat]="true" mz-modal-close i18n>Cancel</button>
+  </mz-modal-footer>
+</mz-modal>

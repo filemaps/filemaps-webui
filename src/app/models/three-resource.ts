@@ -94,8 +94,8 @@ export class ThreeResource implements Resource {
   open(): void {
     this.dataService.openResource(this)
       .subscribe(
-        (val: any) => {
-          console.log('Open', val);
+        (response: any) => {
+          console.log('Open, response:', response);
         }
       );
   }
@@ -106,8 +106,8 @@ export class ThreeResource implements Resource {
   updateServer(): void {
     this.dataService.updateResources([this])
     .subscribe(
-      (val: any) => {
-        console.log('Update', val);
+      (response: any) => {
+        console.log('Update, response:', response);
       }
     );
   }

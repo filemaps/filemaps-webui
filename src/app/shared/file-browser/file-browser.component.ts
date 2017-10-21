@@ -25,12 +25,15 @@ export class FileBrowserComponent implements OnInit {
 
   @Input() onlyFileMaps: boolean;
   @Input() onlyDirs: boolean;
+  @Input() selectMany: boolean;
   @Output() entryClick = new EventEmitter<FileInfo>();
   @Output() dirChange = new EventEmitter<DirContents>();
+  @Output() selectionChange = new EventEmitter<FileInfo[]>();
   currentPath: string;
   entries: FileInfo[] = [];
 
   private dirContents = new DirContents();
+  private selected: FileInfo[] = [];
 
   constructor(
     private dataService: DataService,
@@ -45,6 +48,21 @@ export class FileBrowserComponent implements OnInit {
     if (fileInfo.isDir()) {
       this.loadDir(fileInfo.path);
     } else {
+      if (this.selectMany) {
+
+        // try to unselect
+        if (this.unselect(fileInfo)) {
+          // unselected
+          fileInfo.selected = false;
+        } else {
+          // was not selected so select it
+          this.selected.push(fileInfo);
+          fileInfo.selected = true;
+        }
+
+        this.selectionChange.emit(this.selected);
+
+      }
       this.entryClick.emit(fileInfo);
     }
   }
@@ -62,6 +80,7 @@ export class FileBrowserComponent implements OnInit {
         (dirContents) => {
           this.dirContents = dirContents;
           this.filterEntries();
+          this.markSelected();
           this.dirChange.emit(dirContents);
         }
       );
@@ -89,5 +108,36 @@ export class FileBrowserComponent implements OnInit {
     } else {
       this.entries = this.dirContents.contents;
     }
+  }
+
+  // Marks selected property for all selected in this.entries
+  private markSelected(): void {
+    for (const entry of this.entries) {
+      if (this.isSelected(entry)) {
+        entry.selected = true;
+      }
+    }
+  }
+
+  // Returns true if given FileInfo is selected
+  private isSelected(fileInfo: FileInfo): boolean {
+    for (const fi of this.selected) {
+      if (fi.equals(fileInfo)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Unselects given FileInfo. If not selected, returns false.
+  private unselect(fileInfo: FileInfo): boolean {
+    for (let i = 0; i < this.selected.length; i++) {
+      if (this.selected[i].equals(fileInfo)) {
+        this.selected.splice(i, 1);
+        return true;
+      }
+    }
+    // not found
+    return false;
   }
 }

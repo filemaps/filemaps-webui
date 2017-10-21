@@ -14,6 +14,7 @@ export class FileInfo {
   path: string;
   size: number;
   type: ItemType;
+  selected: boolean;
 
   constructor(
     values: Object = {}
@@ -21,7 +22,13 @@ export class FileInfo {
     Object.assign(this, values);
   }
 
-  public isDir(): boolean {
+  isDir(): boolean {
     return this.type === ItemType.Dir;
+  }
+
+  // Returns true if given FileInfo matches this
+  equals(fi: FileInfo): boolean {
+    return (this.name === fi.name &&
+            this.path === fi.path);
   }
 }
