@@ -10,6 +10,7 @@ import { Subject } from 'rxjs/Subject';
 import { DataService } from './data.service';
 import { FileMap } from './models/file-map';
 import { RenderService } from './render.service';
+import { Resource } from './models/resource';
 import { ResourceDraft } from './models/resource-draft';
 
 @Injectable()
@@ -17,6 +18,7 @@ export class FileMapService {
 
   current: FileMap;
 
+  private selectedResources: Resource[] = [];
   // Observable source
   private fileMapChangedSource = new Subject<FileMap>();
 
@@ -51,5 +53,9 @@ export class FileMapService {
           }
         }
       );
+  }
+
+  public setSelectedResources(resources: Resource[]) {
+    this.selectedResources = resources;
   }
 }

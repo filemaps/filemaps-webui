@@ -12,6 +12,7 @@ import { MzModalService } from 'ng2-materialize';
 
 import { AddResourceModalComponent } from '../filemap/add-resource-modal/add-resource-modal.component';
 import { FileMapService } from '../file-map.service';
+import { RenderService } from '../render.service';
 
 // declare '$' for jQuery
 declare var $: JQueryStatic;
@@ -28,6 +29,7 @@ export class ToolbarComponent implements OnInit {
   constructor(
     private fileMapService: FileMapService,
     private modalService: MzModalService,
+    private renderService: RenderService,
   ) {
     // subscribe to file map change event
     fileMapService.fileMapChanged$.subscribe(
@@ -41,9 +43,14 @@ export class ToolbarComponent implements OnInit {
   }
 
   launchSelect() {
+    this.renderService.startSelect();
   }
 
   launchAdd() {
     this.modalService.open(AddResourceModalComponent);
+  }
+
+  removeSelected() {
+    console.log('Remove selected');
   }
 }

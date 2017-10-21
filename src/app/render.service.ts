@@ -9,6 +9,9 @@ import * as THREE from 'three';
 
 import { DragControls } from './drag-controls';
 import { FileMap } from './models/file-map';
+import { FileMapService } from './file-map.service';
+import { Resource } from './models/resource';
+import { SelectionTool } from './selection-tool';
 import { TrackballControls } from './trackball-controls';
 
 @Injectable()
@@ -23,6 +26,7 @@ export class RenderService {
   private renderer: THREE.WebGLRenderer;
   private resources: THREE.Object3D[] = [];
   private currentMap: FileMap;
+  private selectionTool: SelectionTool;
 
   // for optimizing animation
   private animating = false;
@@ -90,6 +94,33 @@ export class RenderService {
     window.addEventListener('mousemove', _ => this.animate(), false);
     window.addEventListener('touchstart', _ => this.animate(), false);
     window.addEventListener('touchmove', _ => this.animate(), false);
+
+    // Selection tool
+    this.selectionTool = new SelectionTool(
+      this.scene,
+      this.ground,
+      this.resources,
+      this.camera,
+      this.renderer.domElement
+    );
+    this.selectionTool.addEventListener('start', evt => {
+      this.controls.enabled = false;
+      this.dragControls.deactivate();
+      console.log('started');
+    });
+    this.selectionTool.addEventListener('selected', (evt: any) => {
+      this.controls.enabled = true;
+      this.dragControls.activate();
+      console.log('selected', evt.selected);
+      const selectedResources: Resource[] = [];
+      for (const rsrcObj of evt.selected) {
+        selectedResources.push(rsrcObj.userData.resource);
+      }
+      this.animate();
+    });
+    this.selectionTool.addEventListener('change', evt => {
+      this.animate();
+    });
   }
 
   /**
@@ -135,6 +166,10 @@ export class RenderService {
       this.scene.remove(this.resources[i]);
     }
     this.resources.length = 0;
+  }
+
+  public startSelect() {
+    this.selectionTool.start();
   }
 
   private onWindowResize() {
