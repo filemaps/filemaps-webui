@@ -6,9 +6,10 @@
 
 import {
   Component,
-  OnInit
+  OnDestroy
 } from '@angular/core';
 import { MzModalService } from 'ng2-materialize';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AddResourceModalComponent } from '../filemap/add-resource-modal/add-resource-modal.component';
 import { FileMapService } from '../file-map.service';
@@ -22,9 +23,10 @@ declare var $: JQueryStatic;
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss']
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent implements OnDestroy {
 
   enabled = false;
+  private subscription: Subscription;
 
   constructor(
     private fileMapService: FileMapService,
@@ -32,14 +34,15 @@ export class ToolbarComponent implements OnInit {
     private renderService: RenderService,
   ) {
     // subscribe to file map change event
-    fileMapService.fileMapChanged$.subscribe(
+    this.subscription = fileMapService.fileMapChanged$.subscribe(
       fileMap => {
         this.enabled = true;
       }
     );
   }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   launchSelect() {
