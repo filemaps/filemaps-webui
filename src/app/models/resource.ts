@@ -16,6 +16,7 @@ export interface Resource {
 
   draw(): void;
   onDragStart(): void;
+  onDrag(): void;
   onDragEnd(): void;
   open(): void;
   close(): void;

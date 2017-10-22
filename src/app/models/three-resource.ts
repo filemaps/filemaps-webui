@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import * as THREE from 'three';
+import { MeshText2D, textAlign } from 'three-text2d';
 
 import { FileMap } from './file-map';
 import { Position } from './position';
@@ -21,6 +22,7 @@ export class ThreeResource implements Resource {
   readonly dragThreshold = 10;
   readonly selectDuration = 500;
   private obj: THREE.Mesh;
+  private label: MeshText2D;
   private dragStart: { x: number, y: number, z: number, time: number };
 
   constructor(
@@ -51,7 +53,14 @@ export class ThreeResource implements Resource {
     this.obj.position.y = this.pos.y;
     this.obj.position.z = this.pos.z;
 
-    this.renderer.addResource(this.obj);
+    // label
+    this.label = new MeshText2D(this.path, {
+      align: textAlign.center,
+      font: '20px Oxygen',
+      fillStyle: '#000000',
+    });
+    this.updateLabelPos();
+    this.renderer.addResource(this.obj, this.label);
   }
 
   onDragStart(): void {
@@ -61,6 +70,10 @@ export class ThreeResource implements Resource {
       z: this.obj.position.z,
       time: new Date().getTime()
     };
+  }
+
+  onDrag(): void {
+    this.updateLabelPos();
   }
 
   onDragEnd(): void {
@@ -80,6 +93,7 @@ export class ThreeResource implements Resource {
       this.obj.position.x = this.dragStart.x;
       this.obj.position.y = this.dragStart.y;
       this.obj.position.z = this.dragStart.z;
+      this.updateLabelPos();
       this.renderer.animate();
     } else {
       // dragged enough to not to be opened
@@ -133,5 +147,11 @@ export class ThreeResource implements Resource {
         this.fileMap.resources.splice(i, 1);
       }
     }
+  }
+
+  private updateLabelPos() {
+    this.label.position.x = this.obj.position.x;
+    this.label.position.y = this.obj.position.y - 40;
+    this.label.position.z = 1;
   }
 }

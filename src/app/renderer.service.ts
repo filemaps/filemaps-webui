@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import * as THREE from 'three';
+import { MeshText2D } from 'three-text2d';
 
 import { DragControls } from './drag-controls';
 import { FileMap } from './models/file-map';
@@ -96,6 +97,7 @@ export class Renderer {
     // Drag controls
     this.dragControls = new DragControls(this.resources, this.camera, this.renderer.domElement);
     this.dragControls.addEventListener('dragstart', evt => this.onDragStart(evt));
+    this.dragControls.addEventListener('drag', evt => this.onDrag(evt));
     this.dragControls.addEventListener('dragend', evt => this.onDragEnd(evt));
 
     window.addEventListener('resize', _ => this.onWindowResize(), false);
@@ -164,8 +166,11 @@ export class Renderer {
   /**
    * Adds resource to scene and draws it.
    */
-  public addResource(obj: THREE.Object3D) {
+  public addResource(obj: THREE.Object3D, label?: MeshText2D) {
     this.scene.add(obj);
+    if (label) {
+      this.scene.add(label);
+    }
     this.resources.push(obj);
     this.animate();
   }
@@ -220,6 +225,13 @@ export class Renderer {
   private onDragStart(evt: any) {
     this.controls.enabled = false;
     evt.object.userData.resource.onDragStart();
+  }
+
+  /**
+   * Event when resource is being dragged.
+   */
+  private onDrag(evt: any) {
+    evt.object.userData.resource.onDrag();
   }
 
   /**
