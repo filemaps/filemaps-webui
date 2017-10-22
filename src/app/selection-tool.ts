@@ -25,7 +25,7 @@ export class SelectionTool extends EventDispatcher {
   private mouse = new Vector2();
   private mouseGround = new Vector3();
   private raycaster = new Raycaster();
-  private selected: Object3D[] = [];
+  private selected = new Set<Object3D>();
 
   constructor(
     private scene: Scene,
@@ -68,7 +68,7 @@ export class SelectionTool extends EventDispatcher {
    * Clears selection.
    */
   public clear() {
-    this.selected = [];
+    this.selected.clear();
     this.dispatchEvent({ type: 'selected', selected: this.selected });
   }
 
@@ -203,19 +203,27 @@ export class SelectionTool extends EventDispatcher {
   private checkSelectedObjects(): void {
     const selected = this.getSelectedObjects();
 
-    if (!this.arraysEqual(this.selected, selected)) {
+    if (!this.setsEqual(this.selected, selected)) {
+      const removed = this.setDifference(this.selected, selected);
+      const added = this.setDifference(selected, this.selected);
+
       this.selected = selected;
-      this.dispatchEvent({ type: 'selected', selected: this.selected });
+      this.dispatchEvent({
+        type: 'selected',
+        selected: this.selected,
+        added: added,
+        removed: removed,
+      });
     }
   }
 
-  private getSelectedObjects(): Object3D[] {
+  private getSelectedObjects(): Set<Object3D> {
     let x1 = this.coords[0];
     let y1 = this.coords[1];
     let x2 = this.coords[6];
     let y2 = this.coords[7];
 
-    const selected: Object3D[] = [];
+    const selected = new Set<Object3D>();
     // make sure x1 < x2
     if (x1 > x2) {
       const tmp = x1;
@@ -232,19 +240,29 @@ export class SelectionTool extends EventDispatcher {
     for (const obj of this.objects) {
       if (obj.position.x >= x1 && obj.position.x <= x2 &&
           obj.position.y >= y1 && obj.position.y <= y2) {
-        selected.push(obj);
+        selected.add(obj);
       }
     }
     return selected;
   }
 
-  private arraysEqual(a: Object3D[], b: Object3D[]): boolean {
+  private setsEqual(a: Set<any>, b: Set<any>): boolean {
     if (a === b) { return true; }
-    if (a.length !== b.length) { return false; }
+    if (a.size !== b.size) { return false; }
 
-    for (let i = 0; i < a.length; i++) {
-      if (a[i] !== b[i]) { return false; }
-    }
-    return true;
+    let equal = true;
+    a.forEach(elem => {
+      if (!b.has(elem)) {
+        equal = false;
+      }
+    });
+    return equal;
+  }
+
+  private setDifference(a: Set<Object3D>, b: Set<Object3D>): Set<Object3D> {
+    const difference = new Set(a);
+
+    b.forEach(elem => difference.delete(elem));
+    return difference;
   }
 }

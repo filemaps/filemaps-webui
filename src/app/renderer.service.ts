@@ -119,11 +119,12 @@ export class Renderer {
     });
     this.selectionTool.addEventListener('selected', (evt: any) => {
       const selectedResources: Resource[] = [];
-      for (const rsrcObj of evt.selected) {
-        selectedResources.push(rsrcObj.userData.resource);
-      }
-      // use Subject to inform observers about selection change
+      evt.selected.forEach(rsrcObj => selectedResources.push(rsrcObj.userData.resource));
       this.selectedResourcesChangedSource.next(selectedResources);
+
+      // notify Resource objects of selection changes
+      evt.added.forEach(rsrc => rsrc.userData.resource.select());
+      evt.removed.forEach(rsrc => rsrc.userData.resource.unselect());
 
       this.animate();
     });

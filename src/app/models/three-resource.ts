@@ -131,11 +131,11 @@ export class ThreeResource implements Resource {
   }
 
   select(): void {
-    console.log('ThreeResource.select()', this);
+    this.label.fillStyle = '#ff0000';
   }
 
   unselect(): void {
-    console.log('ThreeResource.unselect()', this);
+    this.label.fillStyle = '#000000';
   }
 
   remove(): void {
