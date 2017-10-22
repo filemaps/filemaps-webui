@@ -58,6 +58,23 @@ export class DataService {
   }
 
   /**
+   * Sends modified FileMap properties to server.
+   * API: PUT /maps/:mapid
+   */
+  public updateFileMap(fileMap: FileMap): Observable<FileMap> {
+    const url = `${API_URL}/maps/${fileMap.id}`;
+    return this.http
+      .put(url, {
+        title: fileMap.title,
+        base: fileMap.base,
+        file: fileMap.file,
+      })
+      .map((res: Response) => new ThreeFileMap(this, this.renderer, res.json()))
+      .catch(this.handleError);
+  }
+
+
+  /**
    * Adds new resources.
    * API: POST /maps/:mapid/resources
    */

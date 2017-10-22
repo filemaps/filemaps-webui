@@ -34,6 +34,7 @@ export class MapSettingsModalComponent extends MzBaseModal implements OnInit {
   }
 
   save() {
-    console.log('Save');
+    this.fileMap.title = this.title;
+    this.fileMapService.updateFileMap(this.fileMap);
   }
 }

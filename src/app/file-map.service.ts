@@ -46,6 +46,19 @@ export class FileMapService {
     this.fileMapChangedSource.next(fileMap);
   }
 
+  public updateFileMap(fileMap: FileMap) {
+    this.dataService.updateFileMap(fileMap)
+      .subscribe(
+        (fm: FileMap) => {
+          // make sure we have same title as server
+          fileMap.title = fm.title;
+
+          // use Subject to inform observers about file map change
+          this.fileMapChangedSource.next(fileMap);
+        }
+      );
+  }
+
   /**
    * Adds new resources to current file map.
    */
