@@ -47,12 +47,12 @@ export class FileBrowserComponent implements OnInit {
       // default path
       this.path = this.dataService.info.homeDir;
     }
-    this.loadDir(this.path);
+    this.loadPath(this.path);
   }
 
   public onClick(fileInfo: FileInfo) {
     if (fileInfo.isDir()) {
-      this.loadDir(fileInfo.path);
+      this.loadPath(fileInfo.path);
       this.element.nativeElement.scrollIntoView();
     } else {
       if (this.selectMany) {
@@ -76,11 +76,11 @@ export class FileBrowserComponent implements OnInit {
 
   public moveUp() {
     if (this.dirContents.parent) {
-      this.loadDir(this.dirContents.parent);
+      this.loadPath(this.dirContents.parent);
     }
   }
 
-  private loadDir(path: string) {
+  public loadPath(path: string) {
     if (!path) {
       return;
     }

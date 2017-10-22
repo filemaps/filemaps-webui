@@ -4,6 +4,7 @@ import { MaterializeModule } from 'ng2-materialize';
 
 import { AppComponent } from './app.component';
 import { DataService } from './data.service';
+import { FilemapModule } from './filemap/filemap.module';
 import { FileMapService } from './file-map.service';
 import { Renderer } from './renderer.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -20,6 +21,7 @@ describe('AppComponent', () => {
       imports: [
         HttpModule,
         MaterializeModule,
+        FilemapModule,
       ],
       providers: [
         DataService,

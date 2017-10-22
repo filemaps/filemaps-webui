@@ -9,6 +9,7 @@ import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { DataService } from '../data.service';
+import { FilemapModule } from '../filemap/filemap.module';
 import { FileMapService } from '../file-map.service';
 import { Renderer } from '../renderer.service';
 import { ToolbarComponent } from './toolbar.component';
@@ -22,6 +23,7 @@ describe('ToolbarComponent', () => {
       declarations: [ ToolbarComponent ],
       imports: [
         HttpModule,
+        FilemapModule,
         MaterializeModule,
       ],
       providers: [

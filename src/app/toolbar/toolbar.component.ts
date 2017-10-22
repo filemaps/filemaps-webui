@@ -6,7 +6,8 @@
 
 import {
   Component,
-  OnDestroy
+  OnDestroy,
+  ViewChild,
 } from '@angular/core';
 import { MzModalService } from 'ng2-materialize';
 import { Subscription } from 'rxjs/Subscription';
@@ -28,6 +29,9 @@ export class ToolbarComponent implements OnDestroy {
 
   enabled = false;
   removeBtnDisabled = true;
+
+  @ViewChild(AddResourceModalComponent)
+  private addResourceModalComponent: AddResourceModalComponent;
 
   private subscriptions: Subscription[] = [];
   private selectedResources: Resource[] = [];
@@ -68,7 +72,7 @@ export class ToolbarComponent implements OnDestroy {
   }
 
   launchAdd() {
-    this.modalService.open(AddResourceModalComponent);
+    this.addResourceModalComponent.open();
   }
 
   removeSelected() {
