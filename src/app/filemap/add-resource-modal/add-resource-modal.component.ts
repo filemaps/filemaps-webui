@@ -29,7 +29,9 @@ export class AddResourceModalComponent extends MzBaseModal implements OnInit {
   }
 
   ngOnInit() {
-    this.path = this.fileMapService.current.base;
+    if (this.fileMapService.current) {
+      this.path = this.fileMapService.current.base;
+    }
   }
 
   onSelectionChange(selection: FileInfo[]) {
