@@ -2,12 +2,12 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 
 import { DataService } from './data.service';
-import { RenderService } from './render.service';
+import { Renderer } from './renderer.service';
 
 describe('DataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DataService, RenderService],
+      providers: [DataService, Renderer],
       imports: [HttpModule],
     });
   });

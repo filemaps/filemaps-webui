@@ -10,7 +10,7 @@ import { MaterializeModule } from 'ng2-materialize';
 
 import { DataService } from '../data.service';
 import { FileMapService } from '../file-map.service';
-import { RenderService } from '../render.service';
+import { Renderer } from '../renderer.service';
 import { ToolbarComponent } from './toolbar.component';
 
 describe('ToolbarComponent', () => {
@@ -27,7 +27,7 @@ describe('ToolbarComponent', () => {
       providers: [
         DataService,
         FileMapService,
-        RenderService,
+        Renderer,
       ],
     })
     .compileComponents();

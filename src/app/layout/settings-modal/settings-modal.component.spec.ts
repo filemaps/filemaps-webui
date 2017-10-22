@@ -10,7 +10,7 @@ import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { DataService } from '../../data.service';
-import { RenderService } from '../../render.service';
+import { Renderer } from '../../renderer.service';
 import { SettingsModalComponent } from './settings-modal.component';
 
 describe('SettingsModalComponent', () => {
@@ -27,7 +27,7 @@ describe('SettingsModalComponent', () => {
       ],
       providers: [
         DataService,
-        RenderService,
+        Renderer,
       ]
     })
     .compileComponents();

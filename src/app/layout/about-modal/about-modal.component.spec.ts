@@ -4,7 +4,7 @@ import { MaterializeModule } from 'ng2-materialize';
 
 import { AboutModalComponent } from './about-modal.component';
 import { DataService } from '../../data.service';
-import { RenderService } from '../../render.service';
+import { Renderer } from '../../renderer.service';
 
 describe('AboutModalComponent', () => {
   let component: AboutModalComponent;
@@ -14,7 +14,7 @@ describe('AboutModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ AboutModalComponent ],
       imports: [ HttpModule, MaterializeModule ],
-      providers: [ DataService, RenderService ],
+      providers: [ DataService, Renderer ],
     })
     .compileComponents();
   }));

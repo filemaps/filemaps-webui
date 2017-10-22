@@ -8,18 +8,18 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 
 import { DataService } from '../data.service';
-import { RenderService } from '../render.service';
 import { ThreeFileMap } from './three-file-map';
+import { Renderer } from '../renderer.service';
 
 describe('ThreeFileMap', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DataService, RenderService],
+      providers: [DataService, Renderer],
       imports: [HttpModule],
     });
   });
 
-  it('should create an instance', inject([DataService, RenderService], (data: DataService, render: RenderService) => {
-    expect(new ThreeFileMap(data, render)).toBeTruthy();
+  it('should create an instance', inject([DataService, Renderer], (data: DataService, renderer: Renderer) => {
+    expect(new ThreeFileMap(data, renderer)).toBeTruthy();
   }));
 });

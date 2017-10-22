@@ -15,7 +15,7 @@ import { SelectionTool } from './selection-tool';
 import { TrackballControls } from './trackball-controls';
 
 @Injectable()
-export class RenderService {
+export class Renderer {
 
   public camera: THREE.PerspectiveCamera;
   public controls: TrackballControls;

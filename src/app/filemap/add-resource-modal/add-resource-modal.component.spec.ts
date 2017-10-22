@@ -12,7 +12,7 @@ import { AddResourceModalComponent } from './add-resource-modal.component';
 import { DataService } from '../../data.service';
 import { FileMapService } from '../../file-map.service';
 import { SharedModule } from '../../shared/shared.module';
-import { RenderService } from '../../render.service';
+import { Renderer } from '../../renderer.service';
 
 describe('AddResourceModalComponent', () => {
   let component: AddResourceModalComponent;
@@ -29,7 +29,7 @@ describe('AddResourceModalComponent', () => {
       providers: [
         DataService,
         FileMapService,
-        RenderService,
+        Renderer,
       ],
     })
     .compileComponents();

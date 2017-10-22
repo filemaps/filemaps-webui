@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { DataService } from './data.service';
-import { RenderService } from './render.service';
+import { Renderer } from './renderer.service';
 import { ViewerComponent } from './viewer/viewer.component';
 import { FilemapModule } from './filemap/filemap.module';
 import { FileMapService } from './file-map.service';
@@ -36,7 +36,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
   providers: [
     DataService,
     FileMapService,
-    RenderService,
+    Renderer,
     Title,
   ],
   bootstrap: [AppComponent]

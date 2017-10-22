@@ -17,7 +17,7 @@ import { Config } from './models/config';
 import { ConfigResponse } from './models/config-response';
 import { DirContents } from './models/dir-contents';
 import { Info } from './models/info';
-import { RenderService } from './render.service';
+import { Renderer } from './renderer.service';
 import { Resource } from './models/resource';
 import { ResourceDraft } from './models/resource-draft';
 import { ThreeFileMap } from './models/three-file-map';
@@ -33,7 +33,7 @@ export class DataService {
 
   constructor(
     private http: Http,
-    private renderService: RenderService
+    private renderer: Renderer
   ) {
   }
 
@@ -43,7 +43,7 @@ export class DataService {
       .get(API_URL + '/maps')
       .map(response => {
         const fileMaps = response.json().maps;
-        return fileMaps.map((fileMap) => new ThreeFileMap(this, this.renderService, fileMap));
+        return fileMaps.map((fileMap) => new ThreeFileMap(this, this.renderer, fileMap));
       })
       .catch(this.handleError);
   }
@@ -53,7 +53,7 @@ export class DataService {
     const url = `${API_URL}/maps/${id}`;
     return this.http
       .get(url)
-      .map((res: Response) => new ThreeFileMap(this, this.renderService, res.json()))
+      .map((res: Response) => new ThreeFileMap(this, this.renderer, res.json()))
       .catch(this.handleError);
   }
 
@@ -68,7 +68,7 @@ export class DataService {
       })
       .map((response: Response) => {
         const resources = response.json().resources;
-        return resources.map((rsrc) => new ThreeResource(this, this.renderService, fileMap, rsrc));
+        return resources.map((rsrc) => new ThreeResource(this, this.renderer, fileMap, rsrc));
       })
       .catch(this.handleError);
   }
@@ -138,7 +138,7 @@ export class DataService {
       .post(`${API_URL}/maps/import`, {
         path: path,
       })
-      .map((res: Response) => new ThreeFileMap(this, this.renderService, res.json()))
+      .map((res: Response) => new ThreeFileMap(this, this.renderer, res.json()))
       .catch(this.handleError);
   }
 
@@ -149,7 +149,7 @@ export class DataService {
         base: base,
         file: file,
       })
-      .map((res: Response) => new ThreeFileMap(this, this.renderService, res.json()))
+      .map((res: Response) => new ThreeFileMap(this, this.renderer, res.json()))
       .catch(this.handleError);
   }
 

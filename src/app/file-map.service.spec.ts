@@ -3,7 +3,7 @@ import { HttpModule } from '@angular/http';
 
 import { DataService } from './data.service';
 import { FileMapService } from './file-map.service';
-import { RenderService } from './render.service';
+import { Renderer } from './renderer.service';
 
 describe('FileMapService', () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('FileMapService', () => {
       providers: [
         DataService,
         FileMapService,
-        RenderService,
+        Renderer,
       ]
     });
   });

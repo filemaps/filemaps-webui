@@ -10,7 +10,7 @@ import { MaterializeModule } from 'ng2-materialize';
 
 import { DataService } from '../../data.service';
 import { FileMapService } from '../../file-map.service';
-import { RenderService } from '../../render.service';
+import { Renderer } from '../../renderer.service';
 import { MapsModalComponent } from './maps-modal.component';
 import { SharedModule } from '../../shared/shared.module';
 
@@ -25,7 +25,7 @@ describe('MapsModalComponent', () => {
       providers: [
         DataService,
         FileMapService,
-        RenderService,
+        Renderer,
       ],
     })
     .compileComponents();

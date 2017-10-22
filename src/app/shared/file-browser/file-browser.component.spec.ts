@@ -9,7 +9,7 @@ import { HttpModule } from '@angular/http';
 
 import { DataService } from '../../data.service';
 import { FileBrowserComponent } from './file-browser.component';
-import { RenderService } from '../../render.service';
+import { Renderer } from '../../renderer.service';
 
 describe('FileBrowserComponent', () => {
   let component: FileBrowserComponent;
@@ -19,7 +19,7 @@ describe('FileBrowserComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ FileBrowserComponent ],
       imports: [ HttpModule ],
-      providers: [ DataService, RenderService ],
+      providers: [ DataService, Renderer ],
     })
     .compileComponents();
   }));

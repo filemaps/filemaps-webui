@@ -17,7 +17,6 @@ import { DataService } from '../../data.service';
 import { FileInfo } from '../../models/file-info';
 import { FileMap } from '../../models/file-map';
 import { FileMapService } from '../../file-map.service';
-import { RenderService } from '../../render.service';
 
 // declare '$' for jQuery
 declare var $: JQueryStatic;
@@ -35,7 +34,6 @@ export class MapsModalComponent extends MzBaseModal implements AfterViewInit, On
     private element: ElementRef,
     private dataService: DataService,
     private fileMapService: FileMapService,
-    private renderService: RenderService,
   ) {
     super();
   }

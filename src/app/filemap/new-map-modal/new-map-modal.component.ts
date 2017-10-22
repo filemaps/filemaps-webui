@@ -14,7 +14,6 @@ import { DataService } from '../../data.service';
 import { DirContents } from '../../models/dir-contents';
 import { FileMap } from '../../models/file-map';
 import { FileMapService } from '../../file-map.service';
-import { RenderService } from '../../render.service';
 
 @Component({
   selector: 'app-new-map-modal',
@@ -29,7 +28,6 @@ export class NewMapModalComponent extends MzBaseModal implements OnInit {
   constructor(
     private dataService: DataService,
     private fileMapService: FileMapService,
-    private renderService: RenderService,
   ) {
     super();
   }

@@ -9,7 +9,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { DataService } from './data.service';
 import { FileMap } from './models/file-map';
-import { RenderService } from './render.service';
+import { Renderer } from './renderer.service';
 import { Resource } from './models/resource';
 import { ResourceDraft } from './models/resource-draft';
 
@@ -27,12 +27,12 @@ export class FileMapService {
 
   constructor(
     private dataService: DataService,
-    private renderService: RenderService,
+    private renderer: Renderer,
   ) { }
 
   public useFileMap(fileMap: FileMap) {
     this.current = fileMap;
-    this.renderService.clear();
+    this.renderer.clear();
     fileMap.draw();
 
     // use Subject to inform observers about file map change

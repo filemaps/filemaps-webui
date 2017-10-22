@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { AddResourceModalComponent } from '../filemap/add-resource-modal/add-resource-modal.component';
 import { FileMapService } from '../file-map.service';
-import { RenderService } from '../render.service';
+import { Renderer } from '../renderer.service';
 
 // declare '$' for jQuery
 declare var $: JQueryStatic;
@@ -31,7 +31,7 @@ export class ToolbarComponent implements OnDestroy {
   constructor(
     private fileMapService: FileMapService,
     private modalService: MzModalService,
-    private renderService: RenderService,
+    private renderer: Renderer,
   ) {
     // subscribe to file map change event
     this.subscription = fileMapService.fileMapChanged$.subscribe(
@@ -46,7 +46,7 @@ export class ToolbarComponent implements OnDestroy {
   }
 
   launchSelect() {
-    this.renderService.startSelect();
+    this.renderer.startSelect();
   }
 
   launchAdd() {

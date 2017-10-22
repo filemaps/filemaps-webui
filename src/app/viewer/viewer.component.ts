@@ -9,7 +9,7 @@ import {
   Component,
   ElementRef,
 } from '@angular/core';
-import { RenderService } from '../render.service';
+import { Renderer } from '../renderer.service';
 
 @Component({
   selector: 'app-viewer',
@@ -19,11 +19,13 @@ import { RenderService } from '../render.service';
 
 export class ViewerComponent implements AfterContentInit {
 
-  constructor(private element: ElementRef, private renderService: RenderService) {
+  constructor(
+    private element: ElementRef,
+    private renderer: Renderer) {
   }
 
   ngAfterContentInit() {
-    this.renderService.init(this.element);
+    this.renderer.init(this.element);
   }
 
 }

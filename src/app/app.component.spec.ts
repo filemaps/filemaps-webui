@@ -5,7 +5,7 @@ import { MaterializeModule } from 'ng2-materialize';
 import { AppComponent } from './app.component';
 import { DataService } from './data.service';
 import { FileMapService } from './file-map.service';
-import { RenderService } from './render.service';
+import { Renderer } from './renderer.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ViewerComponent } from './viewer/viewer.component';
 
@@ -24,7 +24,7 @@ describe('AppComponent', () => {
       providers: [
         DataService,
         FileMapService,
-        RenderService,
+        Renderer,
       ],
     }).compileComponents();
   }));

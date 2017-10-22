@@ -9,7 +9,7 @@ import * as THREE from 'three';
 import { FileMap } from './file-map';
 import { Position } from './position';
 import { DataService } from '../data.service';
-import { RenderService } from '../render.service';
+import { Renderer } from '../renderer.service';
 import { Resource } from './resource';
 
 export class ThreeResource implements Resource {
@@ -25,7 +25,7 @@ export class ThreeResource implements Resource {
 
   constructor(
     private dataService: DataService,
-    private renderService: RenderService,
+    private renderer: Renderer,
     fileMap: FileMap,
     values: Object = {}
   ) {
@@ -51,7 +51,7 @@ export class ThreeResource implements Resource {
     this.obj.position.y = this.pos.y;
     this.obj.position.z = this.pos.z;
 
-    this.renderService.addResource(this.obj);
+    this.renderer.addResource(this.obj);
   }
 
   onDragStart(): void {
@@ -80,7 +80,7 @@ export class ThreeResource implements Resource {
       this.obj.position.x = this.dragStart.x;
       this.obj.position.y = this.dragStart.y;
       this.obj.position.z = this.dragStart.z;
-      this.renderService.animate();
+      this.renderer.animate();
     } else {
       // dragged enough to not to be opened
       this.pos.x = this.obj.position.x;
