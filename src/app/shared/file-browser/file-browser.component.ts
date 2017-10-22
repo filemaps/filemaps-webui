@@ -6,6 +6,7 @@
 
 import {
   Component,
+  ElementRef,
   Input,
   OnInit,
   Output,
@@ -37,6 +38,7 @@ export class FileBrowserComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
+    private element: ElementRef,
   ) { }
 
   ngOnInit() {
@@ -47,6 +49,7 @@ export class FileBrowserComponent implements OnInit {
   public onClick(fileInfo: FileInfo) {
     if (fileInfo.isDir()) {
       this.loadDir(fileInfo.path);
+      this.element.nativeElement.scrollIntoView();
     } else {
       if (this.selectMany) {
 
@@ -77,6 +80,7 @@ export class FileBrowserComponent implements OnInit {
     if (!path) {
       return;
     }
+
     this.currentPath = path;
     this.dataService.readDir(this.currentPath)
       .subscribe(
