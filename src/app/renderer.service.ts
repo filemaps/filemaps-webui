@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import * as THREE from 'three';
 
 import { DragControls } from './drag-controls';
@@ -23,6 +24,13 @@ export class Renderer {
   public ground: THREE.Mesh;
   public scene: THREE.Scene = new THREE.Scene();
   public antialias = false;
+
+  // Observable source
+  private selectedResourcesChangedSource = new Subject<Resource[]>();
+
+  // Observable stream
+  selectedResourcesChanged$ = this.selectedResourcesChangedSource.asObservable();
+
   private renderer: THREE.WebGLRenderer;
   private resources: THREE.Object3D[] = [];
   private currentMap: FileMap;
@@ -106,20 +114,24 @@ export class Renderer {
     this.selectionTool.addEventListener('start', evt => {
       this.controls.enabled = false;
       this.dragControls.deactivate();
-      console.log('started');
     });
     this.selectionTool.addEventListener('selected', (evt: any) => {
-      this.controls.enabled = true;
-      this.dragControls.activate();
-      console.log('selected', evt.selected);
       const selectedResources: Resource[] = [];
       for (const rsrcObj of evt.selected) {
         selectedResources.push(rsrcObj.userData.resource);
       }
+      // use Subject to inform observers about selection change
+      this.selectedResourcesChangedSource.next(selectedResources);
+
       this.animate();
     });
     this.selectionTool.addEventListener('change', evt => {
       this.animate();
+    });
+    this.selectionTool.addEventListener('end', evt => {
+      this.animate();
+      this.controls.enabled = true;
+      this.dragControls.activate();
     });
   }
 
@@ -152,10 +164,24 @@ export class Renderer {
   /**
    * Adds resource to scene and draws it.
    */
-  public addResource(obj: THREE.Mesh) {
+  public addResource(obj: THREE.Object3D) {
     this.scene.add(obj);
     this.resources.push(obj);
     this.animate();
+  }
+
+  /**
+   * Removes resource from scene.
+   */
+  public removeResource(obj: THREE.Object3D) {
+    for (let i = 0; i < this.resources.length; i++) {
+      if (this.resources[i] === obj) {
+        this.scene.remove(obj);
+        this.resources.splice(i, 1);
+        this.animate();
+        return true;
+      }
+    }
   }
 
   /**
@@ -170,6 +196,10 @@ export class Renderer {
 
   public startSelect() {
     this.selectionTool.start();
+  }
+
+  public clearSelection() {
+    this.selectionTool.clear();
   }
 
   private onWindowResize() {

@@ -119,4 +119,19 @@ export class ThreeResource implements Resource {
   select(): void {
     console.log('ThreeResource.select()', this);
   }
+
+  unselect(): void {
+    console.log('ThreeResource.unselect()', this);
+  }
+
+  remove(): void {
+    this.renderer.removeResource(this.obj);
+
+    // remove from parent
+    for (let i = 0; i < this.fileMap.resources.length; i++) {
+      if (this.fileMap.resources[i] === this) {
+        this.fileMap.resources.splice(i, 1);
+      }
+    }
+  }
 }

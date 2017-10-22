@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { AddResourceModalComponent } from '../filemap/add-resource-modal/add-resource-modal.component';
 import { FileMapService } from '../file-map.service';
 import { Renderer } from '../renderer.service';
+import { Resource } from '../models/resource';
 
 // declare '$' for jQuery
 declare var $: JQueryStatic;
@@ -26,7 +27,10 @@ declare var $: JQueryStatic;
 export class ToolbarComponent implements OnDestroy {
 
   enabled = false;
-  private subscription: Subscription;
+  removeBtnDisabled = true;
+
+  private subscriptions: Subscription[] = [];
+  private selectedResources: Resource[] = [];
 
   constructor(
     private fileMapService: FileMapService,
@@ -34,15 +38,29 @@ export class ToolbarComponent implements OnDestroy {
     private renderer: Renderer,
   ) {
     // subscribe to file map change event
-    this.subscription = fileMapService.fileMapChanged$.subscribe(
+    this.subscriptions.push(fileMapService.fileMapChanged$.subscribe(
       fileMap => {
         this.enabled = true;
       }
-    );
+    ));
+
+    // subscribe to resource selection change event
+    this.subscriptions.push(renderer.selectedResourcesChanged$.subscribe(
+      (resources: Resource[]) => {
+        if (resources.length) {
+          this.removeBtnDisabled = false;
+        } else {
+          this.removeBtnDisabled = true;
+        }
+        this.selectedResources = resources;
+      }
+    ));
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
 
   launchSelect() {
@@ -54,6 +72,7 @@ export class ToolbarComponent implements OnDestroy {
   }
 
   removeSelected() {
-    console.log('Remove selected');
+    this.fileMapService.removeResources(this.selectedResources);
+    this.renderer.clearSelection();
   }
 }

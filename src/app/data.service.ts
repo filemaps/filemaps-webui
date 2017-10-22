@@ -100,7 +100,25 @@ export class DataService {
         })
         .catch(this.handleError);
     }
-    return null;
+  }
+
+  public removeResources(resources: Resource[]) {
+    if (resources.length > 0) {
+      const fileMap = resources[0].fileMap;
+      const url = `${API_URL}/maps/${fileMap.id}/resources/delete`;
+
+      const ids: number[] = [];
+      for (const rsrc of resources) {
+        ids.push(rsrc.id);
+      }
+
+      return this.http
+        .post(url, {
+          ids: ids,
+        })
+        .map((res: Response) => res.json())
+        .catch(this.handleError);
+    }
   }
 
   /**

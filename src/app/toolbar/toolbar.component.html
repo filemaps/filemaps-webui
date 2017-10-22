@@ -4,7 +4,7 @@
   </a>
   <ul>
     <li>
-      <a href class="btn-floating disabled" i18n-title title="Remove Selected" (click)="$event.preventDefault(); removeSelected()">
+      <a href class="btn-floating" [class.disabled]="removeBtnDisabled" i18n-title title="Remove Selected" (click)="$event.preventDefault(); removeSelected()">
         <i class="material-icons">remove</i></a>
     </li>
     <li>

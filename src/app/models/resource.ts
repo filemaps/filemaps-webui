@@ -20,4 +20,6 @@ export interface Resource {
   open(): void;
   close(): void;
   select(): void;
+  unselect(): void;
+  remove(): void;
 }

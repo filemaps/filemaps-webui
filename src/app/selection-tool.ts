@@ -25,6 +25,7 @@ export class SelectionTool extends EventDispatcher {
   private mouse = new Vector2();
   private mouseGround = new Vector3();
   private raycaster = new Raycaster();
+  private selected: Object3D[] = [];
 
   constructor(
     private scene: Scene,
@@ -56,17 +57,22 @@ export class SelectionTool extends EventDispatcher {
   }
 
   start() {
-    document.addEventListener('mousemove', this.mouseMove, false);
     document.addEventListener('mousedown', this.mouseDown, false);
-    document.addEventListener('mouseup', this.mouseUp, false);
-    document.addEventListener('touchmove', this.touchMove, false);
     document.addEventListener('touchstart', this.touchStart, false);
-    document.addEventListener('touchend', this.touchEnd, false);
+
     this.domElement.style.cursor = 'crosshair';
     this.dispatchEvent({ type: 'start' });
   }
 
-  end() {
+  /**
+   * Clears selection.
+   */
+  public clear() {
+    this.selected = [];
+    this.dispatchEvent({ type: 'selected', selected: this.selected });
+  }
+
+  private end() {
     this.line.visible = false;
     document.removeEventListener('mousemove', this.mouseMove, false);
     document.removeEventListener('mousedown', this.mouseDown, false);
@@ -74,14 +80,8 @@ export class SelectionTool extends EventDispatcher {
     document.removeEventListener('touchmove', this.touchMove, false);
     document.removeEventListener('touchstart', this.touchStart, false);
     document.removeEventListener('touchend', this.touchEnd, false);
-    const selected = this.getSelectedObjects(
-      this.coords[0],
-      this.coords[1],
-      this.coords[6],
-      this.coords[7],
-    );
     this.domElement.style.cursor = 'auto';
-    this.dispatchEvent({ type: 'selected', selected: selected });
+    this.dispatchEvent({ type: 'end' });
   }
 
   private mouseMove = (event: any) => {
@@ -89,11 +89,19 @@ export class SelectionTool extends EventDispatcher {
 
     this.updateMouseGround(event.clientX, event.clientY);
     this.dispatchEvent({ type: 'change' });
+    this.checkSelectedObjects();
   }
 
   private mouseDown = (event: any) => {
     event.preventDefault();
+
+    this.updateMouseGround(event.clientX, event.clientY);
     this.initLine();
+
+    document.addEventListener('mousemove', this.mouseMove, false);
+    document.addEventListener('mouseup', this.mouseUp, false);
+    document.addEventListener('touchmove', this.touchMove, false);
+    document.addEventListener('touchend', this.touchEnd, false);
   }
 
   private mouseUp = (event: any) => {
@@ -103,23 +111,26 @@ export class SelectionTool extends EventDispatcher {
   }
 
   private touchMove = (event: any) => {
-    event.preventDefault();
     event = event.changedTouches[0];
 
     this.updateMouseGround(event.clientX, event.clientY);
     this.dispatchEvent({ type: 'change' });
+    this.checkSelectedObjects();
   }
 
   private touchStart = (event: any) => {
-    event.preventDefault();
     event = event.changedTouches[0];
 
     this.updateMouseGround(event.clientX, event.clientY);
     this.initLine();
+
+    document.addEventListener('mousemove', this.mouseMove, false);
+    document.addEventListener('mouseup', this.mouseUp, false);
+    document.addEventListener('touchmove', this.touchMove, false);
+    document.addEventListener('touchend', this.touchEnd, false);
   }
 
   private touchEnd = (event: any) => {
-    event.preventDefault();
     this.firstCorner = undefined;
     this.end();
   }
@@ -186,7 +197,24 @@ export class SelectionTool extends EventDispatcher {
     geometry.attributes.position.needsUpdate = true;
   }
 
-  private getSelectedObjects(x1: number, y1: number, x2: number, y2: number): Object3D[] {
+  /**
+   * Dispatch an event if selection is changed.
+   */
+  private checkSelectedObjects(): void {
+    const selected = this.getSelectedObjects();
+
+    if (!this.arraysEqual(this.selected, selected)) {
+      this.selected = selected;
+      this.dispatchEvent({ type: 'selected', selected: this.selected });
+    }
+  }
+
+  private getSelectedObjects(): Object3D[] {
+    let x1 = this.coords[0];
+    let y1 = this.coords[1];
+    let x2 = this.coords[6];
+    let y2 = this.coords[7];
+
     const selected: Object3D[] = [];
     // make sure x1 < x2
     if (x1 > x2) {
@@ -208,5 +236,15 @@ export class SelectionTool extends EventDispatcher {
       }
     }
     return selected;
+  }
+
+  private arraysEqual(a: Object3D[], b: Object3D[]): boolean {
+    if (a === b) { return true; }
+    if (a.length !== b.length) { return false; }
+
+    for (let i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) { return false; }
+    }
+    return true;
   }
 }

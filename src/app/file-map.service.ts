@@ -28,7 +28,14 @@ export class FileMapService {
   constructor(
     private dataService: DataService,
     private renderer: Renderer,
-  ) { }
+  ) {
+    // subscribe to selection change event
+    renderer.selectedResourcesChanged$.subscribe(
+      (resources: Resource[]) => {
+        this.selectedResources = resources;
+      }
+    );
+  }
 
   public useFileMap(fileMap: FileMap) {
     this.current = fileMap;
@@ -55,7 +62,14 @@ export class FileMapService {
       );
   }
 
-  public setSelectedResources(resources: Resource[]) {
-    this.selectedResources = resources;
+  public removeResources(resources: Resource[]) {
+    this.dataService.removeResources(resources)
+      .subscribe(
+        (res) => {
+          for (const resource of resources) {
+            resource.remove();
+          }
+        }
+      );
   }
 }
