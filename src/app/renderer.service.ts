@@ -178,10 +178,13 @@ export class Renderer {
   /**
    * Removes resource from scene.
    */
-  public removeResource(obj: THREE.Object3D) {
+  public removeResource(obj: THREE.Object3D, label?: MeshText2D) {
     for (let i = 0; i < this.resources.length; i++) {
       if (this.resources[i] === obj) {
         this.scene.remove(obj);
+        if (label) {
+          this.scene.remove(label);
+        }
         this.resources.splice(i, 1);
         this.animate();
         return true;

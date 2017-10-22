@@ -139,7 +139,7 @@ export class ThreeResource implements Resource {
   }
 
   remove(): void {
-    this.renderer.removeResource(this.obj);
+    this.renderer.removeResource(this.obj, this.label);
 
     // remove from parent
     for (let i = 0; i < this.fileMap.resources.length; i++) {
@@ -151,7 +151,7 @@ export class ThreeResource implements Resource {
 
   private updateLabelPos() {
     this.label.position.x = this.obj.position.x;
-    this.label.position.y = this.obj.position.y - 40;
+    this.label.position.y = this.obj.position.y - 35;
     this.label.position.z = 1;
   }
 }
