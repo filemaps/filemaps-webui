@@ -4,7 +4,7 @@
   </mz-modal-header>
 
   <mz-modal-content>
-    <app-file-browser [selectMany]="true" (selectionChange)="onSelectionChange($event)"></app-file-browser>
+    <app-file-browser [(path)]="path" [selectMany]="true" (selectionChange)="onSelectionChange($event)"></app-file-browser>
   </mz-modal-content>
 
   <mz-modal-footer>

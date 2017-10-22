@@ -26,11 +26,12 @@ export class FileBrowserComponent implements OnInit {
 
   @Input() onlyFileMaps: boolean;
   @Input() onlyDirs: boolean;
+  @Input() path: string;
   @Input() selectMany: boolean;
   @Output() entryClick = new EventEmitter<FileInfo>();
   @Output() dirChange = new EventEmitter<DirContents>();
+  @Output() pathChange = new EventEmitter<string>();
   @Output() selectionChange = new EventEmitter<FileInfo[]>();
-  currentPath: string;
   entries: FileInfo[] = [];
 
   private dirContents = new DirContents();
@@ -42,8 +43,11 @@ export class FileBrowserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const initPath = this.dataService.info.homeDir;
-    this.loadDir(initPath);
+    if (!this.path) {
+      // default path
+      this.path = this.dataService.info.homeDir;
+    }
+    this.loadDir(this.path);
   }
 
   public onClick(fileInfo: FileInfo) {
@@ -81,8 +85,10 @@ export class FileBrowserComponent implements OnInit {
       return;
     }
 
-    this.currentPath = path;
-    this.dataService.readDir(this.currentPath)
+    this.path = path;
+    this.pathChange.emit(this.path);
+
+    this.dataService.readDir(this.path)
       .subscribe(
         (dirContents) => {
           this.dirContents = dirContents;

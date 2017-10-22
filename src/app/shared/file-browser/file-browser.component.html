@@ -2,7 +2,7 @@
   <i class="material-icons">keyboard_arrow_up</i>
 </button>
 
-<span>{{currentPath}}</span>
+<span>{{path}}</span>
 
 <div class="collection">
   <a href *ngFor="let entry of entries" class="collection-item" [class.active]="entry.selected" (click)="$event.preventDefault(); onClick(entry)">

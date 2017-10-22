@@ -16,7 +16,9 @@ import { ResourceDraft } from '../../models/resource-draft';
   templateUrl: './add-resource-modal.component.html',
   styleUrls: ['./add-resource-modal.component.scss']
 })
-export class AddResourceModalComponent extends MzBaseModal {
+export class AddResourceModalComponent extends MzBaseModal implements OnInit {
+
+  path: string;
 
   private selection: FileInfo[];
 
@@ -24,6 +26,10 @@ export class AddResourceModalComponent extends MzBaseModal {
     private fileMapService: FileMapService,
   ) {
     super();
+  }
+
+  ngOnInit() {
+    this.path = this.fileMapService.current.base;
   }
 
   onSelectionChange(selection: FileInfo[]) {
