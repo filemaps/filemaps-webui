@@ -74,6 +74,9 @@ export class FileBrowserComponent implements OnInit {
   }
 
   private loadDir(path: string) {
+    if (!path) {
+      return;
+    }
     this.currentPath = path;
     this.dataService.readDir(this.currentPath)
       .subscribe(
