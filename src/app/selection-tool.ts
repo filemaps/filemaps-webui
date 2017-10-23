@@ -59,6 +59,9 @@ export class SelectionTool extends EventDispatcher {
   start() {
     document.addEventListener('mousedown', this.mouseDown, false);
     document.addEventListener('touchstart', this.touchStart, false);
+    // touchmove must be attached to domElement or else document is scrolled with touch
+    this.domElement.addEventListener('touchmove', this.touchMove, false);
+    document.addEventListener('touchend', this.touchEnd, false);
 
     this.domElement.style.cursor = 'crosshair';
     this.dispatchEvent({ type: 'start' });
@@ -77,7 +80,7 @@ export class SelectionTool extends EventDispatcher {
     document.removeEventListener('mousemove', this.mouseMove, false);
     document.removeEventListener('mousedown', this.mouseDown, false);
     document.removeEventListener('mouseup', this.mouseUp, false);
-    document.removeEventListener('touchmove', this.touchMove, false);
+    this.domElement.removeEventListener('touchmove', this.touchMove, false);
     document.removeEventListener('touchstart', this.touchStart, false);
     document.removeEventListener('touchend', this.touchEnd, false);
     this.domElement.style.cursor = 'auto';
@@ -100,8 +103,6 @@ export class SelectionTool extends EventDispatcher {
 
     document.addEventListener('mousemove', this.mouseMove, false);
     document.addEventListener('mouseup', this.mouseUp, false);
-    document.addEventListener('touchmove', this.touchMove, false);
-    document.addEventListener('touchend', this.touchEnd, false);
   }
 
   private mouseUp = (event: any) => {
@@ -111,6 +112,9 @@ export class SelectionTool extends EventDispatcher {
   }
 
   private touchMove = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     event = event.changedTouches[0];
 
     this.updateMouseGround(event.clientX, event.clientY);
@@ -126,8 +130,6 @@ export class SelectionTool extends EventDispatcher {
 
     document.addEventListener('mousemove', this.mouseMove, false);
     document.addEventListener('mouseup', this.mouseUp, false);
-    document.addEventListener('touchmove', this.touchMove, false);
-    document.addEventListener('touchend', this.touchEnd, false);
   }
 
   private touchEnd = (event: any) => {
