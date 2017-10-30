@@ -3,7 +3,6 @@
 ![File Maps Logo](https://codeboy.fi/filemaps_logo.png)
 
 [![Build Status](https://travis-ci.org/filemaps/filemaps-webui.svg?branch=master)](https://travis-ci.org/filemaps/filemaps-webui)
-[![MPLv2 License](https://img.shields.io/badge/license-MPLv2-blue.svg?style=flat-square)](https://www.mozilla.org/MPL/2.0/)
 
 Web UI for File Maps, made with [Angular][2] and [three.js][3].
 
@@ -52,7 +51,16 @@ Gps graphic by [Freepik][4] from [Flaticon][5] is licensed under [CC BY 3.0][6].
 
 ## License
 
-Web UI component is licensed under the [MPLv2 License][1].
+Web UI component is part of File Maps software and shares the same license.
+File Maps may be used freely for non-commercial purposes.
+
+### Non-commercial Use
+
+[Terms and conditions][1]
+
+### Commercial Use
+
+Contact [CodeBoy][8] for purchasing a commercial license.
 
 [1]: https://github.com/filemaps/filemaps-webui/blob/master/LICENSE
 [2]: https://angular.io
@@ -61,3 +69,4 @@ Web UI component is licensed under the [MPLv2 License][1].
 [5]: http://www.flaticon.com
 [6]: http://creativecommons.org/licenses/by/3.0/
 [7]: http://logomakr.com
+[8]: https://codeboy.fi
