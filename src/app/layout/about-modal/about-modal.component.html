@@ -1,4 +1,4 @@
-<mz-modal [bottomSheet]="true">
+<mz-modal [bottomSheet]="true" [fixedFooter]="true">
   <mz-modal-header>
     <span i18n>About</span>
   </mz-modal-header>
@@ -9,9 +9,68 @@
 
     <div>{{ info.version }}</div>
     <div>
-      &copy; 2017
-      <a href="https://github.com/iqqmut/" target="_blank">Tuomas Jaakola</a>, All rights reserved.
+      <p>
+        File Maps may be used freely for non-commercial purposes.<br>
+        Contact <a href="https://codeboy.fi">CodeBoy</a> for purchasing a commercial license.
+      </p>
     </div>
+
+    <h4 i18n>License</h4>
+    Copyright &copy; 2017 CodeBoy<br>
+    <span i18n>All rights reserved.</span><br>
+
+    <p>
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    </p>
+    <ul class="license-conditions">
+      <li>This software may not be used for commercial purposes.</li>
+      <li>Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.</li>
+      <li>Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.</li>
+      <li>
+    Neither the name of CodeBoy nor the names of the contributors may
+      not be used to endorse or promote products derived from this
+      software without specific prior written permission.
+      </li>
+    </ul>
+
+      <p>
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL CODEBOY BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    </p>
+
+    <h4>Open Source Licenses</h4>
+    <p i18n>
+      File Maps contains components under separate licenses, as follows:
+    </p>
+    <ul class="other-licenses">
+      <li>Angular 4, MIT</li>
+      <li>HammerJS 2.0.8, MIT</li>
+      <li>go-colorable, MIT</li>
+      <li>go-isatty, MIT</li>
+      <li>Go CORS handler, MIT</li>
+      <li>Logrus, MIT</li>
+      <li>three.js r87, MIT</li>
+      <li>three-text2d 0.3.4, MIT</li>
+      <li>typeface-oxygen, MIT</li>
+      <li>Material Design Icons, Apache License 2.0</li>
+      <li>Materialize 0.98, MIT</li>
+      <li>ng2-materialize 1.5.1, Apache License 2.0</li>
+      <li>RxJS 5, Apache License 2.0</li>
+      <li>jQuery 2.2.4, <a href="https://github.com/jquery/jquery/blob/master/LICENSE.txt" target="_blank">MIT</a></li>
+      <li>HttpRouter, <a href="https://github.com/julienschmidt/httprouter/blob/master/LICENSE" target="_blank">Modified BSD LICENSE</a></li>
+    </ul>
   </mz-modal-content>
   <mz-modal-footer>
     <button mz-button [flat]="true" mz-modal-close i18n>Close</button>
