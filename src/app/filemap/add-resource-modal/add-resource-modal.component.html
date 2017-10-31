@@ -1,14 +1,62 @@
-<mz-modal #modal [fullscreen]="true" [fixedFooter]="true">
+<mz-modal #modal [fullscreen]="true" [fixedFooter]="true" [options]="modalOptions">
+
   <mz-modal-header>
     <span i18n>Add Files</span>
   </mz-modal-header>
 
   <mz-modal-content>
-    <app-file-browser [(path)]="path" [selectMany]="true" (selectionChange)="onSelectionChange($event)"></app-file-browser>
+
+    <div class="row">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab">
+            <a href="#add-res-modal-pick" class="active" (click)="activeTab = 'pick'">
+              <i class="material-icons">format_list_bulleted</i>
+              <span class="hide-on-small-only" i18n>Pick</span>
+            </a>
+          </li>
+          <li class="tab">
+            <a href="#add-res-modal-scan" (click)="activeTab = 'scan'">
+              <i class="material-icons">search</i>
+              <span class="hide-on-small-only" i18n>Scan</span>
+            </a>
+          </li>
+        </ul>
+      </div> <!-- .col -->
+
+      <div id="add-res-modal-pick" class="col s12">
+
+        <p i18n>Select files and press ADD.</p>
+
+        <app-file-browser #pickBrowser [(path)]="path" [selectMany]="true" (selectionChange)="onSelectionChange($event)"></app-file-browser>
+
+      </div> <!-- #add-res-modal-pick -->
+
+      <div id="add-res-modal-scan" class="col s12">
+        <p i18n>Select directory and press SCAN.</p>
+
+        <div class="row">
+
+          <mz-input-container class="col s12 m6">
+            <input mz-input [label]="'File Name Filter'" id="scanGlob" [(ngModel)]="scanGlob" type="text" placeholder="*.ts,*.html">
+          </mz-input-container>
+
+        </div> <!-- .row -->
+
+
+        <app-file-browser #scanBrowser (dirChange)="onDirChange($event)" [onlyDirs]="true"></app-file-browser>
+
+      </div> <!-- #add-res-modal-scan-->
+
+    </div> <!-- .row -->
+
+
   </mz-modal-content>
 
   <mz-modal-footer>
-    <button mz-button [flat]="true" (click)="add()" mz-modal-close i18n>Add</button>
+    <button mz-button [flat]="true" (click)="add()" mz-modal-close i18n *ngIf="activeTab == 'pick'">Add</button>
+    <button mz-button [flat]="true" (click)="scan()" mz-modal-close i18n *ngIf="activeTab == 'scan'">Scan</button>
+
     <button mz-button [flat]="true" mz-modal-close i18n>Cancel</button>
   </mz-modal-footer>
 </mz-modal>
