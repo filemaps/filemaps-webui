@@ -32,9 +32,9 @@ export class MapSettingsModalComponent extends MzBaseModal implements OnInit {
     if (this.fileMap) {
       this.title = this.fileMap.title;
       this.description = this.fileMap.description;
-      this.exclude = "";
-      for (let exclude of this.fileMap.exclude) {
-        this.exclude += exclude + "\n";
+      this.exclude = '';
+      for (const exclude of this.fileMap.exclude) {
+        this.exclude += exclude + '\n';
       }
     }
   }
@@ -42,7 +42,7 @@ export class MapSettingsModalComponent extends MzBaseModal implements OnInit {
   save() {
     this.fileMap.title = this.title;
     this.fileMap.description = this.description;
-    this.fileMap.exclude = this.exclude.split("\n");
+    this.fileMap.exclude = this.exclude.split('\n');
     this.fileMapService.updateFileMap(this.fileMap);
   }
 }
