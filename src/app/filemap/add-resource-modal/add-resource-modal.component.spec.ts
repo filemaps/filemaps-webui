@@ -4,6 +4,7 @@
 // license that can be found in the LICENSE file.
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
@@ -21,6 +22,7 @@ describe('AddResourceModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ AddResourceModalComponent ],
       imports: [
+        FormsModule,
         HttpModule,
         MaterializeModule,
         SharedModule,
