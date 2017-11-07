@@ -18,6 +18,8 @@ export class MapSettingsModalComponent extends MzBaseModal implements OnInit {
 
   fileMap: FileMap;
   title: string;
+  description: string;
+  exclude: string;
 
   constructor(
     private fileMapService: FileMapService,
@@ -29,11 +31,18 @@ export class MapSettingsModalComponent extends MzBaseModal implements OnInit {
     this.fileMap = this.fileMapService.current;
     if (this.fileMap) {
       this.title = this.fileMap.title;
+      this.description = this.fileMap.description;
+      this.exclude = "";
+      for (let exclude of this.fileMap.exclude) {
+        this.exclude += exclude + "\n";
+      }
     }
   }
 
   save() {
     this.fileMap.title = this.title;
+    this.fileMap.description = this.description;
+    this.fileMap.exclude = this.exclude.split("\n");
     this.fileMapService.updateFileMap(this.fileMap);
   }
 }

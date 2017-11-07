@@ -8,11 +8,13 @@ import { Resource } from './resource';
 export interface FileMap {
   id: number;
   title: string;
+  description: string;
   base: string;
   file: string;
   opened: Date;
   version: number;
   title2: string;
+  exclude: string[];
   resources: Resource[];
 
   draw(): void;

@@ -12,11 +12,13 @@ import { ThreeResource } from './three-resource';
 export class ThreeFileMap implements FileMap {
   id: number;
   title = '';
+  description = '';
   base = '';
   file = '';
   opened: Date;
   version: number;
   title2 = '';
+  exclude: string[];
   resources: Resource[];
 
   constructor(

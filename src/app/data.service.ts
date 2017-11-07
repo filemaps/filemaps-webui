@@ -65,8 +65,10 @@ export class DataService {
     return this.http
       .put(url, {
         title: fileMap.title,
+        description: fileMap.description,
         base: fileMap.base,
         file: fileMap.file,
+        exclude: fileMap.exclude,
       })
       .map((res: Response) => new ThreeFileMap(this, this.renderer, res.json()))
       .catch(this.handleError);

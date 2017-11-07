@@ -11,6 +11,23 @@
       </mz-input-container>
     </div> <!-- .row -->
 
+    <div class="row">
+      <mz-input-container class="col s12 m6">
+        <input mz-input [label]="'Description'" id="filemap-description" [(ngModel)]="description" type="text">
+      </mz-input-container>
+    </div> <!-- .row -->
+
+    <div class="row">
+      <mz-textarea-container class="col s12 m6">
+        <textarea mz-textarea
+         [label]="'Files To Ignore In Scan'"
+         id="filemap-exclude-list"
+         class="exclude-list"
+         [(ngModel)]="exclude"
+         placeholder="File pattern, one per line"></textarea>
+      </mz-textarea-container>
+    </div>
+
   </mz-modal-content>
 
   <mz-modal-footer>
