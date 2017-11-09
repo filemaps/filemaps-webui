@@ -84,4 +84,19 @@ export class FileMapService {
         }
       );
   }
+
+  /**
+   * Scans directories recursively and adds new resources to current file map.
+   */
+  public scanResources(path: string, exclude: string[]) {
+    this.dataService.scanResources(this.current, path, exclude)
+      .subscribe(
+        (resources) => {
+          for (const resource of resources) {
+            this.current.resources.push(resource);
+            resource.draw();
+          }
+        }
+      );
+  }
 }

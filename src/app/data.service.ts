@@ -120,6 +120,24 @@ export class DataService {
     }
   }
 
+  /**
+   * Scans directories and adds new Resources.
+   * API: POST /maps/:mapid/resources/scan
+   */
+  public scanResources(fileMap: FileMap, path: string, exclude: string[]): Observable<Resource[]> {
+    const url = `${API_URL}/maps/${fileMap.id}/resources/scan`;
+    return this.http
+      .post(url, {
+        path: path,
+        exclude: exclude,
+      })
+      .map((response: Response) => {
+        const resources = response.json().resources;
+        return resources.map((rsrc) => new ThreeResource(this, this.renderer, fileMap, rsrc));
+      })
+      .catch(this.handleError);
+  }
+
   public removeResources(resources: Resource[]) {
     if (resources.length > 0) {
       const fileMap = resources[0].fileMap;

@@ -36,13 +36,15 @@
         <p i18n>Select directory and press SCAN.</p>
 
         <div class="row">
-
-          <mz-input-container class="col s12 m6">
-            <input mz-input [label]="'File Name Filter'" id="scanGlob" [(ngModel)]="scanGlob" type="text" placeholder="*.ts,*.html">
-          </mz-input-container>
-
-        </div> <!-- .row -->
-
+          <mz-textarea-container class="col s12 m6">
+            <textarea mz-textarea
+             [label]="'Files To Ignore In Scan'"
+             id="scan-exclude-list"
+             class="exclude-list"
+             [(ngModel)]="exclude"
+             placeholder="File pattern, one per line"></textarea>
+          </mz-textarea-container>
+        </div>
 
         <app-file-browser #scanBrowser (dirChange)="onDirChange($event)" [onlyDirs]="true"></app-file-browser>
 

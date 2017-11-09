@@ -26,7 +26,7 @@ export class AddResourceModalComponent implements OnInit {
   activeTab = 'pick';
   tabsInitialized = false;
   modalOptions: Materialize.ModalOptions;
-  scanGlob: string;
+  exclude: string;
 
   private scanPath: string;
 
@@ -46,6 +46,13 @@ export class AddResourceModalComponent implements OnInit {
           // re-initialize Materialize tabs with jQuery after modal is ready
           $(this.element.nativeElement).find('.tabs').tabs();
           this.tabsInitialized = true;
+        }
+
+        this.exclude = '';
+        if (this.fileMapService.current) {
+          for (const exclude of this.fileMapService.current.exclude) {
+            this.exclude += exclude + '\n';
+          }
         }
       },
     };
@@ -87,6 +94,7 @@ export class AddResourceModalComponent implements OnInit {
   }
 
   scan() {
-    console.log('Start scanning', this.scanPath, this.scanGlob);
+    console.log('Start scanning', this.scanPath, this.exclude);
+    this.fileMapService.scanResources(this.scanPath, this.exclude.split('\n'));
   }
 }
