@@ -17,6 +17,7 @@ import { FilemapModule } from './filemap/filemap.module';
 import { FileMapService } from './file-map.service';
 import { LayoutModule } from './layout/layout.module';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { CommandService } from './commands/command.service';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     FileMapService,
     Renderer,
     Title,
+    CommandService,
   ],
   bootstrap: [AppComponent]
 })

@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
+import { CommandsModule } from '../../commands/commands.module';
 import { DataService } from '../../data.service';
 import { FileMapService } from '../../file-map.service';
 import { NewMapModalComponent } from './new-map-modal.component';
@@ -22,6 +23,7 @@ describe('NewMapModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ NewMapModalComponent ],
       imports: [
+        CommandsModule,
         FormsModule,
         HttpModule,
         MaterializeModule,

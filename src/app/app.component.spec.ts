@@ -3,6 +3,7 @@ import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { AppComponent } from './app.component';
+import { CommandsModule } from './commands/commands.module';
 import { DataService } from './data.service';
 import { FilemapModule } from './filemap/filemap.module';
 import { FileMapService } from './file-map.service';
@@ -19,6 +20,7 @@ describe('AppComponent', () => {
         ViewerComponent,
       ],
       imports: [
+        CommandsModule,
         HttpModule,
         MaterializeModule,
         FilemapModule,

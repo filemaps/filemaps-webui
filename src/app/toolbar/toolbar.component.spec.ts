@@ -7,6 +7,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
+import { CommandsModule } from '../commands/commands.module';
 import { DataService } from '../data.service';
 import { FilemapModule } from '../filemap/filemap.module';
 import { FileMapService } from '../file-map.service';
@@ -21,6 +22,7 @@ describe('ToolbarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ToolbarComponent ],
       imports: [
+        CommandsModule,
         HttpModule,
         FilemapModule,
         MaterializeModule,

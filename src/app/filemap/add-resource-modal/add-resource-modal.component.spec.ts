@@ -9,6 +9,7 @@ import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { AddResourceModalComponent } from './add-resource-modal.component';
+import { CommandsModule } from '../../commands/commands.module';
 import { DataService } from '../../data.service';
 import { FileMapService } from '../../file-map.service';
 import { SharedModule } from '../../shared/shared.module';
@@ -22,6 +23,7 @@ describe('AddResourceModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ AddResourceModalComponent ],
       imports: [
+        CommandsModule,
         FormsModule,
         HttpModule,
         MaterializeModule,

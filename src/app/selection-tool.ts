@@ -71,7 +71,12 @@ export class SelectionTool extends EventDispatcher {
    */
   public clear() {
     this.selected.clear();
-    this.dispatchEvent({ type: 'selected', selected: this.selected });
+    this.dispatchEvent({
+      type: 'selected',
+      selected: this.selected,
+      added: [],
+      removed: [],
+    });
   }
 
   private end() {

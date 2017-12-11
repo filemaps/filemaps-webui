@@ -6,6 +6,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
+import { AddResourcesCommand } from './commands/add-resources.command';
+import { CommandService } from './commands/command.service';
 import { DataService } from './data.service';
 import { FileMap } from './models/file-map';
 import { Renderer } from './renderer.service';
@@ -25,6 +27,7 @@ export class FileMapService {
   fileMapChanged$ = this.fileMapChangedSource.asObservable();
 
   constructor(
+    private commandService: CommandService,
     private dataService: DataService,
     private renderer: Renderer,
   ) {
@@ -62,22 +65,14 @@ export class FileMapService {
    * Adds new resources to current file map.
    */
   public addResources(drafts: ResourceDraft[]) {
-    this.dataService.addResources(this.current, drafts)
-      .subscribe(
-        (resources) => {
-          // add new resources to current file map and draw them
-          for (const resource of resources) {
-            this.current.resources.push(resource);
-            resource.draw();
-          }
-        }
-      );
+    const cmd = new AddResourcesCommand(this.dataService, this.current, drafts);
+    this.commandService.exec(cmd);
   }
 
   public removeResources(resources: Resource[]) {
     this.dataService.removeResources(resources)
       .subscribe(
-        (res) => {
+        () => {
           for (const resource of resources) {
             resource.remove();
           }

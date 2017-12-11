@@ -7,6 +7,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 
+import { CommandsModule } from '../../commands/commands.module';
 import { DataService } from '../../data.service';
 import { FileMapService } from '../../file-map.service';
 import { Renderer } from '../../renderer.service';
@@ -20,7 +21,12 @@ describe('MapsModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MapsModalComponent ],
-      imports: [ HttpModule, MaterializeModule, SharedModule ],
+      imports: [
+        CommandsModule,
+        HttpModule,
+        MaterializeModule,
+        SharedModule,
+      ],
       providers: [
         DataService,
         FileMapService,

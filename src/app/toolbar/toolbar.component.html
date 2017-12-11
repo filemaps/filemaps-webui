@@ -4,6 +4,14 @@
   </a>
   <ul>
     <li>
+      <a href class="btn-floating" [class.disabled]="undoBtnDisabled" i18n-title title="Undo" (click)="$event.preventDefault(); undo()">
+        <i class="material-icons">undo</i></a>
+    </li>
+    <li>
+      <a href class="btn-floating" [class.disabled]="redoBtnDisabled" i18n-title title="Redo" (click)="$event.preventDefault(); redo()">
+        <i class="material-icons">redo</i></a>
+    </li>
+    <li>
       <a href class="btn-floating" [class.disabled]="removeBtnDisabled" i18n-title title="Remove Selected" (click)="$event.preventDefault(); removeSelected()">
         <i class="material-icons">remove</i></a>
     </li>

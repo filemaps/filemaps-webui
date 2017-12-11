@@ -12,6 +12,7 @@ import { MzModalService } from 'ng2-materialize';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AddResourceModalComponent } from '../filemap/add-resource-modal/add-resource-modal.component';
+import { CommandService } from '../commands/command.service';
 import { FileMapService } from '../file-map.service';
 import { Renderer } from '../renderer.service';
 import { Resource } from '../models/resource';
@@ -28,6 +29,8 @@ export class ToolbarComponent implements OnDestroy {
 
   enabled = false;
   removeBtnDisabled = true;
+  undoBtnDisabled = true;
+  redoBtnDisabled = true;
 
   @ViewChild(AddResourceModalComponent)
   private addResourceModalComponent: AddResourceModalComponent;
@@ -36,6 +39,7 @@ export class ToolbarComponent implements OnDestroy {
   private selectedResources: Resource[] = [];
 
   constructor(
+    private commandService: CommandService,
     private fileMapService: FileMapService,
     private modalService: MzModalService,
     private renderer: Renderer,
@@ -58,12 +62,34 @@ export class ToolbarComponent implements OnDestroy {
         this.selectedResources = resources;
       }
     ));
+
+    // subscribe to undo stack change event
+    this.subscriptions.push(commandService.undoStackChanged$.subscribe(
+      size => {
+        this.undoBtnDisabled = (size === 0);
+      }
+    ));
+
+    // subscribe to redo stack change event
+    this.subscriptions.push(commandService.redoStackChanged$.subscribe(
+      size => {
+        this.redoBtnDisabled = (size === 0);
+      }
+    ));
   }
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
     }
+  }
+
+  undo() {
+    this.commandService.undo();
+  }
+
+  redo() {
+    this.commandService.redo();
   }
 
   launchSelect() {
