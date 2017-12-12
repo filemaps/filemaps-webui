@@ -16,6 +16,8 @@ import { DataService } from '../../data.service';
 import { FileInfo } from '../../models/file-info';
 import { FileMap } from '../../models/file-map';
 import { FileMapService } from '../../file-map.service';
+import { Renderer } from '../../renderer.service';
+import { ThreeFileMap } from '../../models/three-file-map';
 
 // declare '$' for jQuery
 declare var $: JQueryStatic;
@@ -33,18 +35,16 @@ export class MapsModalComponent extends MzBaseModal implements AfterViewInit, On
     private element: ElementRef,
     private dataService: DataService,
     private fileMapService: FileMapService,
+    private renderer: Renderer,
   ) {
     super();
   }
 
   getFileMaps(): void {
-    this.dataService.getAllFileMaps()
-      .subscribe(
-        (fileMaps) => {
-          this.fileMaps = fileMaps;
-          console.log('File maps', this.fileMaps);
-        }
-      );
+    this.dataService.getAllFileMaps().subscribe(fileMaps => {
+      this.fileMaps = fileMaps;
+      console.log('File maps', this.fileMaps);
+    });
   }
 
   ngAfterViewInit(): void {

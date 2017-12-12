@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 import { TestBed, inject } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { DataService } from '../data.service';
 import { ThreeFileMap } from './three-file-map';
@@ -14,7 +14,7 @@ describe('ThreeFileMap', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [DataService, Renderer],
-      imports: [HttpModule],
+      imports: [HttpClientModule],
     });
   });
 

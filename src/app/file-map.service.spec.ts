@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 import { TestBed, inject } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { CommandsModule } from './commands/commands.module';
 import { DataService } from './data.service';
@@ -15,7 +15,7 @@ describe('FileMapService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpModule,
+        HttpClientModule,
         CommandsModule,
       ],
       providers: [

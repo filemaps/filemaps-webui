@@ -1,5 +1,10 @@
+// Copyright (c) 2017, CodeBoy. All rights reserved.
+//
+// This Source Code Form is subject to the terms of the
+// license that can be found in the LICENSE file.
+
 import { TestBed, async } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { AppComponent } from './app.component';
@@ -21,7 +26,7 @@ describe('AppComponent', () => {
       ],
       imports: [
         CommandsModule,
-        HttpModule,
+        HttpClientModule,
         MaterializeModule,
         FilemapModule,
       ],

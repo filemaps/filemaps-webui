@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { CommandsModule } from '../commands/commands.module';
@@ -23,7 +23,7 @@ describe('ToolbarComponent', () => {
       declarations: [ ToolbarComponent ],
       imports: [
         CommandsModule,
-        HttpModule,
+        HttpClientModule,
         FilemapModule,
         MaterializeModule,
       ],

@@ -5,7 +5,7 @@
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { AddResourceModalComponent } from './add-resource-modal.component';
@@ -25,7 +25,7 @@ describe('AddResourceModalComponent', () => {
       imports: [
         CommandsModule,
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         MaterializeModule,
         SharedModule,
       ],

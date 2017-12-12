@@ -5,7 +5,7 @@
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { DataService } from '../../data.service';
@@ -21,7 +21,7 @@ describe('SettingsModalComponent', () => {
       declarations: [ SettingsModalComponent ],
       imports: [
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         MaterializeModule,
       ],
       providers: [

@@ -5,7 +5,7 @@
 
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { MaterializeModule } from 'ng2-materialize';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -28,7 +28,7 @@ import { CommandService } from './commands/command.service';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     FilemapModule,
     MaterializeModule.forRoot(),
     LayoutModule,

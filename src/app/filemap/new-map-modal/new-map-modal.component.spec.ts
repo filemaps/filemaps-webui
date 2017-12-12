@@ -5,7 +5,7 @@
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { CommandsModule } from '../../commands/commands.module';
@@ -25,7 +25,7 @@ describe('NewMapModalComponent', () => {
       imports: [
         CommandsModule,
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         MaterializeModule,
         SharedModule,
       ],

@@ -4,9 +4,10 @@
 // license that can be found in the LICENSE file.
 
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs/Observable';
+import { EmptyObservable } from 'rxjs/observable/EmptyObservable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -31,7 +32,7 @@ export class DataService {
   public info: Info = new Info();
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private renderer: Renderer
   ) {
   }
@@ -40,8 +41,8 @@ export class DataService {
   public getAllFileMaps(): Observable<FileMap[]> {
     return this.http
       .get(API_URL + '/maps')
-      .map(response => {
-        const fileMaps = response.json().maps;
+      .map(data => {
+        const fileMaps = data['maps'];
         return fileMaps.map((fileMap) => new ThreeFileMap(this, this.renderer, fileMap));
       })
       .catch(this.handleError);
@@ -52,7 +53,7 @@ export class DataService {
     const url = `${API_URL}/maps/${id}`;
     return this.http
       .get(url)
-      .map((res: Response) => new ThreeFileMap(this, this.renderer, res.json()))
+      .map(data => new ThreeFileMap(this, this.renderer, data))
       .catch(this.handleError);
   }
 
@@ -70,7 +71,7 @@ export class DataService {
         file: fileMap.file,
         exclude: fileMap.exclude,
       })
-      .map((res: Response) => new ThreeFileMap(this, this.renderer, res.json()))
+      .map(data => new ThreeFileMap(this, this.renderer, data))
       .catch(this.handleError);
   }
 
@@ -84,8 +85,8 @@ export class DataService {
       .post(`${API_URL}/maps/${fileMap.id}/resources`, {
         items: drafts,
       })
-      .map((response: Response) => {
-        const resources = response.json().resources;
+      .map(data => {
+        const resources = data['resources'];
         return resources.map((rsrc) => new ThreeResource(this, this.renderer, fileMap, rsrc));
       })
       .catch(this.handleError);
@@ -102,7 +103,7 @@ export class DataService {
       .catch(this.handleError);
   }
 
-  public updateResources(resources: Resource[]) {
+  public updateResources(resources: Resource[]): Observable<any> {
     if (resources.length > 0) {
       const fileMap = resources[0].fileMap;
       const url = `${API_URL}/maps/${fileMap.id}/resources`;
@@ -118,6 +119,9 @@ export class DataService {
         })
         .catch(this.handleError);
     }
+    // return empty observable
+    console.debug('No resources to update');
+    return new EmptyObservable();
   }
 
   /**
@@ -127,18 +131,18 @@ export class DataService {
   public scanResources(fileMap: FileMap, path: string, exclude: string[]): Observable<Resource[]> {
     const url = `${API_URL}/maps/${fileMap.id}/resources/scan`;
     return this.http
-      .post(url, {
+      .post<Resource[]>(url, {
         path: path,
         exclude: exclude,
       })
-      .map((response: Response) => {
-        const resources = response.json().resources;
+      .map(data => {
+        const resources = data['resources'];
         return resources.map((rsrc) => new ThreeResource(this, this.renderer, fileMap, rsrc));
       })
       .catch(this.handleError);
   }
 
-  public removeResources(resources: Resource[]) {
+  public removeResources(resources: Resource[]): Observable<any> {
     if (resources.length > 0) {
       const fileMap = resources[0].fileMap;
       const url = `${API_URL}/maps/${fileMap.id}/resources/delete`;
@@ -152,9 +156,11 @@ export class DataService {
         .post(url, {
           ids: ids,
         })
-        .map((res: Response) => res.json())
         .catch(this.handleError);
     }
+    // return empty observable
+    console.debug('No resources to remove');
+    return new EmptyObservable();
   }
 
   /**
@@ -165,7 +171,7 @@ export class DataService {
     // fetch info just once, in the start
     this.getInfo()
       .subscribe(
-        (info) => {
+        info => {
           this.info = info;
         }
       );
@@ -173,9 +179,7 @@ export class DataService {
 
   private getInfo(): Observable<Info> {
     return this.http
-      .get(`${API_URL}/info`)
-      .map((res: Response) => new Info(res.json()))
-      .catch(this.handleError);
+      .get<Info>(`${API_URL}/info`);
   }
 
   public readDir(path: string): Observable<DirContents> {
@@ -183,7 +187,7 @@ export class DataService {
       .post(`${API_URL}/browse`, {
         path: path,
       })
-      .map((res: Response) => new DirContents(res.json()))
+      .map(data => new DirContents(data))
       .catch(this.handleError);
   }
 
@@ -192,7 +196,7 @@ export class DataService {
       .post(`${API_URL}/maps/import`, {
         path: path,
       })
-      .map((res: Response) => new ThreeFileMap(this, this.renderer, res.json()))
+      .map(data => new ThreeFileMap(this, this.renderer, data))
       .catch(this.handleError);
   }
 
@@ -203,25 +207,24 @@ export class DataService {
         base: base,
         file: file,
       })
-      .map((res: Response) => new ThreeFileMap(this, this.renderer, res.json()))
+      .map(data => new ThreeFileMap(this, this.renderer, data))
       .catch(this.handleError);
   }
 
   public getConfig(): Observable<ConfigResponse> {
     return this.http
       .get(`${API_URL}/config`)
-      .map((res: Response) => new ConfigResponse(res.json()))
+      .map(data => new ConfigResponse(data))
       .catch(this.handleError);
   }
 
   public setConfig(config: Config) {
     return this.http
       .put(`${API_URL}/config`, config)
-      .map((res: Response) => res.json())
       .catch(this.handleError);
   }
 
-  private handleError(error: Response | any) {
+  private handleError(error: any) {
     console.error('DataService::handleError', error);
     return Observable.throw(error);
   }

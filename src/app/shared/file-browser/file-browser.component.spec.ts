@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { DataService } from '../../data.service';
 import { FileBrowserComponent } from './file-browser.component';
@@ -17,7 +17,7 @@ describe('FileBrowserComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ FileBrowserComponent ],
-      imports: [ HttpModule ],
+      imports: [ HttpClientModule ],
       providers: [ DataService, Renderer ],
     })
     .compileComponents();
