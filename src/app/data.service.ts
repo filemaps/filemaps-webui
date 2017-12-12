@@ -120,7 +120,7 @@ export class DataService {
         .catch(this.handleError);
     }
     // return empty observable
-    console.debug('No resources to update');
+    console.log('No resources to update');
     return new EmptyObservable();
   }
 
@@ -159,7 +159,7 @@ export class DataService {
         .catch(this.handleError);
     }
     // return empty observable
-    console.debug('No resources to remove');
+    console.log('No resources to remove');
     return new EmptyObservable();
   }
 
