@@ -6,11 +6,13 @@
 import * as THREE from 'three';
 import { MeshText2D, textAlign } from 'three-text2d';
 
+import { CommandService } from '../commands/command.service';
 import { FileMap } from './file-map';
 import { Position } from './position';
 import { DataService } from '../data.service';
 import { Renderer } from '../renderer.service';
 import { Resource } from './resource';
+import { UpdateResourcesCommand } from '../commands/update-resources.command';
 
 export class ThreeResource implements Resource {
   id: number;
@@ -25,6 +27,7 @@ export class ThreeResource implements Resource {
   private dragStart: { x: number, y: number, z: number, time: number };
 
   constructor(
+    private commandService: CommandService,
     private dataService: DataService,
     private renderer: Renderer,
     fileMap: FileMap,
@@ -32,6 +35,31 @@ export class ThreeResource implements Resource {
   ) {
     this.fileMap = fileMap;
     Object.assign(this, values);
+  }
+
+  /**
+   * Returns a shallow copy of Resource.
+   */
+  copy(): Resource {
+    let c = new ThreeResource(
+      this.commandService,
+      this.dataService,
+      this.renderer,
+      this.fileMap,
+      this
+    );
+    c.pos = new Position();
+    return c.copyFrom(this);
+  }
+
+  copyFrom(resource: Resource): Resource {
+    this.id = resource.id;
+    this.type = resource.type;
+    this.path = resource.path;
+    this.pos.x = resource.pos.x;
+    this.pos.y = resource.pos.y;
+    this.pos.z = resource.pos.z;
+    return this;
   }
 
   /**
@@ -48,18 +76,23 @@ export class ThreeResource implements Resource {
       resource: this,
     };
 
-    this.obj.position.x = this.pos.x;
-    this.obj.position.y = this.pos.y;
-    this.obj.position.z = this.pos.z;
-
     // label
     this.label = new MeshText2D(this.path, {
       align: textAlign.center,
       font: '20px Oxygen',
       fillStyle: '#000000',
     });
-    this.updateLabelPos();
     this.renderer.addResource(this.obj, this.label);
+
+    this.refresh();
+  }
+
+  refresh(): void {
+    this.obj.position.x = this.pos.x;
+    this.obj.position.y = this.pos.y;
+    this.obj.position.z = this.pos.z;
+
+    this.updateLabelPos();
   }
 
   onDragStart(): void {
@@ -96,11 +129,15 @@ export class ThreeResource implements Resource {
       this.renderer.animate();
     } else {
       // dragged enough to not to be opened
+      const cmd = new UpdateResourcesCommand(this.dataService, [this]);
+
       this.pos.x = this.obj.position.x;
       this.pos.y = this.obj.position.y;
       this.pos.z = this.obj.position.z;
 
-      this.updateServer();
+      cmd.saveAfterState([this]);
+
+      this.commandService.exec(cmd);
     }
   }
 
@@ -111,18 +148,6 @@ export class ThreeResource implements Resource {
           console.log('Open, response:', response);
         }
       );
-  }
-
-  /**
-   * Updates resource data to server.
-   */
-  updateServer(): void {
-    this.dataService.updateResources([this])
-    .subscribe(
-      (response: any) => {
-        console.log('Update, response:', response);
-      }
-    );
   }
 
   close(): void {

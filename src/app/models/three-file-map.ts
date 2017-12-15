@@ -3,6 +3,7 @@
 // This Source Code Form is subject to the terms of the
 // license that can be found in the LICENSE file.
 
+import { CommandService } from '../commands/command.service';
 import { FileMap } from './file-map';
 import { Resource } from './resource';
 import { DataService } from '../data.service';
@@ -22,6 +23,7 @@ export class ThreeFileMap implements FileMap {
   resources: Resource[];
 
   constructor(
+    private commandService: CommandService,
     private dataService: DataService,
     private renderer: Renderer,
     values: Object = {}
@@ -30,7 +32,13 @@ export class ThreeFileMap implements FileMap {
     const resources: Resource[] = [];
     if (this.resources) {
       this.resources.forEach(resource => {
-        resources.push(new ThreeResource(this.dataService, this.renderer, this, resource));
+        resources.push(new ThreeResource(
+          this.commandService,
+          this.dataService,
+          this.renderer,
+          this,
+          resource
+        ));
       });
     }
     this.resources = resources;
@@ -38,5 +46,18 @@ export class ThreeFileMap implements FileMap {
 
   draw(): void {
     this.resources.forEach(res => res.draw());
+  }
+
+  /**
+   * Returns Resource by ID, or null if not found.
+   */
+  getResource(id: number): Resource {
+    for (let i = 0; i < this.resources.length; i++) {
+      if (this.resources[i].id === id) {
+        return this.resources[i];
+      }
+    }
+    // not found
+    return null;
   }
 }

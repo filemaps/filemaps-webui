@@ -13,6 +13,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 import { FileMap } from './models/file-map';
+import { CommandService } from './commands/command.service';
 import { Config } from './models/config';
 import { ConfigResponse } from './models/config-response';
 import { DirContents } from './models/dir-contents';
@@ -32,6 +33,7 @@ export class DataService {
   public info: Info = new Info();
 
   constructor(
+    private commandService: CommandService,
     private http: HttpClient,
     private renderer: Renderer
   ) {
@@ -43,7 +45,12 @@ export class DataService {
       .get(API_URL + '/maps')
       .map(data => {
         const fileMaps = data['maps'];
-        return fileMaps.map((fileMap) => new ThreeFileMap(this, this.renderer, fileMap));
+        return fileMaps.map(fileMap => new ThreeFileMap(
+          this.commandService,
+          this,
+          this.renderer,
+          fileMap
+        ));
       })
       .catch(this.handleError);
   }
@@ -53,7 +60,12 @@ export class DataService {
     const url = `${API_URL}/maps/${id}`;
     return this.http
       .get(url)
-      .map(data => new ThreeFileMap(this, this.renderer, data))
+      .map(data => new ThreeFileMap(
+        this.commandService,
+        this,
+        this.renderer,
+        data
+      ))
       .catch(this.handleError);
   }
 
@@ -71,7 +83,12 @@ export class DataService {
         file: fileMap.file,
         exclude: fileMap.exclude,
       })
-      .map(data => new ThreeFileMap(this, this.renderer, data))
+      .map(data => new ThreeFileMap(
+        this.commandService,
+        this,
+        this.renderer,
+        data
+      ))
       .catch(this.handleError);
   }
 
@@ -87,7 +104,13 @@ export class DataService {
       })
       .map(data => {
         const resources = data['resources'];
-        return resources.map((rsrc) => new ThreeResource(this, this.renderer, fileMap, rsrc));
+        return resources.map(rsrc => new ThreeResource(
+          this.commandService,
+          this,
+          this.renderer,
+          fileMap,
+          rsrc
+        ));
       })
       .catch(this.handleError);
   }
@@ -137,7 +160,13 @@ export class DataService {
       })
       .map(data => {
         const resources = data['resources'];
-        return resources.map((rsrc) => new ThreeResource(this, this.renderer, fileMap, rsrc));
+        return resources.map(rsrc => new ThreeResource(
+          this.commandService,
+          this,
+          this.renderer,
+          fileMap,
+          rsrc
+        ));
       })
       .catch(this.handleError);
   }
@@ -196,7 +225,12 @@ export class DataService {
       .post(`${API_URL}/maps/import`, {
         path: path,
       })
-      .map(data => new ThreeFileMap(this, this.renderer, data))
+      .map(data => new ThreeFileMap(
+        this.commandService,
+        this,
+        this.renderer,
+        data
+      ))
       .catch(this.handleError);
   }
 
@@ -207,7 +241,12 @@ export class DataService {
         base: base,
         file: file,
       })
-      .map(data => new ThreeFileMap(this, this.renderer, data))
+      .map(data => new ThreeFileMap(
+        this.commandService,
+        this,
+        this.renderer,
+        data
+      ))
       .catch(this.handleError);
   }
 

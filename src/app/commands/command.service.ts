@@ -9,6 +9,9 @@ import { Subject } from 'rxjs/Subject';
 
 import { Command } from './command';
 
+/**
+ * CommandService implements undo/redo using command pattern.
+ */
 @Injectable()
 export class CommandService {
 
@@ -33,7 +36,7 @@ export class CommandService {
 
         // clear redo stack
         this.redoStack = [];
-        this.redoStackChangedSource.next(this.redoStack.length);
+        this.redoStackChangedSource.next(0);
       }
     );
     return observable;
@@ -66,5 +69,20 @@ export class CommandService {
       }
     );
     return observable;
+  }
+
+  clear() {
+    this.clearUndoStack();
+    this.clearRedoStack();
+  }
+
+  clearUndoStack() {
+    this.undoStack = [];
+    this.undoStackChangedSource.next(0);
+  }
+
+  clearRedoStack() {
+    this.redoStack = [];
+    this.redoStackChangedSource.next(0);
   }
 }

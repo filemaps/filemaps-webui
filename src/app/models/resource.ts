@@ -13,7 +13,10 @@ export interface Resource {
   pos: Position;
   readonly fileMap: FileMap;
 
+  copy(): Resource;
+  copyFrom(resource: Resource): Resource;
   draw(): void;
+  refresh(): void;
   onDragStart(): void;
   onDrag(): void;
   onDragEnd(): void;

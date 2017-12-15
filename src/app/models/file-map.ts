@@ -18,4 +18,5 @@ export interface FileMap {
   resources: Resource[];
 
   draw(): void;
+  getResource(id: number): Resource;
 }
