@@ -11,6 +11,7 @@ import { CommandService } from './commands/command.service';
 import { DataService } from './data.service';
 import { FileMap } from './models/file-map';
 import { Renderer } from './renderer.service';
+import { RemoveResourcesCommand } from './commands/remove-resources.command';
 import { Resource } from './models/resource';
 import { ResourceDraft } from './models/resource-draft';
 
@@ -70,14 +71,8 @@ export class FileMapService {
   }
 
   public removeResources(resources: Resource[]) {
-    this.dataService.removeResources(resources)
-      .subscribe(
-        () => {
-          for (const resource of resources) {
-            resource.remove();
-          }
-        }
-      );
+    const cmd = new RemoveResourcesCommand(this.dataService, resources);
+    this.commandService.exec(cmd);
   }
 
   /**
