@@ -41,7 +41,7 @@ export class ThreeResource implements Resource {
    * Returns a shallow copy of Resource.
    */
   copy(): Resource {
-    let c = new ThreeResource(
+    const c = new ThreeResource(
       this.commandService,
       this.dataService,
       this.renderer,

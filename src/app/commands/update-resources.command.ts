@@ -76,7 +76,7 @@ export class UpdateResourcesCommand implements Command {
    * so we have to update original objects.
    */
   private updateCurrentResources(resources: Resource[]) {
-    for (let copy of resources) {
+    for (const copy of resources) {
       const current = copy.fileMap.getResource(copy.id);
       if (current) {
         current.copyFrom(copy);

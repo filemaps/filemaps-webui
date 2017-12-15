@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterializeModule } from 'ng2-materialize';
 
 import { AboutModalComponent } from './about-modal.component';
+import { CommandService } from '../../commands/command.service';
 import { DataService } from '../../data.service';
 import { Renderer } from '../../renderer.service';
 
@@ -19,7 +20,7 @@ describe('AboutModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ AboutModalComponent ],
       imports: [ HttpClientModule, MaterializeModule ],
-      providers: [ DataService, Renderer ],
+      providers: [ CommandService, DataService, Renderer ],
     })
     .compileComponents();
   }));

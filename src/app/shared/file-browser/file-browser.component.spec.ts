@@ -6,6 +6,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 
+import { CommandService } from '../../commands/command.service';
 import { DataService } from '../../data.service';
 import { FileBrowserComponent } from './file-browser.component';
 import { Renderer } from '../../renderer.service';
@@ -18,7 +19,7 @@ describe('FileBrowserComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ FileBrowserComponent ],
       imports: [ HttpClientModule ],
-      providers: [ DataService, Renderer ],
+      providers: [ CommandService, DataService, Renderer ],
     })
     .compileComponents();
   }));

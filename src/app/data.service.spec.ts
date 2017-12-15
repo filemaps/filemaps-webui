@@ -6,13 +6,14 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 
+import { CommandService } from './commands/command.service';
 import { DataService } from './data.service';
 import { Renderer } from './renderer.service';
 
 describe('DataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DataService, Renderer],
+      providers: [CommandService, DataService, Renderer],
       imports: [HttpClientModule],
     });
   });

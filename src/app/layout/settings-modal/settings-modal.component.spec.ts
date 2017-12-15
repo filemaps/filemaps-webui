@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterializeModule } from 'ng2-materialize';
 
+import { CommandService } from '../../commands/command.service';
 import { DataService } from '../../data.service';
 import { Renderer } from '../../renderer.service';
 import { SettingsModalComponent } from './settings-modal.component';
@@ -25,6 +26,7 @@ describe('SettingsModalComponent', () => {
         MaterializeModule,
       ],
       providers: [
+        CommandService,
         DataService,
         Renderer,
       ]
