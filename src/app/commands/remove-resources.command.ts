@@ -31,7 +31,7 @@ export class RemoveResourcesCommand implements Command {
           this.drafts = [];
 
           for (const resource of this.resources) {
-            var draft = {
+            const draft = {
               path: resource.path,
               pos: {
                 x: resource.pos.x,
