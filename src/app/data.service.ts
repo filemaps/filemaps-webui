@@ -92,7 +92,6 @@ export class DataService {
       .catch(this.handleError);
   }
 
-
   /**
    * Adds new resources.
    * API: POST /maps/:mapid/resources

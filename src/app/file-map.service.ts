@@ -14,6 +14,7 @@ import { Renderer } from './renderer.service';
 import { RemoveResourcesCommand } from './commands/remove-resources.command';
 import { Resource } from './models/resource';
 import { ResourceDraft } from './models/resource-draft';
+import { UpdateFileMapCommand } from './commands/update-file-map.command';
 
 @Injectable()
 export class FileMapService {
@@ -47,19 +48,31 @@ export class FileMapService {
 
     // use Subject to inform observers about file map change
     this.fileMapChangedSource.next(fileMap);
+
+    // clear undo history
+    this.commandService.clear();
   }
 
-  public updateFileMap(fileMap: FileMap) {
-    this.dataService.updateFileMap(fileMap)
-      .subscribe(
-        (fm: FileMap) => {
-          // make sure we have same title as server
-          fileMap.title = fm.title;
+  public updateFileMap(id: number, title: string, description: string, exclude: string[]) {
+    // make a shallow copy of file map for modifications
+    const fileMap = { ...this.current };
 
-          // use Subject to inform observers about file map change
-          this.fileMapChangedSource.next(fileMap);
-        }
-      );
+    const cmd = new UpdateFileMapCommand(this.dataService, fileMap, serverFileMap => {
+      // make sure to update local file map
+      this.current.title = serverFileMap.title;
+      this.current.description = serverFileMap.description;
+      this.current.exclude = serverFileMap.exclude;
+
+      // use Subject to inform observers about file map change
+      this.fileMapChangedSource.next(this.current);
+    });
+
+    fileMap.title = title;
+    fileMap.description = description;
+    fileMap.exclude = exclude;
+    cmd.saveAfterState(fileMap);
+
+    this.commandService.exec(cmd);
   }
 
   /**
