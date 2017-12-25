@@ -8,8 +8,8 @@ import { EmptyObservable } from 'rxjs/observable/EmptyObservable';
 import { Subject } from 'rxjs/Subject';
 
 import { Command } from './command';
-import { DataService } from '../data.service';
 import { FileMap } from '../models/file-map';
+import { FileMapService } from '../file-map.service';
 import { Resource } from '../models/resource';
 import { ResourceDraft } from '../models/resource-draft';
 
@@ -19,7 +19,7 @@ export class UpdateResourcesCommand implements Command {
   private after: Resource[];
 
   constructor(
-    private dataService: DataService,
+    private fileMapService: FileMapService,
     private resources: Resource[]
   ) {
     this.before = [];
@@ -43,29 +43,23 @@ export class UpdateResourcesCommand implements Command {
     }
 
     const subject = new Subject<Resource[]>();
-    this.dataService.updateResources(this.after)
-      .subscribe(
-        response => {
-          console.log('Update, response:', response);
-          subject.next(response);
+    this.fileMapService.updateResources(this.after, response => {
+      console.log('Update, response:', response);
+      subject.next(response);
 
-          this.updateCurrentResources(this.after);
-        }
-      );
+      this.updateCurrentResources(this.after);
+    });
 
     return subject.asObservable();
   }
 
   undo(): Observable<any> {
     const subject = new Subject<Resource[]>();
-    this.dataService.updateResources(this.before)
-      .subscribe(
-        response => {
-          subject.next(response);
+    this.fileMapService.updateResources(this.before, response => {
+      subject.next(response);
 
-          this.updateCurrentResources(this.before);
-        }
-      );
+      this.updateCurrentResources(this.before);
+    });
 
     return subject.asObservable();
   }

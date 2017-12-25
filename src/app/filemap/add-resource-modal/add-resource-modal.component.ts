@@ -6,11 +6,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MzModalComponent } from 'ng2-materialize';
 
+import { AddResourcesCommand } from '../../commands/add-resources.command';
+import { CommandService } from '../../commands/command.service';
 import { DirContents } from '../../models/dir-contents';
 import { FileInfo } from '../../models/file-info';
 import { FileMapService } from '../../file-map.service';
 import { FileBrowserComponent } from '../../shared/file-browser/file-browser.component';
 import { ResourceDraft } from '../../models/resource-draft';
+import { ScanResourcesCommand } from '../../commands/scan-resources.command';
 
 // declare '$' for jQuery
 declare var $: JQueryStatic;
@@ -37,6 +40,7 @@ export class AddResourceModalComponent implements OnInit {
   private selection: FileInfo[];
 
   constructor(
+    private commandService: CommandService,
     private element: ElementRef,
     private fileMapService: FileMapService,
   ) {
@@ -85,16 +89,28 @@ export class AddResourceModalComponent implements OnInit {
   }
 
   add() {
-    // use FileMapService for adding new resources
     const drafts: ResourceDraft[] = [];
     for (const fileInfo of this.selection) {
       drafts.push({ path: fileInfo.path, pos: { x: 0, y: 0, z: 0 }});
     }
-    this.fileMapService.addResources(drafts);
+
+    const cmd = new AddResourcesCommand(
+      this.fileMapService,
+      this.fileMapService.current,
+      drafts
+    );
+    this.commandService.exec(cmd);
   }
 
   scan() {
     console.log('Start scanning', this.scanPath, this.exclude);
-    this.fileMapService.scanResources(this.scanPath, this.exclude.split('\n'));
+
+    const cmd = new ScanResourcesCommand(
+      this.fileMapService,
+      this.fileMapService.current,
+      this.scanPath,
+      this.exclude.split('\n')
+    );
+    this.commandService.exec(cmd);
   }
 }

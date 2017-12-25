@@ -13,6 +13,7 @@ import { DataService } from '../../data.service';
 import { FileMapService } from '../../file-map.service';
 import { MapSettingsModalComponent } from './map-settings-modal.component';
 import { Renderer } from '../../renderer.service';
+import { StyleService } from '../../style.service';
 
 describe('MapSettingsModalComponent', () => {
   let component: MapSettingsModalComponent;
@@ -31,6 +32,7 @@ describe('MapSettingsModalComponent', () => {
         DataService,
         FileMapService,
         Renderer,
+        StyleService,
       ]
     })
     .compileComponents();

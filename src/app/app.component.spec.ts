@@ -13,6 +13,7 @@ import { DataService } from './data.service';
 import { FilemapModule } from './filemap/filemap.module';
 import { FileMapService } from './file-map.service';
 import { Renderer } from './renderer.service';
+import { StyleService } from './style.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ViewerComponent } from './viewer/viewer.component';
 
@@ -34,6 +35,7 @@ describe('AppComponent', () => {
         DataService,
         FileMapService,
         Renderer,
+        StyleService,
       ],
     }).compileComponents();
   }));

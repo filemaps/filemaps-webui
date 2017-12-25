@@ -12,6 +12,7 @@ import { DataService } from '../data.service';
 import { FilemapModule } from '../filemap/filemap.module';
 import { FileMapService } from '../file-map.service';
 import { Renderer } from '../renderer.service';
+import { StyleService } from '../style.service';
 import { ToolbarComponent } from './toolbar.component';
 
 describe('ToolbarComponent', () => {
@@ -31,6 +32,7 @@ describe('ToolbarComponent', () => {
         DataService,
         FileMapService,
         Renderer,
+        StyleService,
       ],
     })
     .compileComponents();

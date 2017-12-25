@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { AddResourceModalComponent } from '../filemap/add-resource-modal/add-resource-modal.component';
 import { CommandService } from '../commands/command.service';
 import { FileMapService } from '../file-map.service';
+import { RemoveResourcesCommand } from '../commands/remove-resources.command';
 import { Renderer } from '../renderer.service';
 import { Resource } from '../models/resource';
 
@@ -101,7 +102,9 @@ export class ToolbarComponent implements OnDestroy {
   }
 
   removeSelected() {
-    this.fileMapService.removeResources(this.selectedResources);
+    const cmd = new RemoveResourcesCommand(this.fileMapService, this.selectedResources);
+    this.commandService.exec(cmd);
+
     this.renderer.clearSelection();
   }
 }

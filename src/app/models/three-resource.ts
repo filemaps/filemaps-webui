@@ -8,10 +8,13 @@ import { MeshText2D, textAlign } from 'three-text2d';
 
 import { CommandService } from '../commands/command.service';
 import { FileMap } from './file-map';
+import { FileMapService } from '../file-map.service';
 import { Position } from './position';
 import { DataService } from '../data.service';
 import { Renderer } from '../renderer.service';
 import { Resource } from './resource';
+import { Style } from './style';
+import { StyleService } from '../style.service';
 import { UpdateResourcesCommand } from '../commands/update-resources.command';
 
 export class ThreeResource implements Resource {
@@ -19,6 +22,7 @@ export class ThreeResource implements Resource {
   type: number;
   path: string;
   pos: Position;
+  style: Style;
   readonly fileMap: FileMap;
   readonly dragThreshold = 10;
   readonly selectDuration = 500;
@@ -29,7 +33,9 @@ export class ThreeResource implements Resource {
   constructor(
     private commandService: CommandService,
     private dataService: DataService,
+    private fileMapService: FileMapService,
     private renderer: Renderer,
+    private styleService: StyleService,
     fileMap: FileMap,
     values: Object = {}
   ) {
@@ -44,7 +50,9 @@ export class ThreeResource implements Resource {
     const c = new ThreeResource(
       this.commandService,
       this.dataService,
+      this.fileMapService,
       this.renderer,
+      this.styleService,
       this.fileMap,
       this
     );
@@ -62,13 +70,41 @@ export class ThreeResource implements Resource {
     return this;
   }
 
+  private getStyleRule(rule: string, defaultVal?: string): string {
+    // use resource styles
+    if (this.style.rules && this.style.rules.hasOwnProperty(rule)) {
+      return this.style.rules[rule];
+    }
+
+    // use filemap styles
+    return this.fileMap.getStyleRule(this.style.sClass, rule, defaultVal);
+  }
+
+  /**
+   * Returns color of resource object as number.
+   */
+  private getColor(): number {
+    const defaultColor = 0xffffff;
+
+    let colorStr = this.getStyleRule('color', '#ffffff');
+
+    // handle color codes #01abcd
+    if (colorStr[0] === '#') {
+      colorStr = '0x' + colorStr.substring(1);
+      const color = parseInt(colorStr, 16);
+      return (isNaN(color)) ? defaultColor : color;
+    }
+
+    return defaultColor;
+  }
+
   /**
    * Draws resource.
    */
   draw(): void {
     const geometry = new THREE.BoxGeometry(50, 56.57, 6);
     this.obj = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({
-      color: Math.random() * 0xffffff
+      color: this.getColor()
     }));
 
     this.obj.userData = {
@@ -129,7 +165,7 @@ export class ThreeResource implements Resource {
       this.renderer.animate();
     } else {
       // dragged enough to not to be opened
-      const cmd = new UpdateResourcesCommand(this.dataService, [this]);
+      const cmd = new UpdateResourcesCommand(this.fileMapService, [this]);
 
       this.pos.x = this.obj.position.x;
       this.pos.y = this.obj.position.y;

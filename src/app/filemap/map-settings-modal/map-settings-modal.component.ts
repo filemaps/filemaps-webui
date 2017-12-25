@@ -6,8 +6,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MzBaseModal } from 'ng2-materialize';
 
+import { CommandService } from '../../commands/command.service';
 import { FileMap } from '../../models/file-map';
 import { FileMapService } from '../../file-map.service';
+import { UpdateFileMapCommand } from '../../commands/update-file-map.command';
 
 @Component({
   selector: 'app-map-settings-modal',
@@ -22,6 +24,7 @@ export class MapSettingsModalComponent extends MzBaseModal implements OnInit {
   exclude: string;
 
   constructor(
+    private commandService: CommandService,
     private fileMapService: FileMapService,
   ) {
     super();
@@ -40,11 +43,18 @@ export class MapSettingsModalComponent extends MzBaseModal implements OnInit {
   }
 
   save() {
-    this.fileMapService.updateFileMap(
-      this.fileMapService.current.id,
-      this.title,
-      this.description,
-      this.exclude.split('\n')
+    const cmd = new UpdateFileMapCommand(
+      this.fileMapService,
+      this.fileMap,
+      () => {}
     );
+
+    // make changes
+    this.fileMap.title = this.title;
+    this.fileMap.description = this.description;
+    this.fileMap.exclude = this.exclude.split('\n');
+    cmd.saveAfterState(this.fileMap);
+
+    this.commandService.exec(cmd);
   }
 }

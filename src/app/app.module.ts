@@ -16,6 +16,7 @@ import { ViewerComponent } from './viewer/viewer.component';
 import { FilemapModule } from './filemap/filemap.module';
 import { FileMapService } from './file-map.service';
 import { LayoutModule } from './layout/layout.module';
+import { StyleService } from './style.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { CommandService } from './commands/command.service';
 
@@ -37,6 +38,7 @@ import { CommandService } from './commands/command.service';
     DataService,
     FileMapService,
     Renderer,
+    StyleService,
     Title,
     CommandService,
   ],

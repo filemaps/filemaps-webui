@@ -13,6 +13,7 @@ import { CommandsModule } from '../../commands/commands.module';
 import { DataService } from '../../data.service';
 import { FileMapService } from '../../file-map.service';
 import { SharedModule } from '../../shared/shared.module';
+import { StyleService } from '../../style.service';
 import { Renderer } from '../../renderer.service';
 
 describe('AddResourceModalComponent', () => {
@@ -33,6 +34,7 @@ describe('AddResourceModalComponent', () => {
         DataService,
         FileMapService,
         Renderer,
+        StyleService,
       ],
     })
     .compileComponents();

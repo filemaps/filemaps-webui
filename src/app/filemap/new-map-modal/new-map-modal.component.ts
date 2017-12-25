@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { MzBaseModal } from 'ng2-materialize';
 
-import { DataService } from '../../data.service';
 import { DirContents } from '../../models/dir-contents';
 import { FileMap } from '../../models/file-map';
 import { FileMapService } from '../../file-map.service';
@@ -25,7 +24,6 @@ export class NewMapModalComponent extends MzBaseModal implements OnInit {
   private basePath: string;
 
   constructor(
-    private dataService: DataService,
     private fileMapService: FileMapService,
   ) {
     super();
@@ -39,16 +37,13 @@ export class NewMapModalComponent extends MzBaseModal implements OnInit {
   }
 
   create() {
-    this.dataService.createMap(
+    this.fileMapService.createMap(
       this.title,
       this.basePath,
-      this.filename
+      this.filename,
+      fileMap => {
+        console.log('Map imported', fileMap);
+      }
     )
-      .subscribe(
-        (fm: FileMap) => {
-          console.log('FileMap imported', fm);
-          this.fileMapService.useFileMap(fm);
-        }
-      );
   }
 }

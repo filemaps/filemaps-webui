@@ -13,6 +13,7 @@ import { FileMapService } from '../../file-map.service';
 import { Renderer } from '../../renderer.service';
 import { MapsModalComponent } from './maps-modal.component';
 import { SharedModule } from '../../shared/shared.module';
+import { StyleService } from '../../style.service';
 
 describe('MapsModalComponent', () => {
   let component: MapsModalComponent;
@@ -31,6 +32,7 @@ describe('MapsModalComponent', () => {
         DataService,
         FileMapService,
         Renderer,
+        StyleService,
       ],
     })
     .compileComponents();

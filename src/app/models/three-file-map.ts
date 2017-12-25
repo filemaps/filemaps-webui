@@ -5,9 +5,12 @@
 
 import { CommandService } from '../commands/command.service';
 import { FileMap } from './file-map';
-import { Resource } from './resource';
 import { DataService } from '../data.service';
+import { FileMapService } from '../file-map.service';
 import { Renderer } from '../renderer.service';
+import { Resource } from './resource';
+import { Style } from './style';
+import { StyleService } from '../style.service';
 import { ThreeResource } from './three-resource';
 
 export class ThreeFileMap implements FileMap {
@@ -20,12 +23,15 @@ export class ThreeFileMap implements FileMap {
   version: number;
   title2 = '';
   exclude: string[];
+  styles: Style[];
   resources: Resource[];
 
   constructor(
     private commandService: CommandService,
     private dataService: DataService,
+    private fileMapService: FileMapService,
     private renderer: Renderer,
+    private styleService: StyleService,
     values: Object = {}
   ) {
     Object.assign(this, values);
@@ -35,7 +41,9 @@ export class ThreeFileMap implements FileMap {
         resources.push(new ThreeResource(
           this.commandService,
           this.dataService,
+          this.fileMapService,
           this.renderer,
+          this.styleService,
           this,
           resource
         ));
@@ -59,5 +67,19 @@ export class ThreeFileMap implements FileMap {
     }
     // not found
     return null;
+  }
+
+  getStyleRule(sClass: string, rule: string, defaultVal?: string): string {
+    console.log('ThreeFileMap.getStyleRule', sClass, rule, defaultVal, this.styles);
+    for (const style of this.styles) {
+      if (style.sClass === sClass) {
+        if (style.rules.hasOwnProperty(rule)) {
+          return style.rules[rule];
+        } else {
+          return this.styleService.getRule(sClass, rule, defaultVal);
+        }
+      }
+    }
+    return defaultVal;
   }
 }

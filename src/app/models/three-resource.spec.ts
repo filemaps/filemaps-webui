@@ -8,22 +8,30 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { CommandService } from '../commands/command.service';
 import { DataService } from '../data.service';
+import { FileMapService } from '../file-map.service';
 import { Renderer } from '../renderer.service';
+import { StyleService } from '../style.service';
 import { ThreeFileMap } from './three-file-map';
 import { ThreeResource } from './three-resource';
 
 describe('ThreeResource', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CommandService, DataService, Renderer],
+      providers: [
+        CommandService,
+        DataService,
+        FileMapService,
+        Renderer,
+        StyleService,
+      ],
       imports: [HttpClientModule],
     });
   });
 
   it('should create an instance',
-    inject([CommandService, DataService, Renderer],
-      (commandService: CommandService, data: DataService, renderer: Renderer) => {
-        const fileMap = new ThreeFileMap(commandService, data, renderer);
-        expect(new ThreeResource(commandService, data, renderer, fileMap)).toBeTruthy();
+    inject([CommandService, DataService, FileMapService, Renderer, StyleService],
+      (cmds: CommandService, ds: DataService, fms: FileMapService, renderer: Renderer, ss: StyleService) => {
+        const fileMap = new ThreeFileMap(cmds, ds, fms, renderer, ss);
+        expect(new ThreeResource(cmds, ds, fms, renderer, ss, fileMap)).toBeTruthy();
   }));
 });

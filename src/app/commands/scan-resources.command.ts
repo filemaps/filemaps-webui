@@ -10,22 +10,22 @@ import { Command } from './command';
 import { FileMap } from '../models/file-map';
 import { FileMapService } from '../file-map.service';
 import { Resource } from '../models/resource';
-import { ResourceDraft } from '../models/resource-draft';
 
-export class AddResourcesCommand implements Command {
+export class ScanResourcesCommand implements Command {
 
   private resources: Resource[];
 
   constructor(
     private fileMapService: FileMapService,
     private fileMap: FileMap,
-    private drafts: ResourceDraft[]
+    private path: string,
+    private excludes: string[]
   ) {}
 
   exec(): Observable<any> {
     const subject = new Subject<Resource[]>();
 
-    this.fileMapService.addResources(this.fileMap, this.drafts, resources => {
+    this.fileMapService.scanResources(this.fileMap, this.path, this.excludes, resources => {
       // save new resources for undo
       this.resources = resources;
       subject.next(resources);
@@ -36,6 +36,7 @@ export class AddResourcesCommand implements Command {
 
   undo(): Observable<any> {
     const subject = new Subject<Resource[]>();
+
     this.fileMapService.removeResources(this.resources, () => {
       for (const resource of this.resources) {
         resource.remove();

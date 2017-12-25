@@ -4,6 +4,7 @@
 // license that can be found in the LICENSE file.
 
 import { Resource } from './resource';
+import { Style } from './style';
 
 export interface FileMap {
   id: number;
@@ -15,8 +16,10 @@ export interface FileMap {
   version: number;
   title2: string;
   exclude: string[];
+  styles: Style[];
   resources: Resource[];
 
   draw(): void;
   getResource(id: number): Resource;
+  getStyleRule(sClass: string, rule: string, defaultVal?: string): string;
 }

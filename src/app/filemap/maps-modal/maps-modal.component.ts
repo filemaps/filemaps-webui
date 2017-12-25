@@ -12,11 +12,11 @@ import {
 } from '@angular/core';
 import { MzBaseModal, MzModalComponent } from 'ng2-materialize';
 
-import { DataService } from '../../data.service';
 import { FileInfo } from '../../models/file-info';
 import { FileMap } from '../../models/file-map';
 import { FileMapService } from '../../file-map.service';
 import { Renderer } from '../../renderer.service';
+import { StyleService } from '../../style.service';
 import { ThreeFileMap } from '../../models/three-file-map';
 
 // declare '$' for jQuery
@@ -33,15 +33,15 @@ export class MapsModalComponent extends MzBaseModal implements AfterViewInit, On
 
   constructor(
     private element: ElementRef,
-    private dataService: DataService,
     private fileMapService: FileMapService,
     private renderer: Renderer,
+    private styleService: StyleService,
   ) {
     super();
   }
 
   getFileMaps(): void {
-    this.dataService.getAllFileMaps().subscribe(fileMaps => {
+    this.fileMapService.getMaps(fileMaps => {
       this.fileMaps = fileMaps;
       console.log('File maps', this.fileMaps);
     });
@@ -59,23 +59,15 @@ export class MapsModalComponent extends MzBaseModal implements AfterViewInit, On
   }
 
   onMapClick(fileMap: FileMap): void {
-    console.log('File Map selected', fileMap);
-    this.dataService.getFileMap(fileMap.id)
-      .subscribe(
-        (fm: FileMap) => {
-          this.fileMapService.useFileMap(fm);
-        }
-      );
+    this.fileMapService.loadMap(
+      fileMap.id,
+      fm => console.log('Map loaded', fm)
+    );
   }
 
   onEntryClick(fileInfo: FileInfo) {
-    this.dataService.importMap(fileInfo.path)
-      .subscribe(
-        (fm: FileMap) => {
-          console.log('FileMap imported', fm);
-          this.fileMapService.useFileMap(fm);
-          this.modal.close();
-        }
-      );
+    this.fileMapService.importMap(fileInfo.path, fileMap => {
+      this.modal.close();
+    });
   }
 }

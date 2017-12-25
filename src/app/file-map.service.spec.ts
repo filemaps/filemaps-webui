@@ -10,6 +10,7 @@ import { CommandsModule } from './commands/commands.module';
 import { DataService } from './data.service';
 import { FileMapService } from './file-map.service';
 import { Renderer } from './renderer.service';
+import { StyleService } from './style.service';
 
 describe('FileMapService', () => {
   beforeEach(() => {
@@ -22,6 +23,7 @@ describe('FileMapService', () => {
         DataService,
         FileMapService,
         Renderer,
+        StyleService,
       ]
     });
   });

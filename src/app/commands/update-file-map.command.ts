@@ -8,7 +8,7 @@ import { EmptyObservable } from 'rxjs/observable/EmptyObservable';
 import { Subject } from 'rxjs/Subject';
 
 import { Command } from './command';
-import { DataService } from '../data.service';
+import { FileMapService } from '../file-map.service';
 import { FileMap } from '../models/file-map';
 
 export class UpdateFileMapCommand implements Command {
@@ -17,7 +17,7 @@ export class UpdateFileMapCommand implements Command {
   private after: FileMap;
 
   constructor(
-    private dataService: DataService,
+    private fileMapService: FileMapService,
     fileMap: FileMap,
     private done: (fileMap: FileMap) => void,
   ) {
@@ -38,26 +38,20 @@ export class UpdateFileMapCommand implements Command {
     }
 
     const subject = new Subject<FileMap>();
-    this.dataService.updateFileMap(this.after)
-      .subscribe(
-        fileMap => {
-          subject.next(fileMap);
-          this.done(fileMap);
-        }
-      );
+    this.fileMapService.updateMap(this.after, fileMap => {
+      subject.next(fileMap);
+      this.done(fileMap);
+    });
 
     return subject.asObservable();
   }
 
   undo(): Observable<any> {
     const subject = new Subject<FileMap>();
-    this.dataService.updateFileMap(this.before)
-      .subscribe(
-        fileMap => {
-          subject.next(fileMap);
-          this.done(fileMap);
-        }
-      );
+    this.fileMapService.updateMap(this.before, fileMap => {
+      subject.next(fileMap);
+      this.done(fileMap);
+    });
 
     return subject.asObservable();
   }

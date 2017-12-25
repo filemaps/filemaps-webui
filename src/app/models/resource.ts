@@ -5,12 +5,14 @@
 
 import { FileMap } from './file-map';
 import { Position } from './position';
+import { Style } from './style';
 
 export interface Resource {
   id: number;
   type: number;
   path: string;
   pos: Position;
+  style: Style;
   readonly fileMap: FileMap;
 
   copy(): Resource;

@@ -13,16 +13,15 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 import { FileMap } from './models/file-map';
-import { CommandService } from './commands/command.service';
 import { Config } from './models/config';
 import { ConfigResponse } from './models/config-response';
 import { DirContents } from './models/dir-contents';
+import { FileMapResponse } from './models/file-map-response';
+import { FileMapsResponse } from './models/file-maps-response';
 import { Info } from './models/info';
-import { Renderer } from './renderer.service';
 import { Resource } from './models/resource';
 import { ResourceDraft } from './models/resource-draft';
-import { ThreeFileMap } from './models/three-file-map';
-import { ThreeResource } from './models/three-resource';
+import { ResourcesResponse } from './models/resources-response';
 
 const API_URL = environment.apiUrl;
 
@@ -33,39 +32,22 @@ export class DataService {
   public info: Info = new Info();
 
   constructor(
-    private commandService: CommandService,
     private http: HttpClient,
-    private renderer: Renderer
   ) {
   }
 
   // API: GET /maps
-  public getAllFileMaps(): Observable<FileMap[]> {
+  public getAllFileMaps(): Observable<FileMapsResponse> {
     return this.http
-      .get(API_URL + '/maps')
-      .map(data => {
-        const fileMaps = data['maps'];
-        return fileMaps.map(fileMap => new ThreeFileMap(
-          this.commandService,
-          this,
-          this.renderer,
-          fileMap
-        ));
-      })
+      .get<FileMapsResponse>(API_URL + '/maps')
       .catch(this.handleError);
   }
 
   // API: GET /maps/:id
-  public getFileMap(id: number): Observable<FileMap> {
+  public getFileMap(id: number): Observable<FileMapResponse> {
     const url = `${API_URL}/maps/${id}`;
     return this.http
-      .get(url)
-      .map(data => new ThreeFileMap(
-        this.commandService,
-        this,
-        this.renderer,
-        data
-      ))
+      .get<FileMapResponse>(url)
       .catch(this.handleError);
   }
 
@@ -73,22 +55,16 @@ export class DataService {
    * Sends modified FileMap properties to server.
    * API: PUT /maps/:mapid
    */
-  public updateFileMap(fileMap: FileMap): Observable<FileMap> {
+  public updateFileMap(fileMap: FileMap): Observable<FileMapResponse> {
     const url = `${API_URL}/maps/${fileMap.id}`;
     return this.http
-      .put(url, {
+      .put<FileMapResponse>(url, {
         title: fileMap.title,
         description: fileMap.description,
         base: fileMap.base,
         file: fileMap.file,
         exclude: fileMap.exclude,
       })
-      .map(data => new ThreeFileMap(
-        this.commandService,
-        this,
-        this.renderer,
-        data
-      ))
       .catch(this.handleError);
   }
 
@@ -96,20 +72,10 @@ export class DataService {
    * Adds new resources.
    * API: POST /maps/:mapid/resources
    */
-  public addResources(fileMap: FileMap, drafts: ResourceDraft[]): Observable<Resource[]> {
+  public addResources(fileMap: FileMap, drafts: ResourceDraft[]): Observable<ResourcesResponse> {
     return this.http
-      .post(`${API_URL}/maps/${fileMap.id}/resources`, {
+      .post<ResourcesResponse>(`${API_URL}/maps/${fileMap.id}/resources`, {
         items: drafts,
-      })
-      .map(data => {
-        const resources = data['resources'];
-        return resources.map(rsrc => new ThreeResource(
-          this.commandService,
-          this,
-          this.renderer,
-          fileMap,
-          rsrc
-        ));
       })
       .catch(this.handleError);
   }
@@ -125,12 +91,12 @@ export class DataService {
       .catch(this.handleError);
   }
 
-  public updateResources(resources: Resource[]): Observable<any> {
+  public updateResources(resources: Resource[]): Observable<ResourcesResponse> {
     if (resources.length > 0) {
       const fileMap = resources[0].fileMap;
       const url = `${API_URL}/maps/${fileMap.id}/resources`;
       return this.http
-        .put(url, {
+        .put<ResourcesResponse>(url, {
           // map resources to simpler objects for server
           resources: resources.map(function(res) {
             return {
@@ -150,22 +116,12 @@ export class DataService {
    * Scans directories and adds new Resources.
    * API: POST /maps/:mapid/resources/scan
    */
-  public scanResources(fileMap: FileMap, path: string, exclude: string[]): Observable<Resource[]> {
+  public scanResources(fileMap: FileMap, path: string, exclude: string[]): Observable<ResourcesResponse> {
     const url = `${API_URL}/maps/${fileMap.id}/resources/scan`;
     return this.http
-      .post<Resource[]>(url, {
+      .post<ResourcesResponse>(url, {
         path: path,
         exclude: exclude,
-      })
-      .map(data => {
-        const resources = data['resources'];
-        return resources.map(rsrc => new ThreeResource(
-          this.commandService,
-          this,
-          this.renderer,
-          fileMap,
-          rsrc
-        ));
       })
       .catch(this.handleError);
   }
@@ -219,33 +175,25 @@ export class DataService {
       .catch(this.handleError);
   }
 
-  public importMap(path: string): Observable<FileMap> {
+  public importMap(path: string): Observable<FileMapResponse> {
     return this.http
-      .post(`${API_URL}/maps/import`, {
+      .post<FileMapResponse>(`${API_URL}/maps/import`, {
         path: path,
       })
-      .map(data => new ThreeFileMap(
-        this.commandService,
-        this,
-        this.renderer,
-        data
-      ))
       .catch(this.handleError);
   }
 
-  public createMap(title: string, base: string, file: string) {
+  public createMap(
+    title: string,
+    base: string,
+    file: string
+  ): Observable<FileMapResponse> {
     return this.http
-      .post(`${API_URL}/maps`, {
+      .post<FileMapResponse>(`${API_URL}/maps`, {
         title: title,
         base: base,
         file: file,
       })
-      .map(data => new ThreeFileMap(
-        this.commandService,
-        this,
-        this.renderer,
-        data
-      ))
       .catch(this.handleError);
   }
 

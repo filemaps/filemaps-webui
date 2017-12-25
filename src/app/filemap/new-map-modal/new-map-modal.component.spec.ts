@@ -14,6 +14,7 @@ import { FileMapService } from '../../file-map.service';
 import { NewMapModalComponent } from './new-map-modal.component';
 import { Renderer } from '../../renderer.service';
 import { SharedModule } from '../../shared/shared.module';
+import { StyleService } from '../../style.service';
 
 describe('NewMapModalComponent', () => {
   let component: NewMapModalComponent;
@@ -33,6 +34,7 @@ describe('NewMapModalComponent', () => {
         DataService,
         FileMapService,
         Renderer,
+        StyleService,
       ],
     })
     .compileComponents();

@@ -6,15 +6,16 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import { AddResourcesCommand } from './commands/add-resources.command';
 import { CommandService } from './commands/command.service';
 import { DataService } from './data.service';
 import { FileMap } from './models/file-map';
+import { FileMapResponse } from './models/file-map-response';
 import { Renderer } from './renderer.service';
-import { RemoveResourcesCommand } from './commands/remove-resources.command';
 import { Resource } from './models/resource';
 import { ResourceDraft } from './models/resource-draft';
-import { UpdateFileMapCommand } from './commands/update-file-map.command';
+import { StyleService } from './style.service';
+import { ThreeFileMap } from './models/three-file-map';
+import { ThreeResource } from './models/three-resource';
 
 @Injectable()
 export class FileMapService {
@@ -32,6 +33,7 @@ export class FileMapService {
     private commandService: CommandService,
     private dataService: DataService,
     private renderer: Renderer,
+    private styleService: StyleService,
   ) {
     // subscribe to selection change event
     renderer.selectedResourcesChanged$.subscribe(
@@ -41,9 +43,216 @@ export class FileMapService {
     );
   }
 
-  public useFileMap(fileMap: FileMap) {
-    this.current = fileMap;
+  public getMaps(done: (fileMaps: FileMap[]) => void): void {
+    this.dataService.getAllFileMaps()
+      .subscribe(
+        response => {
+          const fileMaps = response.maps.map(fileMap => new ThreeFileMap(
+            this.commandService,
+            this.dataService,
+            this,
+            this.renderer,
+            this.styleService,
+            fileMap
+          ));
+          // callback
+          done(fileMaps);
+        }
+      );
+  }
+
+  public createMap(
+    title: string,
+    base: string,
+    file: string,
+    done: (fileMap: FileMap) => void
+  ): void {
+    this.dataService.createMap(title, base, file)
+      .subscribe(
+        response => {
+          this.styleService.setDefaultStyles(response.defaultStyles);
+
+          const fileMap = new ThreeFileMap(
+            this.commandService,
+            this.dataService,
+            this,
+            this.renderer,
+            this.styleService,
+            response.fileMap,
+          );
+
+          this.changeFileMap(fileMap);
+
+          // callback
+          done(fileMap);
+        }
+      );
+  }
+
+  public loadMap(id: number, done: (fileMap: FileMap) => void): void {
+    this.dataService.getFileMap(id)
+      .subscribe(
+        response => {
+          this.styleService.setDefaultStyles(response.defaultStyles);
+
+          const fileMap = new ThreeFileMap(
+            this.commandService,
+            this.dataService,
+            this,
+            this.renderer,
+            this.styleService,
+            response.fileMap,
+          );
+
+          this.changeFileMap(fileMap);
+
+          // callback
+          done(fileMap);
+        }
+
+      );
+  }
+
+  public importMap(path: string, done: (fileMap: FileMap) => void): void {
+    this.dataService.importMap(path)
+      .subscribe(
+        response => {
+          this.styleService.setDefaultStyles(response.defaultStyles);
+
+          const fileMap = new ThreeFileMap(
+            this.commandService,
+            this.dataService,
+            this,
+            this.renderer,
+            this.styleService,
+            response.fileMap,
+          );
+
+          this.changeFileMap(fileMap);
+
+          // callback
+          done(fileMap);
+        }
+      );
+  }
+
+  public updateMap(fileMap: FileMap, done: (serverFileMap: FileMap) => void): void {
+    this.dataService.updateFileMap(fileMap)
+      .subscribe(
+        response => {
+          this.styleService.setDefaultStyles(response.defaultStyles);
+
+          const serverFileMap = new ThreeFileMap(
+            this.commandService,
+            this.dataService,
+            this,
+            this.renderer,
+            this.styleService,
+            response.fileMap,
+          );
+
+          // make sure to update local file map
+          this.current.title = serverFileMap.title;
+          this.current.description = serverFileMap.description;
+          this.current.exclude = serverFileMap.exclude;
+
+          // use Subject to inform observers about file map change
+          this.fileMapChangedSource.next(this.current);
+
+          // callback
+          done(serverFileMap);
+        }
+      );
+  }
+
+  public addResources(
+    fileMap: FileMap,
+    drafts: ResourceDraft[],
+    done: (resources: Resource[]) => void
+  ): void {
+    this.dataService.addResources(fileMap, drafts)
+      .subscribe(
+        response => {
+          const resources = response.resources.map(rsrc => new ThreeResource(
+            this.commandService,
+            this.dataService,
+            this,
+            this.renderer,
+            this.styleService,
+            fileMap,
+            rsrc
+          ));
+
+          // add new resources to file map and draw them
+          for (const resource of resources) {
+            fileMap.resources.push(resource);
+            resource.draw();
+          }
+
+          // callback
+          done(resources);
+        }
+      );
+  }
+
+  public updateResources(resources: Resource[], done: (response: any) => void): void {
+    this.dataService.updateResources(resources)
+      .subscribe(
+        response => {
+          done(response);
+        }
+      );
+  }
+
+  public scanResources(
+    fileMap: FileMap,
+    path: string,
+    exclude: string[],
+    done: (resources: Resource[]) => void
+  ): void {
+    this.dataService.scanResources(fileMap, path, exclude)
+      .subscribe(
+        response => {
+          const resources = response.resources.map(rsrc => new ThreeResource(
+            this.commandService,
+            this.dataService,
+            this,
+            this.renderer,
+            this.styleService,
+            fileMap,
+            rsrc
+          ));
+
+          // add new resources to file map and draw them
+          for (const resource of resources) {
+            fileMap.resources.push(resource);
+            resource.draw();
+          }
+
+          // callback
+          done(resources);
+        }
+      );
+  }
+
+  public removeResources(resources: Resource[], done: () => void): void {
+    this.dataService.removeResources(resources)
+      .subscribe(
+        response => {
+          for (const resource of resources) {
+            resource.remove();
+          }
+
+          // callback
+          done();
+        }
+      );
+  }
+
+  private changeFileMap(fileMap: FileMap) {
     this.renderer.clear();
+
+    this.current = fileMap;
     fileMap.draw();
 
     // use Subject to inform observers about file map change
@@ -51,55 +260,5 @@ export class FileMapService {
 
     // clear undo history
     this.commandService.clear();
-  }
-
-  public updateFileMap(id: number, title: string, description: string, exclude: string[]) {
-    // make a shallow copy of file map for modifications
-    const fileMap = { ...this.current };
-
-    const cmd = new UpdateFileMapCommand(this.dataService, fileMap, serverFileMap => {
-      // make sure to update local file map
-      this.current.title = serverFileMap.title;
-      this.current.description = serverFileMap.description;
-      this.current.exclude = serverFileMap.exclude;
-
-      // use Subject to inform observers about file map change
-      this.fileMapChangedSource.next(this.current);
-    });
-
-    fileMap.title = title;
-    fileMap.description = description;
-    fileMap.exclude = exclude;
-    cmd.saveAfterState(fileMap);
-
-    this.commandService.exec(cmd);
-  }
-
-  /**
-   * Adds new resources to current file map.
-   */
-  public addResources(drafts: ResourceDraft[]) {
-    const cmd = new AddResourcesCommand(this.dataService, this.current, drafts);
-    this.commandService.exec(cmd);
-  }
-
-  public removeResources(resources: Resource[]) {
-    const cmd = new RemoveResourcesCommand(this.dataService, resources);
-    this.commandService.exec(cmd);
-  }
-
-  /**
-   * Scans directories recursively and adds new resources to current file map.
-   */
-  public scanResources(path: string, exclude: string[]) {
-    this.dataService.scanResources(this.current, path, exclude)
-      .subscribe(
-        (resources) => {
-          for (const resource of resources) {
-            this.current.resources.push(resource);
-            resource.draw();
-          }
-        }
-      );
   }
 }
