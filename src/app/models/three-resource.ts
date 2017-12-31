@@ -29,6 +29,7 @@ export class ThreeResource implements Resource {
   private obj: THREE.Mesh;
   private label: MeshText2D;
   private dragStart: { x: number, y: number, z: number, time: number };
+  private followers: Resource[];
 
   constructor(
     private commandService: CommandService,
@@ -138,17 +139,48 @@ export class ThreeResource implements Resource {
       z: this.obj.position.z,
       time: new Date().getTime()
     };
+
+    this.followers = this.getFollowers();
+    for (let i = 0; i < this.followers.length; i++) {
+      this.followers[i].onFollowStart();
+    }
   }
 
   onDrag(): void {
     this.updateLabelPos();
+
+    // move followers
+    let offset = {
+      x: this.obj.position.x - this.dragStart.x,
+      y: this.obj.position.y - this.dragStart.y,
+      z: this.obj.position.z - this.dragStart.z,
+    };
+
+    for (let i = 0; i < this.followers.length; i++) {
+      this.followers[i].onFollow(offset);
+    }
+  }
+
+  onFollowStart(): void {
+    this.dragStart = {
+      x: this.obj.position.x,
+      y: this.obj.position.y,
+      z: this.obj.position.z,
+      time: new Date().getTime()
+    };
+  }
+
+  onFollow(offset: Position): void {
+    this.obj.position.x = this.dragStart.x + offset.x;
+    this.obj.position.y = this.dragStart.y + offset.y;
+    this.obj.position.z = this.dragStart.z + offset.z;
+    this.updateLabelPos();
   }
 
   onDragEnd(): void {
-    if (Math.abs(this.obj.position.x - this.dragStart.x) < this.dragThreshold &&
-      Math.abs(this.obj.position.y - this.dragStart.y) < this.dragThreshold &&
-      Math.abs(this.obj.position.z - this.dragStart.z) < this.dragThreshold) {
+    const resources = [...this.followers, this];
 
+    if (this.movedEnough()) {
       // check drag duration
       const duration = new Date().getTime() - this.dragStart.time;
       if (duration < this.selectDuration) {
@@ -158,23 +190,36 @@ export class ThreeResource implements Resource {
       }
 
       // restore position
-      this.obj.position.x = this.dragStart.x;
-      this.obj.position.y = this.dragStart.y;
-      this.obj.position.z = this.dragStart.z;
-      this.updateLabelPos();
+      for (let i = 0; i < resources.length; i++) {
+        resources[i].restoreDrag();
+      }
       this.renderer.animate();
     } else {
       // dragged enough to not to be opened
-      const cmd = new UpdateResourcesCommand(this.fileMapService, [this]);
+      const cmd = new UpdateResourcesCommand(this.fileMapService, resources);
 
-      this.pos.x = this.obj.position.x;
-      this.pos.y = this.obj.position.y;
-      this.pos.z = this.obj.position.z;
+      // update pos field
+      for (let i = 0; i < resources.length; i++) {
+        resources[i].syncPos();
+      }
 
-      cmd.saveAfterState([this]);
+      cmd.saveAfterState(resources);
 
       this.commandService.exec(cmd);
     }
+  }
+
+  restoreDrag(): void {
+    this.obj.position.x = this.dragStart.x;
+    this.obj.position.y = this.dragStart.y;
+    this.obj.position.z = this.dragStart.z;
+    this.updateLabelPos();
+  }
+
+  syncPos(): void {
+    this.pos.x = this.obj.position.x;
+    this.pos.y = this.obj.position.y;
+    this.pos.z = this.obj.position.z;
   }
 
   open(): void {
@@ -209,9 +254,25 @@ export class ThreeResource implements Resource {
     }
   }
 
+  private movedEnough(): boolean {
+    return Math.abs(this.obj.position.x - this.dragStart.x) < this.dragThreshold &&
+      Math.abs(this.obj.position.y - this.dragStart.y) < this.dragThreshold &&
+      Math.abs(this.obj.position.z - this.dragStart.z) < this.dragThreshold;
+  }
+
   private updateLabelPos() {
     this.label.position.x = this.obj.position.x;
     this.label.position.y = this.obj.position.y - 35;
     this.label.position.z = 1;
+  }
+
+  private getFollowers(): Resource[] {
+    let followers = [];
+    for (const selected of this.renderer.getSelectedResources()) {
+      if (selected !== this) {
+        followers.push(selected);
+      }
+    }
+    return followers;
   }
 }

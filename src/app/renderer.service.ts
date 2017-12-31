@@ -35,6 +35,7 @@ export class Renderer {
   private resources: THREE.Object3D[] = [];
   private currentMap: FileMap;
   private selectionTool: SelectionTool;
+  private selectedResources: Resource[] = [];
 
   // for optimizing animation
   private animating = false;
@@ -117,9 +118,9 @@ export class Renderer {
       this.dragControls.deactivate();
     });
     this.selectionTool.addEventListener('selected', (evt: any) => {
-      const selectedResources: Resource[] = [];
-      evt.selected.forEach(rsrcObj => selectedResources.push(rsrcObj.userData.resource));
-      this.selectedResourcesChangedSource.next(selectedResources);
+      this.selectedResources = [];
+      evt.selected.forEach(rsrcObj => this.selectedResources.push(rsrcObj.userData.resource));
+      this.selectedResourcesChangedSource.next(this.selectedResources);
 
       // notify Resource objects of selection changes
       evt.added.forEach(rsrc => rsrc.userData.resource.select());
@@ -208,6 +209,10 @@ export class Renderer {
 
   public clearSelection() {
     this.selectionTool.clear();
+  }
+
+  public getSelectedResources(): Resource[] {
+    return this.selectedResources;
   }
 
   private onWindowResize() {

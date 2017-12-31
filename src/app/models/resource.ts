@@ -22,6 +22,10 @@ export interface Resource {
   onDragStart(): void;
   onDrag(): void;
   onDragEnd(): void;
+  onFollowStart(): void;
+  onFollow(offset: Position): void;
+  restoreDrag(): void;
+  syncPos(): void;
   open(): void;
   close(): void;
   select(): void;
