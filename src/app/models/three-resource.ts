@@ -150,7 +150,7 @@ export class ThreeResource implements Resource {
     this.updateLabelPos();
 
     // move followers
-    let offset = {
+    const offset = {
       x: this.obj.position.x - this.dragStart.x,
       y: this.obj.position.y - this.dragStart.y,
       z: this.obj.position.z - this.dragStart.z,
@@ -267,7 +267,7 @@ export class ThreeResource implements Resource {
   }
 
   private getFollowers(): Resource[] {
-    let followers = [];
+    const followers = [];
     for (const selected of this.renderer.getSelectedResources()) {
       if (selected !== this) {
         followers.push(selected);
