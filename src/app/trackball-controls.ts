@@ -10,8 +10,8 @@ import { Camera, Event, EventDispatcher, Quaternion, Vector2, Vector3 } from 'th
 const enum State {
   None = -1,
   Pan,
-  Zoom,
   Rotate,
+  Zoom,
   TouchRotate,
   TouchZoomPan
 }
@@ -318,7 +318,7 @@ export class TrackballControls extends EventDispatcher {
   }
 
   private mousedown = (event: any) => {
-    if (this.enabled === false) { return; }
+    if (this.enabled === false || event.button === State.Zoom) { return; }
     event.preventDefault();
     event.stopPropagation();
 
@@ -329,9 +329,6 @@ export class TrackballControls extends EventDispatcher {
     if (this.state === State.Rotate && !this.noRotate) {
       this.moveCurr.copy(this.getMouseOnCircle(event.pageX, event.pageY));
       this.movePrev.copy(this.moveCurr);
-    } else if (this.state === State.Zoom && !this.noZoom) {
-      this.zoomStart.copy(this.getMouseOnScreen(event.pageX, event.pageY));
-      this.zoomEnd.copy(this.zoomStart);
     } else if (this.state === State.Pan && !this.noPan) {
       this.panStart.copy(this.getMouseOnScreen(event.pageX, event.pageY));
       this.panEnd.copy(this.panStart);

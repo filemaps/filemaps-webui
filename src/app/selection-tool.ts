@@ -17,6 +17,8 @@ import {
   Vector3
 } from 'three';
 
+const startSelectButton = 2;
+
 export class SelectionTool extends EventDispatcher {
   private coords: any;
   private firstCorner: Vector2;
@@ -25,6 +27,7 @@ export class SelectionTool extends EventDispatcher {
   private mouseGround = new Vector3();
   private raycaster = new Raycaster();
   private selected = new Set<Object3D>();
+  private selecting = false;
 
   constructor(
     private scene: Scene,
@@ -53,10 +56,14 @@ export class SelectionTool extends EventDispatcher {
     this.line.visible = false; // begin with hidden line
 
     this.scene.add(this.line);
+
+    // start selection from mouse button
+    document.addEventListener('mousedown', this.mouseDown, false);
+    this.domElement.addEventListener('contextmenu', this.contextmenu, false);
   }
 
   start() {
-    document.addEventListener('mousedown', this.mouseDown, false);
+    this.selecting = true;
     document.addEventListener('touchstart', this.touchStart, false);
     // touchmove must be attached to domElement or else document is scrolled with touch
     this.domElement.addEventListener('touchmove', this.touchMove, false);
@@ -82,13 +89,13 @@ export class SelectionTool extends EventDispatcher {
   private end() {
     this.line.visible = false;
     document.removeEventListener('mousemove', this.mouseMove, false);
-    document.removeEventListener('mousedown', this.mouseDown, false);
     document.removeEventListener('mouseup', this.mouseUp, false);
     this.domElement.removeEventListener('touchmove', this.touchMove, false);
     document.removeEventListener('touchstart', this.touchStart, false);
     document.removeEventListener('touchend', this.touchEnd, false);
     this.domElement.style.cursor = 'auto';
     this.dispatchEvent({ type: 'end' });
+    this.selecting = false;
   }
 
   private mouseMove = (event: any) => {
@@ -101,12 +108,19 @@ export class SelectionTool extends EventDispatcher {
 
   private mouseDown = (event: any) => {
     event.preventDefault();
+      event.stopPropagation();
 
-    this.updateMouseGround(event.clientX, event.clientY);
-    this.initLine();
+    if (event.button === startSelectButton) {
+      this.start();
+    }
 
-    document.addEventListener('mousemove', this.mouseMove, false);
-    document.addEventListener('mouseup', this.mouseUp, false);
+    if (this.selecting) {
+      this.updateMouseGround(event.clientX, event.clientY);
+      this.initLine();
+
+      document.addEventListener('mousemove', this.mouseMove, false);
+      document.addEventListener('mouseup', this.mouseUp, false);
+    }
   }
 
   private mouseUp = (event: any) => {
@@ -139,6 +153,10 @@ export class SelectionTool extends EventDispatcher {
   private touchEnd = (event: any) => {
     this.firstCorner = undefined;
     this.end();
+  }
+
+  private contextmenu = (event: any) => {
+    event.preventDefault();
   }
 
   private updateMouseGround(clientX: number, clientY: number) {
