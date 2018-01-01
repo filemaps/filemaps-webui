@@ -108,7 +108,7 @@ export class SelectionTool extends EventDispatcher {
 
   private mouseDown = (event: any) => {
     event.preventDefault();
-      event.stopPropagation();
+    event.stopPropagation();
 
     if (event.button === startSelectButton) {
       this.start();

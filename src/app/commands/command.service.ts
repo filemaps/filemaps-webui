@@ -85,4 +85,12 @@ export class CommandService {
     this.redoStack = [];
     this.redoStackChangedSource.next(0);
   }
+
+  canUndo() {
+    return this.undoStack.length > 0;
+  }
+
+  canRedo() {
+    return this.redoStack.length > 0;
+  }
 }

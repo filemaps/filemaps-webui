@@ -5,12 +5,16 @@
 
 import { TestBed, inject } from '@angular/core/testing';
 
+import { CommandService } from './commands/command.service';
 import { Renderer } from './renderer.service';
 
 describe('RenderService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [Renderer]
+      providers: [
+        CommandService,
+        Renderer,
+      ]
     });
   });
 

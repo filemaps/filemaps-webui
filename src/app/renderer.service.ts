@@ -8,6 +8,7 @@ import { Subject } from 'rxjs/Subject';
 import * as THREE from 'three';
 import { MeshText2D } from 'three-text2d';
 
+import { CommandService } from './commands/command.service';
 import { DragControls } from './drag-controls';
 import { FileMap } from './models/file-map';
 import { FileMapService } from './file-map.service';
@@ -41,7 +42,9 @@ export class Renderer {
   private animating = false;
   private animUntil = 0;
 
-  constructor() { }
+  constructor(
+    private commandService: CommandService,
+  ) { }
 
   init(element: any) {
     // Camera
@@ -136,6 +139,9 @@ export class Renderer {
       this.controls.enabled = true;
       this.dragControls.activate();
     });
+
+    // keyboard shortcuts
+    window.addEventListener('keydown', this.onKeyDown, false);
   }
 
   /**
@@ -248,5 +254,30 @@ export class Renderer {
   private onDragEnd(evt: any) {
     this.controls.enabled = true;
     evt.object.userData.resource.onDragEnd();
+  }
+
+  /**
+   * Key event.
+   */
+  private onKeyDown = (event: any) => {
+    if (event.keyCode === 90 && !event.shiftKey && event.ctrlKey) {
+      // Ctrl + Z: Undo
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (this.commandService.canUndo()) {
+        this.commandService.undo();
+        this.animate();
+      }
+    } else if (event.keyCode === 90 && event.shiftKey && event.ctrlKey) {
+      // Shift + Ctrl + Z: Redo
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (this.commandService.canRedo()) {
+        this.commandService.redo();
+        this.animate();
+      }
+    }
   }
 }

@@ -5,6 +5,7 @@
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { CommandService } from '../commands/command.service';
 import { Renderer } from '../renderer.service';
 import { ViewerComponent } from './viewer.component';
 
@@ -16,6 +17,7 @@ describe('ViewerComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ViewerComponent ],
       providers: [
+        CommandService,
         Renderer,
       ],
     })
