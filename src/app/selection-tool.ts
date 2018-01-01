@@ -58,7 +58,7 @@ export class SelectionTool extends EventDispatcher {
     this.scene.add(this.line);
 
     // start selection from mouse button
-    document.addEventListener('mousedown', this.mouseDown, false);
+    this.domElement.addEventListener('mousedown', this.mouseDown, false);
     this.domElement.addEventListener('contextmenu', this.contextmenu, false);
   }
 
