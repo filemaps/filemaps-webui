@@ -56,6 +56,10 @@ export class ThreeFileMap implements FileMap {
     this.resources.forEach(res => res.draw());
   }
 
+  erase(): void {
+    this.resources.forEach(res => res.erase());
+  }
+
   /**
    * Returns Resource by ID, or null if not found.
    */

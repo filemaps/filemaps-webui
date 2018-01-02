@@ -124,6 +124,14 @@ export class ThreeResource implements Resource {
     this.refresh();
   }
 
+  /**
+   * Removes resource from scene.
+   * Does not remove resource from file map.
+   */
+  erase(): void {
+    this.renderer.removeResource(this.obj, this.label);
+  }
+
   refresh(): void {
     this.obj.position.x = this.pos.x;
     this.obj.position.y = this.pos.y;
@@ -244,7 +252,7 @@ export class ThreeResource implements Resource {
   }
 
   remove(): void {
-    this.renderer.removeResource(this.obj, this.label);
+    this.erase();
 
     // remove from parent
     for (let i = 0; i < this.fileMap.resources.length; i++) {

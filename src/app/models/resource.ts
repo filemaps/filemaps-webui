@@ -18,6 +18,7 @@ export interface Resource {
   copy(): Resource;
   copyFrom(resource: Resource): Resource;
   draw(): void;
+  erase(): void;
   refresh(): void;
   onDragStart(): void;
   onDrag(): void;

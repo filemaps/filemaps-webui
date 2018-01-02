@@ -250,7 +250,10 @@ export class FileMapService {
   }
 
   private changeFileMap(fileMap: FileMap) {
-    this.renderer.clear();
+    this.renderer.clearSelection();
+    if (this.current) {
+      this.current.erase();
+    }
 
     this.current = fileMap;
     fileMap.draw();

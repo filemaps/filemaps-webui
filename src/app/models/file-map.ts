@@ -20,6 +20,7 @@ export interface FileMap {
   resources: Resource[];
 
   draw(): void;
+  erase(): void;
   getResource(id: number): Resource;
   getStyleRule(sClass: string, rule: string, defaultVal?: string): string;
 }

@@ -199,16 +199,6 @@ export class Renderer {
     }
   }
 
-  /**
-   * Clears scene from objects.
-   */
-  public clear() {
-    for (let i = 0; i < this.resources.length; i++) {
-      this.scene.remove(this.resources[i]);
-    }
-    this.resources.length = 0;
-  }
-
   public startSelect() {
     this.selectionTool.start();
   }
