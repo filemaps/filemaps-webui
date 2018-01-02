@@ -274,13 +274,17 @@ export class ThreeResource implements Resource {
     this.label.position.z = 1;
   }
 
+  // Returns array of followers.
+  // This resource must be included in selection to get followers.
   private getFollowers(): Resource[] {
+    let included = false;
     const followers = [];
     for (const selected of this.renderer.getSelectedResources()) {
-      if (selected !== this) {
-        followers.push(selected);
+      if (selected === this) {
+        included = true;
       }
+      followers.push(selected);
     }
-    return followers;
+    return included ? followers : [];
   }
 }
