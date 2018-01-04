@@ -186,27 +186,29 @@ export class SelectionTool extends EventDispatcher {
     this.firstCorner = new Vector2();
     this.firstCorner.x = this.mouseGround.x;
     this.firstCorner.y = this.mouseGround.y;
+    const z = 1;
 
     this.coords[0] = this.mouseGround.x;
     this.coords[1] = this.mouseGround.y;
-    this.coords[2] = 1;
+    this.coords[2] = z;
 
     this.coords[3] = this.mouseGround.x;
     this.coords[4] = this.mouseGround.y;
-    this.coords[5] = 1;
+    this.coords[5] = z;
 
     this.coords[6] = this.mouseGround.x;
     this.coords[7] = this.mouseGround.y;
-    this.coords[8] = 1;
+    this.coords[8] = z;
 
     this.coords[9] = this.mouseGround.x;
     this.coords[10] = this.mouseGround.y;
-    this.coords[11] = 1;
+    this.coords[11] = z;
 
     this.coords[12] = this.mouseGround.x;
     this.coords[13] = this.mouseGround.y;
-    this.coords[14] = 1;
+    this.coords[14] = z;
 
+    this.line.geometry.computeBoundingSphere();
     this.line.visible = true;
   }
 
@@ -219,6 +221,7 @@ export class SelectionTool extends EventDispatcher {
     let geometry: any;
     geometry = this.line.geometry;
     geometry.attributes.position.needsUpdate = true;
+    geometry.computeBoundingSphere();
   }
 
   /**
