@@ -25,6 +25,8 @@ declare var $: JQueryStatic;
 })
 export class AppComponent implements OnInit {
   title: string;
+  searchVisible = false;
+  noFileMap = true;
 
   constructor(
     private modalService: MzModalService,
@@ -40,6 +42,8 @@ export class AppComponent implements OnInit {
 
         // change page title in browser
         this.titleService.setTitle(this.title + ' · File Maps');
+
+        this.noFileMap = false;
       }
     );
   }
@@ -72,6 +76,18 @@ export class AppComponent implements OnInit {
   public openMapSettingsModal() {
     this.hideSideNav();
     this.modalService.open(MapSettingsModalComponent);
+  }
+
+  public openSearch() {
+    this.searchVisible = true;
+    // setting focus requires a little delay
+    setTimeout(_ => {
+      $('#search').focus();
+    }, 50);
+  }
+
+  public closeSearch() {
+    this.searchVisible = false;
   }
 
   /**
