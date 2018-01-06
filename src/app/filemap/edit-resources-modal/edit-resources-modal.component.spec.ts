@@ -4,32 +4,28 @@
 // license that can be found in the LICENSE file.
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterializeModule } from 'ng2-materialize';
 
-import { AddResourceModalComponent } from './add-resource-modal.component';
 import { CommandsModule } from '../../commands/commands.module';
 import { DataService } from '../../data.service';
+import { EditResourcesModalComponent } from './edit-resources-modal.component';
 import { FileMapService } from '../../file-map.service';
 import { Renderer } from '../../renderer.service';
-import { SharedModule } from '../../shared/shared.module';
 import { StyleService } from '../../style.service';
 
-describe('AddResourceModalComponent', () => {
-  let component: AddResourceModalComponent;
-  let fixture: ComponentFixture<AddResourceModalComponent>;
+describe('EditResourcesModalComponent', () => {
+  let component: EditResourcesModalComponent;
+  let fixture: ComponentFixture<EditResourcesModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddResourceModalComponent ],
       imports: [
         CommandsModule,
-        FormsModule,
         HttpClientModule,
         MaterializeModule,
-        SharedModule,
       ],
+      declarations: [ EditResourcesModalComponent ],
       providers: [
         DataService,
         FileMapService,
@@ -41,7 +37,7 @@ describe('AddResourceModalComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddResourceModalComponent);
+    fixture = TestBed.createComponent(EditResourcesModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

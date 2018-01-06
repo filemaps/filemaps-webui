@@ -1,0 +1,19 @@
+<mz-modal #modal [fixedFooter]="true">
+
+  <mz-modal-header>
+    <span *ngIf="resources.length < 2" i18n>Edit Resource</span>
+    <span *ngIf="resources.length > 1" i18n>Edit Resources</span>
+  </mz-modal-header>
+
+  <mz-modal-content>
+    <button mz-button [flat]="true" (click)="remove()" mz-modal-close>
+      <i class="material-icons">delete</i>
+      <span i18n>Remove</span>
+    </button>
+  </mz-modal-content>
+
+  <mz-modal-footer>
+    <button mz-button [flat]="true" (click)="save()" mz-modal-close i18n>Save</button>
+    <button mz-button [flat]="true" mz-modal-close i18n>Cancel</button>
+  </mz-modal-footer>
+</mz-modal>

@@ -11,6 +11,7 @@ import { DataService } from './data.service';
 import { FileMap } from './models/file-map';
 import { FileMapResponse } from './models/file-map-response';
 import { Renderer } from './renderer.service';
+import { RemoveResourcesCommand } from './commands/remove-resources.command';
 import { Resource } from './models/resource';
 import { ResourceDraft } from './models/resource-draft';
 import { StyleService } from './style.service';
@@ -233,6 +234,12 @@ export class FileMapService {
           done(resources);
         }
       );
+  }
+
+  public removeSelectedResources(): void {
+    const cmd = new RemoveResourcesCommand(this, this.renderer.getSelectedResources());
+    this.commandService.exec(cmd);
+    this.renderer.clearSelection();
   }
 
   public removeResources(resources: Resource[], done: () => void): void {

@@ -13,6 +13,7 @@ import { SharedModule } from '../shared/shared.module';
 import { NewMapModalComponent } from './new-map-modal/new-map-modal.component';
 import { MapSettingsModalComponent } from './map-settings-modal/map-settings-modal.component';
 import { AddResourceModalComponent } from './add-resource-modal/add-resource-modal.component';
+import { EditResourcesModalComponent } from './edit-resources-modal/edit-resources-modal.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { AddResourceModalComponent } from './add-resource-modal/add-resource-mod
   ],
   exports: [
     AddResourceModalComponent,
+    EditResourcesModalComponent,
     MapsModalComponent,
     NewMapModalComponent,
     MapSettingsModalComponent,
@@ -32,6 +34,7 @@ import { AddResourceModalComponent } from './add-resource-modal/add-resource-mod
     MapsModalComponent,
     NewMapModalComponent,
     MapSettingsModalComponent,
+    EditResourcesModalComponent,
   ],
   entryComponents: [
     AddResourceModalComponent,

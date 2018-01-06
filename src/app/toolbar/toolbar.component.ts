@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { AddResourceModalComponent } from '../filemap/add-resource-modal/add-resource-modal.component';
 import { CommandService } from '../commands/command.service';
+import { EditResourcesModalComponent } from '../filemap/edit-resources-modal/edit-resources-modal.component';
 import { FileMapService } from '../file-map.service';
 import { RemoveResourcesCommand } from '../commands/remove-resources.command';
 import { Renderer } from '../renderer.service';
@@ -35,6 +36,9 @@ export class ToolbarComponent implements OnDestroy {
 
   @ViewChild(AddResourceModalComponent)
   private addResourceModalComponent: AddResourceModalComponent;
+
+  @ViewChild(EditResourcesModalComponent)
+  private editResourcesModalComponent: EditResourcesModalComponent;
 
   private subscriptions: Subscription[] = [];
   private selectedResources: Resource[] = [];
@@ -101,10 +105,8 @@ export class ToolbarComponent implements OnDestroy {
     this.addResourceModalComponent.open();
   }
 
-  removeSelected() {
-    const cmd = new RemoveResourcesCommand(this.fileMapService, this.selectedResources);
-    this.commandService.exec(cmd);
-
-    this.renderer.clearSelection();
+  editSelected() {
+    this.editResourcesModalComponent.setResources(this.selectedResources);
+    this.editResourcesModalComponent.open();
   }
 }
