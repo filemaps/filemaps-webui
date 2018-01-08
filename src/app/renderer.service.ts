@@ -3,7 +3,7 @@
 // This Source Code Form is subject to the terms of the
 // license that can be found in the LICENSE file.
 
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import * as THREE from 'three';
 import { MeshText2D } from 'three-text2d';
@@ -46,7 +46,10 @@ export class Renderer {
     private commandService: CommandService,
   ) { }
 
-  init(element: any) {
+  /**
+   * Returns canvas HTMLElement.
+   */
+  init(element: ElementRef): HTMLElement {
     // Camera
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 20000);
     this.camera.position.z = 1000;
@@ -139,9 +142,7 @@ export class Renderer {
       this.controls.enabled = true;
       this.dragControls.activate();
     });
-
-    // keyboard shortcuts
-    window.addEventListener('keydown', this.onKeyDown, false);
+    return this.renderer.domElement;
   }
 
   /**
@@ -244,30 +245,5 @@ export class Renderer {
   private onDragEnd(evt: any) {
     this.controls.enabled = true;
     evt.object.userData.resource.onDragEnd();
-  }
-
-  /**
-   * Key event.
-   */
-  private onKeyDown = (event: any) => {
-    if (event.keyCode === 90 && !event.shiftKey && event.ctrlKey) {
-      // Ctrl + Z: Undo
-      event.preventDefault();
-      event.stopPropagation();
-
-      if (this.commandService.canUndo()) {
-        this.commandService.undo();
-        this.animate();
-      }
-    } else if (event.keyCode === 90 && event.shiftKey && event.ctrlKey) {
-      // Shift + Ctrl + Z: Redo
-      event.preventDefault();
-      event.stopPropagation();
-
-      if (this.commandService.canRedo()) {
-        this.commandService.redo();
-        this.animate();
-      }
-    }
   }
 }

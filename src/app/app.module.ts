@@ -10,15 +10,16 @@ import { MaterializeModule } from 'ng2-materialize';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
+import { CommandService } from './commands/command.service';
 import { DataService } from './data.service';
-import { Renderer } from './renderer.service';
-import { ViewerComponent } from './viewer/viewer.component';
 import { FilemapModule } from './filemap/filemap.module';
 import { FileMapService } from './file-map.service';
+import { KeyMapper } from './key-mapper.service';
 import { LayoutModule } from './layout/layout.module';
+import { Renderer } from './renderer.service';
 import { StyleService } from './style.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { CommandService } from './commands/command.service';
+import { ViewerComponent } from './viewer/viewer.component';
 
 @NgModule({
   declarations: [
@@ -35,12 +36,13 @@ import { CommandService } from './commands/command.service';
     LayoutModule,
   ],
   providers: [
+    CommandService,
     DataService,
     FileMapService,
+    KeyMapper,
     Renderer,
     StyleService,
     Title,
-    CommandService,
   ],
   bootstrap: [AppComponent]
 })

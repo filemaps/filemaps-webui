@@ -134,8 +134,8 @@ export class TrackballControls extends EventDispatcher {
     document.removeEventListener('mousemove', this.mousemove, false);
     document.removeEventListener('mouseup', this.mouseup, false);
 
-    window.addEventListener('keydown', this.keydown, false);
-    window.addEventListener('keyup', this.keyup, false);
+    window.removeEventListener('keydown', this.keydown, false);
+    window.removeEventListener('keyup', this.keyup, false);
   }
 
   public handleResize() {
@@ -366,6 +366,11 @@ export class TrackballControls extends EventDispatcher {
     document.removeEventListener('mouseup', this.mouseup);
 
     this.dispatchEvent(new EndEvent());
+
+    // return focus to canvas to receive key press events
+    if (this.domElement !== undefined) {
+      this.domElement.focus();
+    }
   }
 
   private mousewheel = (event: any) => {

@@ -8,6 +8,8 @@ import {
   Component,
   ElementRef,
 } from '@angular/core';
+
+import { KeyMapper } from '../key-mapper.service';
 import { Renderer } from '../renderer.service';
 
 @Component({
@@ -20,11 +22,13 @@ export class ViewerComponent implements AfterContentInit {
 
   constructor(
     private element: ElementRef,
+    private keyMapper: KeyMapper,
     private renderer: Renderer) {
   }
 
   ngAfterContentInit() {
-    this.renderer.init(this.element);
+    const canvas = this.renderer.init(this.element);
+    this.keyMapper.init(canvas);
   }
 
 }
