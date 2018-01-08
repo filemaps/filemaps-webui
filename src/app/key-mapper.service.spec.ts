@@ -5,12 +5,18 @@
 
 import { TestBed, inject } from '@angular/core/testing';
 
+import { CommandService } from './commands/command.service';
 import { KeyMapper } from './key-mapper.service';
+import { Renderer } from './renderer.service';
 
 describe('KeyMapper', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [KeyMapper]
+      providers: [
+        CommandService,
+        KeyMapper,
+        Renderer,
+      ]
     });
   });
 

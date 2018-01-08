@@ -12,6 +12,7 @@ import { CommandsModule } from './commands/commands.module';
 import { DataService } from './data.service';
 import { FilemapModule } from './filemap/filemap.module';
 import { FileMapService } from './file-map.service';
+import { KeyMapper } from './key-mapper.service';
 import { Renderer } from './renderer.service';
 import { StyleService } from './style.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -34,6 +35,7 @@ describe('AppComponent', () => {
       providers: [
         DataService,
         FileMapService,
+        KeyMapper,
         Renderer,
         StyleService,
       ],
