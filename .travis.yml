@@ -1,3 +1,5 @@
+# sudo required for Chrome to work (https://github.com/travis-ci/travis-ci/issues/8836)
+sudo: required
 language: node_js
 node_js:
 - '8'
