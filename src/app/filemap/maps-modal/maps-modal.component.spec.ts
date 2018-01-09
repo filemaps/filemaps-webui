@@ -6,6 +6,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterializeModule } from 'ng2-materialize';
+import { Observable } from 'rxjs/Rx';
 
 import { CommandsModule } from '../../commands/commands.module';
 import { DataService } from '../../data.service';
@@ -18,6 +19,18 @@ import { StyleService } from '../../style.service';
 describe('MapsModalComponent', () => {
   let component: MapsModalComponent;
   let fixture: ComponentFixture<MapsModalComponent>;
+  let dataService: DataService;
+  const mapsData = {
+    maps: [
+      {
+        id: 1,
+        title: 'Test',
+        base: '.',
+        file: 'map.filemap',
+        opened: '2018-01-02T15:51:05.313660252+02:00',
+      },
+    ],
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,6 +54,12 @@ describe('MapsModalComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MapsModalComponent);
     component = fixture.componentInstance;
+
+    // fake DataService.getAllFileMaps()
+    dataService = fixture.debugElement.injector.get(DataService);
+    const spy = spyOn(dataService, 'getAllFileMaps')
+      .and.returnValue(Observable.of(mapsData));
+
     fixture.detectChanges();
   });
 
