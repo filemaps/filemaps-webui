@@ -16,6 +16,7 @@ import { KeyMapper } from './key-mapper.service';
 import { Renderer } from './renderer.service';
 import { StyleService } from './style.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { TooltipComponent } from './tooltip/tooltip.component';
 import { ViewerComponent } from './viewer/viewer.component';
 
 describe('AppComponent', () => {
@@ -24,6 +25,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         ToolbarComponent,
+        TooltipComponent,
         ViewerComponent,
       ],
       imports: [

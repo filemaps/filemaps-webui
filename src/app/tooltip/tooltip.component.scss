@@ -1,0 +1,23 @@
+// Copyright (c) 2018, CodeBoy. All rights reserved.
+//
+// This Source Code Form is subject to the terms of the
+// license that can be found in the LICENSE file.
+
+.material-tooltip {
+  left: 400px;
+  top: 200px;
+  opacity: 1;
+  visibility: hidden;
+}
+
+.tooltip-content {
+  white-space: nowrap;
+}
+
+.backdrop {
+  left: 0;
+  top: 0;
+  opacity: 1;
+  visibility: inherit;
+  transform: scaleX(80) scaleY(9);
+}

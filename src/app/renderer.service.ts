@@ -28,9 +28,13 @@ export class Renderer {
 
   // Observable source
   private selectedResourcesChangedSource = new Subject<Resource[]>();
+  private hoverOnEventSource = new Subject<any>();
+  private hoverOffEventSource = new Subject();
 
   // Observable stream
   selectedResourcesChanged$ = this.selectedResourcesChangedSource.asObservable();
+  hoverOnEventOccurred$ = this.hoverOnEventSource.asObservable();
+  hoverOffEventOccurred$ = this.hoverOffEventSource.asObservable();
 
   private renderer: THREE.WebGLRenderer;
   private resources: THREE.Object3D[] = [];
@@ -105,6 +109,8 @@ export class Renderer {
     this.dragControls.addEventListener('dragstart', evt => this.onDragStart(evt));
     this.dragControls.addEventListener('drag', evt => this.onDrag(evt));
     this.dragControls.addEventListener('dragend', evt => this.onDragEnd(evt));
+    this.dragControls.addEventListener('hoveron', evt => this.hoverOnEventSource.next(evt));
+    this.dragControls.addEventListener('hoveroff', evt => this.hoverOffEventSource.next());
 
     window.addEventListener('resize', _ => this.onWindowResize(), false);
     window.addEventListener('mousemove', _ => this.animate(), false);
@@ -230,6 +236,9 @@ export class Renderer {
   private onDragStart(evt: any) {
     this.controls.enabled = false;
     evt.object.userData.resource.onDragStart();
+
+    // hide tooltip
+    this.hoverOffEventSource.next();
   }
 
   /**

@@ -79,14 +79,22 @@ export class DragControls extends EventDispatcher {
       const object = intersects[0].object;
 
       if (this.hovered !== object) {
-        this.dispatchEvent({ type: 'hoveron', object: object });
+        this.dispatchEvent({
+          type: 'hoveron',
+          object: object,
+          originalEvent: event,
+        });
 
         this.domElement.style.cursor = 'pointer';
         this.hovered = object;
       }
     } else {
       if (this.hovered !== null) {
-        this.dispatchEvent({ type: 'hoveroff', object: this.hovered });
+        this.dispatchEvent({
+          type: 'hoveroff',
+          object: this.hovered,
+          originalEvent: event,
+        });
 
         this.domElement.style.cursor = 'auto';
         this.hovered = null;

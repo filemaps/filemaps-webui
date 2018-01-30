@@ -20,12 +20,14 @@ import { Renderer } from './renderer.service';
 import { StyleService } from './style.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ViewerComponent } from './viewer/viewer.component';
+import { TooltipComponent } from './tooltip/tooltip.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ViewerComponent,
     ToolbarComponent,
+    TooltipComponent,
   ],
   imports: [
     BrowserModule,
