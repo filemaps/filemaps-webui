@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Renderer } from '../renderer.service';
 
+const pathSeparator = '/';
 
 /**
  * Tooltip for resource hovering.
@@ -33,7 +34,8 @@ export class TooltipComponent implements OnDestroy, OnInit {
   offSubscription: Subscription;
 
   @ViewChild('tooltip') tooltipEl: ElementRef;
-  @ViewChild('content') contentEl: ElementRef;
+  @ViewChild('contentDir') contentDirEl: ElementRef;
+  @ViewChild('contentBase') contentBaseEl: ElementRef;
 
   constructor(
     private element: ElementRef,
@@ -52,7 +54,7 @@ export class TooltipComponent implements OnDestroy, OnInit {
   }
 
   hoverOn(evt: any) {
-    this.contentEl.nativeElement.innerHTML = evt.object.userData.resource.path;
+    this.setContent(evt.object.userData.resource.path);
     this.setPosition(evt);
     this.tooltipEl.nativeElement.style.visibility = 'visible';
   }
@@ -64,6 +66,18 @@ export class TooltipComponent implements OnDestroy, OnInit {
   ngOnDestroy() {
     this.onSubscription.unsubscribe();
     this.offSubscription.unsubscribe();
+  }
+
+  private setContent(path: string): string {
+    let dir = '';
+    let base = path;
+    const pos = path.lastIndexOf(pathSeparator);
+    if (pos >= 0) {
+      dir = path.slice(0, pos + 1);
+      base = path.slice(pos + 1);
+    }
+    this.contentDirEl.nativeElement.innerHTML = dir;
+    this.contentBaseEl.nativeElement.innerHTML = base;
   }
 
   /**
