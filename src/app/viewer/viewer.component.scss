@@ -1,0 +1,12 @@
+// Copyright (c) 2018, CodeBoy. All rights reserved.
+//
+// This Source Code Form is subject to the terms of the
+// license that can be found in the LICENSE file.
+
+// Canvas should use 100% from the view in order to work better.
+
+:host {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
