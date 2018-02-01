@@ -68,7 +68,7 @@ export class TooltipComponent implements OnDestroy, OnInit {
     this.offSubscription.unsubscribe();
   }
 
-  private setContent(path: string): string {
+  private setContent(path: string) {
     let dir = '';
     let base = path;
     const pos = path.lastIndexOf(pathSeparator);
