@@ -297,7 +297,7 @@ export class ThreeResource implements Resource {
       baseLabel = baseLabel.slice(0, labelMaxLength - 3) + '...';
     }
 
-    return [ dirLabel, baseLabel ];
+    return (dirLabel.length > 0) ? [ dirLabel, baseLabel ] : [ baseLabel ];
   }
 
   private trimDirLabel(parts: string[]): string {
