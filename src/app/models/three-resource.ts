@@ -17,6 +17,9 @@ import { Style } from './style';
 import { StyleService } from '../style.service';
 import { UpdateResourcesCommand } from '../commands/update-resources.command';
 
+const pathSeparator = '/';
+const labelMaxLength = 18;
+
 export class ThreeResource implements Resource {
   id: number;
   type: number;
@@ -27,7 +30,7 @@ export class ThreeResource implements Resource {
   readonly dragThreshold = 10;
   readonly selectDuration = 500;
   private obj: THREE.Mesh;
-  private label: MeshText2D;
+  private labels: MeshText2D[];
   private dragStart: { x: number, y: number, z: number, time: number };
   private followers: Resource[];
 
@@ -113,13 +116,9 @@ export class ThreeResource implements Resource {
       resource: this,
     };
 
-    // label
-    this.label = new MeshText2D(this.path, {
-      align: textAlign.center,
-      font: '20px Oxygen',
-      fillStyle: '#000000',
-    });
-    this.renderer.addResource(this.obj, this.label);
+    this.createLabels();
+
+    this.renderer.addResource(this.obj, this.labels);
 
     this.refresh();
   }
@@ -129,7 +128,7 @@ export class ThreeResource implements Resource {
    * Does not remove resource from file map.
    */
   erase(): void {
-    this.renderer.removeResource(this.obj, this.label);
+    this.renderer.removeResource(this.obj, this.labels);
   }
 
   refresh(): void {
@@ -137,7 +136,7 @@ export class ThreeResource implements Resource {
     this.obj.position.y = this.pos.y;
     this.obj.position.z = this.pos.z;
 
-    this.updateLabelPos();
+    this.updateLabelsPos();
   }
 
   onDragStart(): void {
@@ -155,7 +154,7 @@ export class ThreeResource implements Resource {
   }
 
   onDrag(): void {
-    this.updateLabelPos();
+    this.updateLabelsPos();
 
     // move followers
     const offset = {
@@ -182,7 +181,7 @@ export class ThreeResource implements Resource {
     this.obj.position.x = this.dragStart.x + offset.x;
     this.obj.position.y = this.dragStart.y + offset.y;
     this.obj.position.z = this.dragStart.z + offset.z;
-    this.updateLabelPos();
+    this.updateLabelsPos();
   }
 
   onDragEnd(): void {
@@ -221,7 +220,7 @@ export class ThreeResource implements Resource {
     this.obj.position.x = this.dragStart.x;
     this.obj.position.y = this.dragStart.y;
     this.obj.position.z = this.dragStart.z;
-    this.updateLabelPos();
+    this.updateLabelsPos();
   }
 
   syncPos(): void {
@@ -244,11 +243,15 @@ export class ThreeResource implements Resource {
   }
 
   select(): void {
-    this.label.fillStyle = '#ff0000';
+    for (const label of this.labels) {
+      label.fillStyle = '#ff0000';
+    }
   }
 
   unselect(): void {
-    this.label.fillStyle = '#000000';
+    for (const label of this.labels) {
+      label.fillStyle = '#000000';
+    }
   }
 
   remove(): void {
@@ -262,16 +265,76 @@ export class ThreeResource implements Resource {
     }
   }
 
+  private createLabels() {
+    this.labels = [];
+    const lines = this.genLabelLines();
+    for (const line of lines) {
+      this.labels.push(new MeshText2D(line, {
+        align: textAlign.center,
+        font: '20px Oxygen',
+        fillStyle: '#000000',
+      }));
+    }
+  }
+
+  /**
+   * Generates label text.
+   * Returns array of strings, one string per line.
+   */
+  private genLabelLines(): string[] {
+    if (this.path.length < labelMaxLength) {
+      // one liner
+      return [ this.path ];
+    }
+
+    const parts = this.path.split(pathSeparator);
+
+    const dirLabel = (parts.length > 1) ? this.trimDirLabel(parts.slice(0, -1)) : '';
+
+    let baseLabel = parts[parts.length - 1];
+    if (baseLabel.length > labelMaxLength) {
+      // trim the filename
+      baseLabel = baseLabel.slice(0, labelMaxLength - 3) + '...';
+    }
+
+    return [ dirLabel, baseLabel ];
+  }
+
+  private trimDirLabel(parts: string[]): string {
+    const label = parts.join(pathSeparator) + pathSeparator;
+    if (label.length <= labelMaxLength) {
+      return label;
+    }
+
+    // start trimming by shortening first path parts to one letter
+    for (let i = 0; i < parts.length; i++) {
+      if (parts[i].length > 1) {
+        parts[i] = parts[i][0];
+        return this.trimDirLabel(parts);
+      }
+    }
+
+    // can't trim anymore
+    return parts.join(pathSeparator) + pathSeparator;
+  }
+
   private movedEnough(): boolean {
     return Math.abs(this.obj.position.x - this.dragStart.x) < this.dragThreshold &&
       Math.abs(this.obj.position.y - this.dragStart.y) < this.dragThreshold &&
       Math.abs(this.obj.position.z - this.dragStart.z) < this.dragThreshold;
   }
 
-  private updateLabelPos() {
-    this.label.position.x = this.obj.position.x;
-    this.label.position.y = this.obj.position.y - 35;
-    this.label.position.z = 1;
+  private updateLabelsPos() {
+    const z = 1;
+    const margin = 30;
+    const lineHeight = 20;
+    let y = this.obj.position.y - margin;
+    for (let i = 0; i < this.labels.length; i++) {
+      this.labels[i].position.x = this.obj.position.x;
+      this.labels[i].position.y = y;
+      this.labels[i].position.z = z;
+      y -= lineHeight;
+    }
   }
 
   // Returns array of followers.

@@ -180,10 +180,12 @@ export class Renderer {
   /**
    * Adds resource to scene and draws it.
    */
-  public addResource(obj: THREE.Object3D, label?: MeshText2D) {
+  public addResource(obj: THREE.Object3D, labels?: MeshText2D[]) {
     this.scene.add(obj);
-    if (label) {
-      this.scene.add(label);
+    if (labels && labels.length) {
+      for (const label of labels) {
+        this.scene.add(label);
+      }
     }
     this.resources.push(obj);
     this.animate();
@@ -192,12 +194,14 @@ export class Renderer {
   /**
    * Removes resource from scene.
    */
-  public removeResource(obj: THREE.Object3D, label?: MeshText2D) {
+  public removeResource(obj: THREE.Object3D, labels?: MeshText2D[]) {
     for (let i = 0; i < this.resources.length; i++) {
       if (this.resources[i] === obj) {
         this.scene.remove(obj);
-        if (label) {
-          this.scene.remove(label);
+        if (labels && labels.length) {
+          for (const label of labels) {
+            this.scene.remove(label);
+          }
         }
         this.resources.splice(i, 1);
         this.animate();
