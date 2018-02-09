@@ -250,6 +250,10 @@ export class TrackballControls extends EventDispatcher {
     }
   }
 
+  public setTarget(target: Vector3) {
+    this.target = target;
+  }
+
   public update() {
     this.eye.subVectors(this.cam.position, this.target);
     if (!this.noRotate) {

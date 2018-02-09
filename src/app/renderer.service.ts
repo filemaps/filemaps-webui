@@ -6,6 +6,7 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import * as THREE from 'three';
+import * as TWEEN from '@tweenjs/tween.js';
 import { MeshText2D } from 'three-text2d';
 
 import { CommandService } from './commands/command.service';
@@ -57,6 +58,7 @@ export class Renderer {
     // Camera
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 20000);
     this.camera.position.z = 1000;
+    this.camera.lookAt(this.scene.position);
 
     this.renderer = new THREE.WebGLRenderer({ antialias: this.antialias });
     this.renderer.setClearColor(0xa6a6a6);
@@ -151,6 +153,32 @@ export class Renderer {
     return this.renderer.domElement;
   }
 
+  public moveCamTo(x: number, y: number) {
+    let lookPos = this.lookingAt();
+    let lookTarget = new THREE.Vector3(x, y, 0);
+    let lookTween = new TWEEN.Tween(lookPos).to(lookTarget, 500);
+    lookTween.onUpdate(() => {
+      this.controls.setTarget(lookPos);
+    });
+    lookTween.easing(TWEEN.Easing.Quartic.Out);
+    lookTween.start();
+
+    let camPos = this.camera.position.clone();
+    let camTarget = new THREE.Vector3(x, y, camPos.z);
+    let camTween = new TWEEN.Tween(camPos).to(camTarget, 2000);
+
+    camTween.onUpdate(() => {
+      this.camera.position.x = camPos.x;
+      this.camera.position.y = camPos.y;
+      this.camera.position.z = camPos.z;
+    });
+
+    //tween.delay(500);
+    camTween.easing(TWEEN.Easing.Quadratic.Out);
+    camTween.start();
+    this.animate(2000);
+  }
+
   /**
    * Animates at least for given time (ms).
    * Optimizes rendering to happen only when necessary, saving CPU.
@@ -167,6 +195,8 @@ export class Renderer {
 
   public render() {
     this.controls.update();
+    TWEEN.update();
+
     this.renderer.render(this.scene, this.camera);
 
     if (this.animUntil < Date.now()) {
@@ -258,5 +288,22 @@ export class Renderer {
   private onDragEnd(evt: any) {
     this.controls.enabled = true;
     evt.object.userData.resource.onDragEnd();
+  }
+
+  /**
+   * Returns ground point where camera is looking at.
+   */
+  private lookingAt(): THREE.Vector3 {
+    let eye = new THREE.Vector3(0, 0, -1);
+    eye.applyQuaternion(this.camera.quaternion);
+
+    const xAng = Math.atan(eye.z / eye.x);
+    const yAng = Math.atan(eye.z / eye.y);
+
+    return new THREE.Vector3(
+      this.camera.position.x - (this.camera.position.z / Math.tan(xAng)),
+      this.camera.position.y - (this.camera.position.z / Math.tan(yAng)),
+      0
+    );
   }
 }
