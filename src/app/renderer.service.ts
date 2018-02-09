@@ -154,18 +154,18 @@ export class Renderer {
   }
 
   public moveCamTo(x: number, y: number) {
-    let lookPos = this.lookingAt();
-    let lookTarget = new THREE.Vector3(x, y, 0);
-    let lookTween = new TWEEN.Tween(lookPos).to(lookTarget, 500);
+    const lookPos = this.lookingAt();
+    const lookTarget = new THREE.Vector3(x, y, 0);
+    const lookTween = new TWEEN.Tween(lookPos).to(lookTarget, 500);
     lookTween.onUpdate(() => {
       this.controls.setTarget(lookPos);
     });
     lookTween.easing(TWEEN.Easing.Quartic.Out);
     lookTween.start();
 
-    let camPos = this.camera.position.clone();
-    let camTarget = new THREE.Vector3(x, y, camPos.z);
-    let camTween = new TWEEN.Tween(camPos).to(camTarget, 2000);
+    const camPos = this.camera.position.clone();
+    const camTarget = new THREE.Vector3(x, y, camPos.z);
+    const camTween = new TWEEN.Tween(camPos).to(camTarget, 2000);
 
     camTween.onUpdate(() => {
       this.camera.position.x = camPos.x;
@@ -173,7 +173,7 @@ export class Renderer {
       this.camera.position.z = camPos.z;
     });
 
-    //tween.delay(500);
+    // tween.delay(500);
     camTween.easing(TWEEN.Easing.Quadratic.Out);
     camTween.start();
     this.animate(2000);
@@ -294,7 +294,7 @@ export class Renderer {
    * Returns ground point where camera is looking at.
    */
   private lookingAt(): THREE.Vector3 {
-    let eye = new THREE.Vector3(0, 0, -1);
+    const eye = new THREE.Vector3(0, 0, -1);
     eye.applyQuaternion(this.camera.quaternion);
 
     const xAng = Math.atan(eye.z / eye.x);
